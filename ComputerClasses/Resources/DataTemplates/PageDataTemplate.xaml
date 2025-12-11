@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Pages"
+                    xmlns:view="clr-namespace:ComputerClasses.Views.Pages">
+    <DataTemplate DataType="{x:Type vm:MainPageViewModel}">
+        <view:MainPageView DataContext="{Binding}"/>
+    </DataTemplate>
+</ResourceDictionary>
