@@ -28,4 +28,9 @@
     <PackageReference Include="NPOI" Version="2.7.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ComputerClasses.DAL\ComputerClasses.DAL.csproj" />
+    <ProjectReference Include="..\ComputerClasses.Domain\ComputerClasses.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

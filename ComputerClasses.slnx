@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="ComputerClasses.DAL/ComputerClasses.DAL.csproj" Id="f040de80-db91-40f5-8c7d-53228ee4cb52" />
+  <Project Path="ComputerClasses.Domain/ComputerClasses.Domain.csproj" Id="05c10b72-fd4b-4652-98ec-73651e4ae0e8" />
   <Project Path="ComputerClasses/ComputerClasses.csproj" />
 </Solution>
