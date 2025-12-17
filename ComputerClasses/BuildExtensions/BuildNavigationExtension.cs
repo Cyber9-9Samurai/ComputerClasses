@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ComputerClasses.ViewModels.Abstractions;
+using ComputerClasses.ViewModels.Navigation;
 using ComputerClasses.ViewModels.Windows;
 using ComputerClasses.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,7 @@ namespace ComputerClasses.BuildExtensions
                 });
                 services.AddScoped<Navigator<PageBaseViewModel>>();
                 services.AddScoped<Navigator<PopupBaseViewModel>>();
+                services.AddScoped<NavigationMenuViewModel>();
                 services.AddMvvmNavigation();
 
             });

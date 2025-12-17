@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ComputerClasses.ViewModels.Abstractions;
+using ComputerClasses.ViewModels.Navigation;
 using Mvvm.Navigation;
 
 namespace ComputerClasses.ViewModels.Windows
@@ -16,12 +17,14 @@ namespace ComputerClasses.ViewModels.Windows
         Navigator<PageBaseViewModel> _navigatorPage;
         [ObservableProperty]
         Navigator<PopupBaseViewModel> _navigatorPopup;
+        [ObservableProperty]
+        private NavigationMenuViewModel  _navigationMenu;
 
-
-        public MainWindowViewModel(Navigator<PageBaseViewModel> navigatorPage, Navigator<PopupBaseViewModel> navigatorPopup)
+        public MainWindowViewModel(Navigator<PageBaseViewModel> navigatorPage, Navigator<PopupBaseViewModel> navigatorPopup,NavigationMenuViewModel navigationMenu)
         {
             NavigatorPage = navigatorPage;
             NavigatorPopup = navigatorPopup;
+            NavigationMenu = navigationMenu;
         }
 
     }

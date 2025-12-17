@@ -9,15 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Resources\Assets\Images\" />
+    <None Remove="Resources\Assets\Images\Add.gif" />
+    <None Remove="Resources\Assets\Images\ChangesLog.gif" />
+    <None Remove="Resources\Assets\Images\Delete.gif" />
+    <None Remove="Resources\Assets\Images\Edit.gif" />
+    <None Remove="Resources\Assets\Images\Export.gif" />
+    <None Remove="Resources\Assets\Images\Import.gif" />
+    <None Remove="Resources\Assets\Images\Loading.gif" />
+    <None Remove="Resources\Assets\Images\MainPage.gif" />
+    <None Remove="Resources\Assets\Images\Notifications.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Resources\Assets\Fonts\" />
     <Folder Include="Resources\Assets\Styles\Buttons\" />
     <Folder Include="Resources\Assets\Styles\Containers\" />
     <Folder Include="Resources\Assets\Styles\Images\" />
     <Folder Include="Services\" />
-    <Folder Include="ViewModels\Navigation\" />
-    <Folder Include="Views\Navigation\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +39,36 @@
   <ItemGroup>
     <ProjectReference Include="..\ComputerClasses.DAL\ComputerClasses.DAL.csproj" />
     <ProjectReference Include="..\ComputerClasses.Domain\ComputerClasses.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Assets\Images\Add.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Images\ChangesLog.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Images\Delete.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Images\Edit.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Images\Export.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Images\Import.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Images\Loading.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Images\MainPage.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Images\Notifications.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
