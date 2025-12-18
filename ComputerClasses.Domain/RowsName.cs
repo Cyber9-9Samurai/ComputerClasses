@@ -1,28 +1,34 @@
-﻿using System;
+﻿using ComputerClasses.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Test_Import_and_Export.Entities.Attributes;
 
 namespace ComputerClasses.Domain
 {
     public static class RowsName
     {
-        public const string name  = "Идентификатор";
-        public const string departmentOrInstitute = "Кафедра/Институт";
-        public const string frame = "Корпус";
-        public const string audienceNumber = "Номер аудитории";
-        public const string audienceName = "Название аудитории";
-        public const string responsiblePerson = "Ответственный";
-        public const string inventoryNumber = "Инвентарный номер";
-        public const string operatingSystem = "ОС";
-        public const string motherboard = "Материнская плата";
-        public const string cpu = "ЦП";
-        public const string videoCard = "Видеокарта";
-        public const string disks = "Диски";
-        public const string ramInGb = "ОЗУ, ГБ";
-        public const string ramType = "Тип ОЗУ";
-        public const string installedApplications = "Установленные приложения";
-        public const string status = "Статус";
+        public static readonly List<string> Names = GenerateColumnNames();
+        private static List<string> GenerateColumnNames()
+        {
+            var properties = typeof(Row)
+                .GetProperties()
+                .Where(p => p.GetCustomAttribute<ExcelColumnAttribute>() != null)
+                .ToArray();
+
+            var sorted = properties
+                .Select(p => new
+                {
+                    Property = p,
+                    Attribute = p.GetCustomAttribute<ExcelColumnAttribute>()!
+                })
+                .OrderBy(x => x.Attribute.Order)
+                .ToArray();
+
+            return [.. sorted.Select(x => x.Attribute.ColumnName)];
+        }
     }
 }
