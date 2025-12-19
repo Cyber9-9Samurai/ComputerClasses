@@ -3,10 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:b="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors"
              xmlns:local="clr-namespace:ComputerClasses.Views.Pages"
+             xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Pages"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignData vm:ImportPageViewModel}">
     <Grid>
-        <TextBlock>Import Page</TextBlock>
+        <Button AllowDrop="True">
+            <Grid>
+                <Image/>
+                <TextBlock/>
+            </Grid>
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="Drop">
+                    <b:InvokeCommandAction Command="{Binding DataContext.ImportCommand, RelativeSource={RelativeSource AncestorType=Button}}" PassEventArgsToCommand="True" />
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
+        </Button>
     </Grid>
 </UserControl>

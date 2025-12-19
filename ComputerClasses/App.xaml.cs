@@ -21,6 +21,7 @@ namespace ComputerClasses
         private static IHostBuilder CreateBuilder(string[]? args = null)
         {
             return Host.CreateDefaultBuilder(args)
+                .BuildServices()
                 .BuildNavigation();
         }
 
