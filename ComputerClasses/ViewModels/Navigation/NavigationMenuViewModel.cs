@@ -1,40 +1,35 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ComputerClasses.Models;
+using ComputerClasses.Services;
 using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Pages;
 using Mvvm.Navigation;
-using System.Diagnostics;
-using System.IO;
-using System.Windows.Media.Imaging;
 
 namespace ComputerClasses.ViewModels.Navigation
 {
     public partial class NavigationMenuViewModel : ObservableObject
     {
         [ObservableProperty]
-        private List<NavigationItem> navigationItems = new List<NavigationItem>();
+        private List<MenuButtonItem> navigationItems = new List<MenuButtonItem>();
 
         private readonly Navigator<PageBaseViewModel> _navigator;
-
-        public NavigationMenuViewModel(Navigator<PageBaseViewModel> navigator)
+        private readonly GetLocalImage _imageService;
+        public NavigationMenuViewModel(Navigator<PageBaseViewModel> navigator, GetLocalImage imageService)
         {
             _navigator = navigator;
+            _imageService = imageService;
             LoadData();
         }
 
         public void LoadData()
         {
-            string build = @"pack://application:,,,/";
-            string images = @"Resources/Assets/Images/";
-            string path = Path.Combine(build,images);
-            Debug.WriteLine(path);
-            NavigationItems = new List<NavigationItem>
+            NavigationItems = new List<MenuButtonItem>
             {
-                new NavigationItem("Главная",new BitmapImage(new Uri(Path.Combine(path,"MainPage.gif"))),ToMainCommand),
-                new NavigationItem("Импорт",new BitmapImage(new Uri(Path.Combine(path,"Import.gif"))),ToImportCommand),
-                new NavigationItem("Экспорт", new BitmapImage(new Uri(Path.Combine(path,"Export.gif"))), ToExportCommand),
-                new NavigationItem("Журнал изменений", new BitmapImage(new Uri(Path.Combine(path,"ChangesLog.gif"))), ToChangesCommand)
+                new MenuButtonItem("Главная",_imageService.GetImage("MainPage.gif"),ToMainCommand),
+                new MenuButtonItem("Импорт",_imageService.GetImage("Import.gif"),ToImportCommand),
+                new MenuButtonItem("Экспорт",_imageService.GetImage("Export.gif"), ToExportCommand),
+                new MenuButtonItem("Журнал изменений", _imageService.GetImage("ChangesLog.gif"), ToChangesCommand)
             };
 
         }

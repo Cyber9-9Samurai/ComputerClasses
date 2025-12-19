@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace ComputerClasses.Models
 {
-    public partial class NavigationItem : ObservableObject
+    public partial class MenuButtonItem : ObservableObject
     {
         [ObservableProperty]
         private string title;
@@ -18,7 +18,7 @@ namespace ComputerClasses.Models
         [ObservableProperty]
         private ICommand navCommand;
 
-        public NavigationItem(string title, BitmapImage image, ICommand navCommand)
+        public MenuButtonItem(string title, BitmapImage image, ICommand navCommand)
         {
             Title = title;
             Image = image;

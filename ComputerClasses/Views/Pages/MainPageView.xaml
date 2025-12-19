@@ -9,9 +9,37 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance vm:MainPageViewModel}">
     <Grid>
-        <StackPanel>
-            <TextBlock Text="{Binding Hi}" Style="{StaticResource HiText}"/>
-            <Button Content="Popup" Command="{Binding OpenPopupCommand}"/>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+            <Button Content="Фильтр"/>
+            <TextBox/>
+            <Button Content="{Binding SearchButton.Title}" Command="{Binding DoSearchCommand}"/>
+        </WrapPanel>
+        <ItemsControl Grid.Column="0" Grid.Row="1" ItemsSource="{Binding OperationButtons}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Width="200" Height="200">
+                        <Canvas>
+                            <Image Width="100" Height="100" Source="{Binding Image}"/>
+                            <TextBlock Text="{Binding Title}"/>
+                        </Canvas>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <DataGrid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Background="Gray"/>
     </Grid>
 </UserControl>
