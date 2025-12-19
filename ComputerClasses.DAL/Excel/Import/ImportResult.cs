@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Test_Import_and_Export.Import
+namespace ComputerClasses.Domain.Import
 {
     public sealed record ImportError(int RowNumber, string ColumnName, string Message);
 

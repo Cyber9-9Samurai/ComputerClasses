@@ -40,6 +40,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <DataGrid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Background="Gray"/>
+        <DataGrid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding Rows}" AutoGenerateColumns="True"/>
     </Grid>
 </UserControl>

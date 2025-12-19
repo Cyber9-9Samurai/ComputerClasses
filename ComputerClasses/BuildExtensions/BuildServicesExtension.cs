@@ -1,11 +1,7 @@
-﻿using ComputerClasses.Services;
+﻿using ComputerClasses.Domain.Import;
+using ComputerClasses.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComputerClasses.BuildExtensions
 {
@@ -17,6 +13,7 @@ namespace ComputerClasses.BuildExtensions
             {
                 services.AddScoped<GetLocalImage>();
                 services.AddSingleton<WorkFileService>();
+                services.AddTransient<ExcelRowImporter>();
             });
             return builder;
         }

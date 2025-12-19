@@ -10,7 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignData vm:ImportPageViewModel}">
     <Grid>
-        <Button AllowDrop="True">
+        <Button AllowDrop="True" Command="{Binding OpenFileDialogCommand}">
             <Grid>
                 <Image/>
                 <TextBlock/>

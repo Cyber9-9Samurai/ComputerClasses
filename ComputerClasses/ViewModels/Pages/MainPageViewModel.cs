@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ComputerClasses.Domain;
+using ComputerClasses.Domain.Import;
 using ComputerClasses.Models;
 using ComputerClasses.Services;
 using ComputerClasses.ViewModels.Abstractions;
@@ -15,15 +17,19 @@ namespace ComputerClasses.ViewModels.Pages
         [ObservableProperty]
         private List<MenuButtonItem> operationButtons = new();
         [ObservableProperty]
+        private List<Row> rows = new();
+        [ObservableProperty]
         private MenuButtonItem searchButton;
 
         private readonly Navigator<PopupBaseViewModel> _navigator;
         private readonly GetLocalImage _imageService;
+        private readonly WorkFileService _workFileService;
         
-        public MainPageViewModel(Navigator<PopupBaseViewModel> navigator, GetLocalImage imageService)
+        public MainPageViewModel(Navigator<PopupBaseViewModel> navigator, GetLocalImage imageService, WorkFileService workFileService)
         {
             _navigator = navigator;
             _imageService = imageService;
+            _workFileService = workFileService;
             LoadData();
         }
 
@@ -36,7 +42,20 @@ namespace ComputerClasses.ViewModels.Pages
                 new MenuButtonItem("Редактировать",_imageService.GetImage("Edit.gif"),EditCommand),
                 new MenuButtonItem("Удалить",_imageService.GetImage("Delete.gif"),RemoveCommand)
             };
+            _workFileService.PropertyChanged += (s, e) =>{ 
+                if (_workFileService.fileChanged == e.PropertyName)
+                { 
+                    LoadFile(); 
+                } 
+            }; 
         }
+
+        private void LoadFile()
+        {
+            Rows = _workFileService.ImportData.Items;
+        }
+
+        
 
         [RelayCommand]
         private void OpenPopup()

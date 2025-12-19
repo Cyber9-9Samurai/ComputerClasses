@@ -1,17 +1,10 @@
-﻿using ComputerClasses.Domain;
-using ComputerClasses.Domain.Entities;
-using NPOI.SS.UserModel;
-using System;
-using System.Collections.Generic;
+﻿using NPOI.SS.UserModel;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Test_Import_and_Export.Entities.Attributes;
 using Test_Import_and_Export.Entities.Interfaces;
 
-namespace Test_Import_and_Export.Import
+namespace ComputerClasses.Domain.Import
 {
     public sealed class ExcelRowImporter
     {
