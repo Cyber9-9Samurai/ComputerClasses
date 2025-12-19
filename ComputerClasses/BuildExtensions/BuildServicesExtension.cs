@@ -16,6 +16,7 @@ namespace ComputerClasses.BuildExtensions
             builder.ConfigureServices((context, services) =>
             {
                 services.AddScoped<GetLocalImage>();
+                services.AddSingleton<WorkFileService>();
             });
             return builder;
         }

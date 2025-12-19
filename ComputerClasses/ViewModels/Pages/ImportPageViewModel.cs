@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using ComputerClasses.Services;
 using ComputerClasses.ViewModels.Abstractions;
 using System.IO;
 using System.Windows;
@@ -7,6 +8,11 @@ namespace ComputerClasses.ViewModels.Pages
 {
     public partial class ImportPageViewModel : PageBaseViewModel
     {
+        private readonly WorkFileService _fileService;
+        public ImportPageViewModel(WorkFileService fileService)
+        {
+            _fileService = fileService;
+        }
         [RelayCommand]
         private void Import(DragEventArgs args)
         {
@@ -24,7 +30,7 @@ namespace ComputerClasses.ViewModels.Pages
                     else
                     {
                         FileInfo fileInfo = new FileInfo(Path.GetFileName(filepath));
-                        MessageBox.Show(fileInfo.Name);
+                        _fileService.SetCurrentWorkFile(fileInfo);
                     }
 
                 }
