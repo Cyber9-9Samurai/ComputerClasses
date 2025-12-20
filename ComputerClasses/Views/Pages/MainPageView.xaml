@@ -20,8 +20,7 @@
         </Grid.RowDefinitions>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <Button Content="Фильтр"/>
-            <TextBox/>
-            <Button Content="{Binding SearchButton.Title}" Command="{Binding DoSearchCommand}"/>
+            <TextBox MaxWidth="10" Text="{Binding SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
         </WrapPanel>
         <ItemsControl Grid.Column="0" Grid.Row="1" ItemsSource="{Binding OperationButtons}">
             <ItemsControl.ItemsPanel>
@@ -40,6 +39,37 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <DataGrid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding Rows}" AutoGenerateColumns="True"/>
+        <DataGrid Grid.Column="1" Grid.ColumnSpan="2" 
+                  CanUserAddRows="False" 
+                  CanUserDeleteRows="False" 
+                  CanUserSortColumns="True" 
+                  CanUserResizeColumns="True" 
+                  CanUserReorderColumns="False" 
+                  SelectionMode="Single"
+                  IsReadOnly="True"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Rows}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Идентификатор" Binding="{Binding Id}" Width="Auto"/>
+                <DataGridTextColumn Header="Факультет" Binding="{Binding Facultie.Name}" Width="auto"/>
+                <DataGridTextColumn Header="Кафедра/Институт" Binding="{Binding DepartmentOrInstitute.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Корпус" Binding="{Binding Frame.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Номер аудитории" Binding="{Binding AudienceNumber.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Название аудитории" Binding="{Binding AudienceName.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Ответственный" Binding="{Binding ResponsiblePerson.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Инвентарный номер" Binding="{Binding InventoryNumber.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="ОС" Binding="{Binding OperatingSystem.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Материнская плата" Binding="{Binding Motherboard.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="ЦП" Binding="{Binding Cpu.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Видеокарта" Binding="{Binding VideoCard.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Диски" Binding="{Binding Disk.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="ОЗУ, ГБ" Binding="{Binding Ram.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Тип ОЗУ" Binding="{Binding RamType.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Список установленных приложений" Binding="{Binding ApplicationList.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Дата последнего обслуживания" Binding="{Binding LastServiceDate.Name}" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>
