@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ComputerClasses.Domain;
 using ComputerClasses.Domain.Import;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
@@ -9,29 +8,29 @@ namespace ComputerClasses.Services
 {
     public partial class WorkFileService : ObservableObject
     {
-        private FileInfo _currentFile;
+        private string _currentFile;
         private readonly ExcelRowImporter _excelRowImporter;
         [ObservableProperty]
         private ImportResult<Row> importData = new();
         public readonly string fileChanged;
-        public WorkFileService(ExcelRowImporter  excelRowImporter)
-        { 
+        public WorkFileService(ExcelRowImporter excelRowImporter)
+        {
             _excelRowImporter = excelRowImporter;
             fileChanged = nameof(_currentFile);
         }
 
-        public FileInfo GetCurrentWorkFile()
+        public string GetCurrentWorkFile()
         {
             return _currentFile;
         }
 
-        private void SetCurrentWorkFile(FileInfo file)
-        { 
-            _currentFile = file;
+        private void SetCurrentWorkFile(string path)
+        {
+            _currentFile = path;
             OnPropertyChanged(fileChanged);
         }
 
-        public void StartImport(string path,FileInfo file)
+        public void StartImport(string path)
         {
             ImportData = _excelRowImporter.Import(File.OpenRead(path));
             if (ImportData.HasErrors)
@@ -43,14 +42,9 @@ namespace ComputerClasses.Services
                 }
                 MessageBox.Show(text);
             }
-            else 
+            else
             {
-                var pathDir = Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(),"Data"));
-                var destPath = Path.Combine(pathDir.FullName, file.Name);
-                File.Move(path,destPath);
-                file = new FileInfo(destPath);
-                Debug.WriteLine(file.FullName);
-                SetCurrentWorkFile(file);
+                SetCurrentWorkFile(path);
             }
         }
 

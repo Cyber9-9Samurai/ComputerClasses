@@ -29,8 +29,7 @@ namespace ComputerClasses.ViewModels.Pages
                     }
                     else
                     {
-                        FileInfo fileInfo = new FileInfo(Path.GetFileName(filePath));
-                        _fileService.StartImport(filePath,fileInfo);
+                        _fileService.StartImport(filePath);
                     }
 
                 }
@@ -45,9 +44,7 @@ namespace ComputerClasses.ViewModels.Pages
             var result = openFileDialog.ShowDialog();
             if (result == true)
             {
-                FileInfo fileInfo = new FileInfo(Path.GetFileName(openFileDialog.FileName));
-                MessageBox.Show(openFileDialog.FileName + ' ' + fileInfo.FullName);
-                _fileService.StartImport(openFileDialog.FileName, fileInfo);
+                _fileService.StartImport(openFileDialog.FileName);
             }
         }
 
