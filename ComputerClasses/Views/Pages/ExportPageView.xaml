@@ -4,9 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ComputerClasses.Views.Pages"
+             xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Pages"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance vm:ExportPageViewModel}">
     <Grid>
-        <TextBlock>Export Page</TextBlock>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Экспорт"/>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <TextBlock Text="Выберите способ экспорта"/>
+            <ComboBox ItemsSource="{Binding ExportVar}" SelectedItem="{Binding SelectedExportVar}"/>
+        </StackPanel>
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportCommand}"/>
     </Grid>
 </UserControl>
