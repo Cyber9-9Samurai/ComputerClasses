@@ -32,7 +32,7 @@ namespace ComputerClasses.Services.Notifications
                     continue;
                 }
                 DateTime lastUpdateDate = DateTime.Parse(row.LastServiceDate.Name);
-                DateTime temp = await Bbhdhsbcbd(settings, lastUpdateDate);
+                DateTime temp = lastUpdateDate.AddDays(settings.Day).AddMonths(settings.Month).AddYears(settings.Year);
 
                 if (temp <= currentDate)
                 {
@@ -49,15 +49,10 @@ namespace ComputerClasses.Services.Notifications
                 Year = 5,
                 Month = 0,
                 Day = 0
-            }, Newtonsoft.Json.Formatting.Indented);
+            }, Formatting.Indented);
 
             string filePath = "notifications_settings.json";
             File.WriteAllText(filePath, jsonString);
-        }
-
-        public async Task<DateTime> Bbhdhsbcbd(NotificationsJson dataString, DateTime lastUpdateDate)
-        {
-            return lastUpdateDate.AddDays(dataString.Day).AddMonths(dataString.Month).AddYears(dataString.Year);
         }
 
         public static async Task<NotificationsJson> ReadJsonFile(string path)
