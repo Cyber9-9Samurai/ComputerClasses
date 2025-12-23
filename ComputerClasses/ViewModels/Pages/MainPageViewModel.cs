@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using ComputerClasses.Domain;
 using ComputerClasses.Models;
 using ComputerClasses.Services;
+using ComputerClasses.Services.Notifications;
 using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Popups;
 using Mvvm.Navigation;
@@ -11,7 +12,7 @@ namespace ComputerClasses.ViewModels.Pages
 {
     public partial class MainPageViewModel : PageBaseViewModel
     {
-        
+
         [ObservableProperty]
         private List<MenuButtonItem> operationButtons = new();
         [ObservableProperty]
@@ -24,16 +25,18 @@ namespace ComputerClasses.ViewModels.Pages
         private readonly Navigator<PopupBaseViewModel> _navigator;
         private readonly GetLocalImage _imageService;
         private readonly WorkFileService _workFileService;
+        private readonly NotificationsService _notificationsService;
 
-        public MainPageViewModel(Navigator<PopupBaseViewModel> navigator, GetLocalImage imageService, WorkFileService workFileService)
+        public MainPageViewModel(Navigator<PopupBaseViewModel> navigator, GetLocalImage imageService, WorkFileService workFileService, NotificationsService notificationsService)
         {
             _navigator = navigator;
             _imageService = imageService;
             _workFileService = workFileService;
+            _notificationsService = notificationsService;
             LoadData();
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
             OperationButtons = new List<MenuButtonItem>()
             {
@@ -80,7 +83,7 @@ namespace ComputerClasses.ViewModels.Pages
             {
                 Rows = baseRows.Where(i => i.AudienceName.Name.ToLower().Contains(text) || i.ApplicationList.Name.ToLower().Contains(text)).ToList();
             }
-            else if(baseRows.Count > Rows.Count)
+            else if (baseRows.Count > Rows.Count)
             {
                 Rows = baseRows;
             }
