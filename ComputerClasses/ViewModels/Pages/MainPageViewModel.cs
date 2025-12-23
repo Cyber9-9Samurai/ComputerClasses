@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using ComputerClasses.Domain;
 using ComputerClasses.Models;
 using ComputerClasses.Services;
+using ComputerClasses.Services.Data;
 using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Popups;
 using Mvvm.Navigation;
@@ -11,13 +12,15 @@ namespace ComputerClasses.ViewModels.Pages
 {
     public partial class MainPageViewModel : PageBaseViewModel
     {
-        
+
         [ObservableProperty]
         private List<MenuButtonItem> operationButtons = new();
         [ObservableProperty]
         private List<Row> rows = new();
         [ObservableProperty]
         private string searchText;
+        [ObservableProperty]
+        private Row? selectedRow;
 
         private List<Row> baseRows = new();
 
@@ -66,12 +69,6 @@ namespace ComputerClasses.ViewModels.Pages
 
 
 
-        [RelayCommand]
-        private void OpenPopup()
-        {
-            _navigator.Navigate<TestPopupViewModel>();
-        }
-
 
         private void DoSearch()
         {
@@ -80,7 +77,7 @@ namespace ComputerClasses.ViewModels.Pages
             {
                 Rows = baseRows.Where(i => i.AudienceName.Name.ToLower().Contains(text) || i.ApplicationList.Name.ToLower().Contains(text)).ToList();
             }
-            else if(baseRows.Count > Rows.Count)
+            else if (baseRows.Count > Rows.Count)
             {
                 Rows = baseRows;
             }
@@ -89,16 +86,26 @@ namespace ComputerClasses.ViewModels.Pages
         [RelayCommand]
         private void Add()
         {
-
+            SelectedRow = null;
+            _navigator.Navigate<ChangeDataPopupViewModel>().GetData(DataChangesActions.Add, SelectedRow);
         }
 
         [RelayCommand]
-        private void Remove() { }
+        private void Remove()
+        {
+            if (SelectedRow != null)
+            {
+                _navigator.Navigate<ChangeDataPopupViewModel>().GetData(DataChangesActions.Remove, SelectedRow);
+            }
+        }
 
         [RelayCommand]
         private void Edit()
         {
-
+            if (SelectedRow != null)
+            {
+                _navigator.Navigate<ChangeDataPopupViewModel>().GetData(DataChangesActions.Edit, SelectedRow);
+            }
         }
     }
 }

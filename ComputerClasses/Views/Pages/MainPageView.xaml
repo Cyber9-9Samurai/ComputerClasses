@@ -49,7 +49,8 @@
                   IsReadOnly="True"
                   Grid.Row="1"
                   AutoGenerateColumns="False"
-                  ItemsSource="{Binding Rows}">
+                  ItemsSource="{Binding Rows}"
+                  SelectedItem="{Binding SelectedRow}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Идентификатор" Binding="{Binding Id}" Width="Auto"/>
                 <DataGridTextColumn Header="Факультет" Binding="{Binding Facultie.Name}" Width="auto"/>
