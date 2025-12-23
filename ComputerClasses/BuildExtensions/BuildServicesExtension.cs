@@ -1,5 +1,6 @@
 ﻿using ComputerClasses.Domain.Import;
 using ComputerClasses.Services;
+using ComputerClasses.Services.Logs;
 using ComputerClasses.Services.Notifications;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +20,7 @@ namespace ComputerClasses.BuildExtensions
                 services.AddScoped<NotificationsService>();
                 services.AddTransient<ExcelRowExporter>();
                 services.AddTransient<CsvRowExporter>();
+                services.AddTransient<LogService>();
             });
             return builder;
         }
