@@ -5,9 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ComputerClasses.Views.Pages"
              xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Pages"
+             xmlns:converter="clr-namespace:ComputerClasses.Converters"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance vm:MainPageViewModel}">
+    <UserControl.Resources>
+        <converter:DataGridViewVisabilityConverter x:Key="dataGridVis"/>
+        <converter:EmptyDataMessageVisabilityConverter x:Key="emptyDataVis"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*"/>
@@ -30,7 +36,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Width="200" Height="200">
+                    <Button Width="200" Height="200" Command="{Binding NavCommand}">
                         <Canvas>
                             <Image Width="100" Height="100" Source="{Binding Image}"/>
                             <TextBlock Text="{Binding Title}"/>
@@ -39,6 +45,16 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Visibility="{Binding IsExistFile,Converter={StaticResource emptyDataVis}}">
+            Файл не нйден , может <Run Foreground="Blue">
+                создать
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseDown">
+                        <b:InvokeCommandAction Command="{Binding CreateFileCommand}"/>
+                    </b:EventTrigger>       
+                </b:Interaction.Triggers>
+            </Run> новый файл Exel для работы(.xlsx)?
+        </TextBlock>
         <DataGrid Grid.Column="1" Grid.ColumnSpan="2" 
                   CanUserAddRows="False" 
                   CanUserDeleteRows="False" 
@@ -49,8 +65,9 @@
                   IsReadOnly="True"
                   Grid.Row="1"
                   AutoGenerateColumns="False"
-                  ItemsSource="{Binding Rows}"
-                  SelectedItem="{Binding SelectedRow}">
+                  ItemsSource="{Binding Rows,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedRow}"
+                  Visibility="{Binding IsExistFile,Converter={StaticResource dataGridVis}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Идентификатор" Binding="{Binding Id}" Width="Auto"/>
                 <DataGridTextColumn Header="Факультет" Binding="{Binding Facultie.Name}" Width="auto"/>

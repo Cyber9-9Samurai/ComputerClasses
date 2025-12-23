@@ -6,7 +6,9 @@ using ComputerClasses.Services;
 using ComputerClasses.Services.Data;
 using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Popups;
+using Microsoft.Win32;
 using Mvvm.Navigation;
+using System.Collections.ObjectModel;
 
 namespace ComputerClasses.ViewModels.Pages
 {
@@ -16,7 +18,9 @@ namespace ComputerClasses.ViewModels.Pages
         [ObservableProperty]
         private List<MenuButtonItem> operationButtons = new();
         [ObservableProperty]
-        private List<Row> rows = new();
+        private bool isExistFile;
+        [ObservableProperty]
+        private ObservableCollection<Row> rows = new();
         [ObservableProperty]
         private string searchText;
         [ObservableProperty]
@@ -49,9 +53,13 @@ namespace ComputerClasses.ViewModels.Pages
                 if (_workFileService.fileChanged == e.PropertyName)
                 {
                     LoadFile();
+                    IsExistFile = _workFileService.HasFile();
+                    
                 }
-            };
+                
 
+            };
+            
             this.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(SearchText))
@@ -59,12 +67,15 @@ namespace ComputerClasses.ViewModels.Pages
                     DoSearch();
                 }
             };
+
+
         }
 
-        private void LoadFile()
+
+        public void LoadFile()
         {
             baseRows = _workFileService.ImportData.Items;
-            Rows = _workFileService.ImportData.Items;
+            Rows = [.._workFileService.ImportData.Items];
         }
 
 
@@ -75,11 +86,11 @@ namespace ComputerClasses.ViewModels.Pages
             var text = SearchText.ToLower();
             if (!string.IsNullOrWhiteSpace(text))
             {
-                Rows = baseRows.Where(i => i.AudienceName.Name.ToLower().Contains(text) || i.ApplicationList.Name.ToLower().Contains(text)).ToList();
+                Rows = [..baseRows.Where(i => i.AudienceName.Name.ToLower().Contains(text) || i.ApplicationList.Name.ToLower().Contains(text))];
             }
             else if (baseRows.Count > Rows.Count)
             {
-                Rows = baseRows;
+                Rows = [..baseRows];
             }
         }
 
@@ -106,6 +117,12 @@ namespace ComputerClasses.ViewModels.Pages
             {
                 _navigator.Navigate<ChangeDataPopupViewModel>().GetData(DataChangesActions.Edit, SelectedRow);
             }
+        }
+
+        [RelayCommand]
+        private void CreateFile()
+        {
+            _workFileService.CreateNewWorkFile();
         }
     }
 }

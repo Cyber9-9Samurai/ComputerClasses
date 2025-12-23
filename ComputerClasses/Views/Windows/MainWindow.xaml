@@ -25,7 +25,7 @@
         <Grid Grid.Row="1">
             <ContentControl Content="{Binding NavigatorPage.CurrentViewModel}"/>
         </Grid>
-        <Grid Background="Black" Opacity="0.6" Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding NavigatorPopup.CurrentViewModel,Converter={StaticResource popupVis}}">
+        <Grid Background="#99000000" Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding NavigatorPopup.CurrentViewModel,Converter={StaticResource popupVis}}">
             <ContentControl Content="{Binding NavigatorPopup.CurrentViewModel}"/>
         </Grid>
     </Grid>

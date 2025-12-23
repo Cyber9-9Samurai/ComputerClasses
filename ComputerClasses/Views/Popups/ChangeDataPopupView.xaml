@@ -4,9 +4,42 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ComputerClasses.Views.Popups"
+             xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Popups"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance vm:ChangeDataPopupViewModel}">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Background="White">
+        <TextBox Text="{Binding Data.Facultie.Name}"/>
+        <TextBox Text="{Binding Data.DepartmentOrInstitute.Name}"/>
+        <TextBox Text="{Binding Data.Frame.Name}"/>
+        <TextBox Text="{Binding Data.AudienceNumber.Name}"/>
+        <TextBox Text="{Binding Data.AudienceName.Name}"/>
+        <TextBox Text="{Binding Data.ResponsiblePerson.Name}"/>
+        <TextBox Text="{Binding Data.InventoryNumber.Name}"/>
+        <TextBox Text="{Binding Data.OperatingSystem.Name}"/>
+        <TextBox Text="{Binding Data.Motherboard.Name}"/>
+        <TextBox Text="{Binding Data.Cpu.Name}"/>
+        <TextBox Text="{Binding Data.VideoCard.Name}"/>
+        <TextBox Text="{Binding Data.Disk.Name}"/>
+        <TextBox Text="{Binding Data.Ram.Name}"/>
+        <TextBox Text="{Binding Data.RamType.Name}"/>
+        <TextBox Text="{Binding Data.ApplicationList.Name}"/>
+        <TextBox Text="{Binding Data.Status.Name}"/>
+        <TextBox Text="{Binding Data.LastServiceDate.Name}"/>
+        <Button Content="Принять изменения" Command="{Binding AgreeChangesCommand}"/>
+        <Button Content="Отменить" Command="{Binding CloseCommand}"/>
+        </StackPanel>
     </Grid>
 </UserControl>
