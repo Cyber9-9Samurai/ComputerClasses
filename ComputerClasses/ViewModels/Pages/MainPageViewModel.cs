@@ -4,6 +4,7 @@ using ComputerClasses.Domain;
 using ComputerClasses.Models;
 using ComputerClasses.Services;
 using ComputerClasses.Services.Data;
+using ComputerClasses.Services.Notifications;
 using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Popups;
 using Microsoft.Win32;
@@ -31,16 +32,18 @@ namespace ComputerClasses.ViewModels.Pages
         private readonly Navigator<PopupBaseViewModel> _navigator;
         private readonly GetLocalImage _imageService;
         private readonly WorkFileService _workFileService;
+        private readonly NotificationsService _notificationsService;
 
-        public MainPageViewModel(Navigator<PopupBaseViewModel> navigator, GetLocalImage imageService, WorkFileService workFileService)
+        public MainPageViewModel(Navigator<PopupBaseViewModel> navigator, GetLocalImage imageService, WorkFileService workFileService, NotificationsService notificationsService)
         {
             _navigator = navigator;
             _imageService = imageService;
             _workFileService = workFileService;
+            _notificationsService = notificationsService;
             LoadData();
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
             OperationButtons = new List<MenuButtonItem>()
             {

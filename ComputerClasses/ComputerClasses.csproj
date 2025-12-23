@@ -18,6 +18,7 @@
     <None Remove="Resources\Assets\Images\Loading.gif" />
     <None Remove="Resources\Assets\Images\MainPage.gif" />
     <None Remove="Resources\Assets\Images\Notifications.gif" />
+    <None Remove="Services\Notifications\notifications_settings.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +34,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="Mvvm.Navigation.Wpf" Version="1.5.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="NPOI" Version="2.7.5" />
   </ItemGroup>
 
@@ -69,6 +71,7 @@
     <Resource Include="Resources\Assets\Images\Notifications.gif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Services\Notifications\notifications_settings.json" />
   </ItemGroup>
 
 </Project>
