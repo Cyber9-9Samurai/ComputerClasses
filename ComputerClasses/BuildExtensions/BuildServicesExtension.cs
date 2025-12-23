@@ -15,6 +15,8 @@ namespace ComputerClasses.BuildExtensions
                 services.AddScoped<GetLocalImage>();
                 services.AddSingleton<WorkFileService>();
                 services.AddTransient<ExcelRowImporter>();
+                services.AddTransient<ExcelRowExporter>();
+                services.AddTransient<CsvRowExporter>();
             });
             return builder;
         }

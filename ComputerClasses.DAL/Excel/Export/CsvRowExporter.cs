@@ -14,13 +14,13 @@ using Test_Import_and_Export.Entities.Interfaces;
 
 namespace Test_Import_and_Export.Export
 {
-    public static class CsvRowExporter
+    public class CsvRowExporter
     {
         private static readonly Encoding DefaultEncoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: true);
 
         private static readonly CultureInfo DefaultCulture = new("ru-RU");
 
-        public static void ExportToCsv(IReadOnlyList<Row> rows, Stream output, Encoding? encoding = null)
+        public void ExportToCsv(IReadOnlyList<Row> rows, Stream output, Encoding? encoding = null)
         {
             encoding ??= DefaultEncoding;
 

@@ -6,9 +6,9 @@ using Test_Import_and_Export.Entities.Interfaces;
 
 namespace Test_Import_and_Export.Export
 {
-    public static class ExcelRowExporter
+    public class ExcelRowExporter
     {
-        public static void ExportToXlsx(IReadOnlyList<Row> rows, Stream output)
+        public void ExportToXlsx(IReadOnlyList<Row> rows, Stream output)
         {
             IWorkbook wb = new XSSFWorkbook();
             var sheet = wb.CreateSheet("Data");
