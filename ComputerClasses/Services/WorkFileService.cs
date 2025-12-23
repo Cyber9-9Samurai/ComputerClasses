@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ComputerClasses.Domain;
 using ComputerClasses.Domain.Import;
+using Microsoft.Win32;
 using System.IO;
 using System.Windows;
+using Test_Import_and_Export.Export;
 
 namespace ComputerClasses.Services
 {
@@ -10,12 +12,14 @@ namespace ComputerClasses.Services
     {
         private string _currentFile;
         private readonly ExcelRowImporter _excelRowImporter;
+        private readonly ExcelRowExporter _excelRowExporter;
         [ObservableProperty]
         private ImportResult<Row> importData = new();
         public readonly string fileChanged;
-        public WorkFileService(ExcelRowImporter excelRowImporter)
+        public WorkFileService(ExcelRowImporter excelRowImporter,ExcelRowExporter excelRowExporter)
         {
             _excelRowImporter = excelRowImporter;
+            _excelRowExporter = excelRowExporter;
             fileChanged = nameof(_currentFile);
         }
 
@@ -46,6 +50,23 @@ namespace ComputerClasses.Services
             {
                 SetCurrentWorkFile(path);
             }
+        }
+
+        public void CreateNewWorkFile()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Файлы Exel(*.xlsx)|*.xlsx";
+            var result = saveFileDialog.ShowDialog();
+            if (result == true)
+            {
+                _excelRowExporter.ExportToXlsx(new List<Row>(),File.OpenWrite(saveFileDialog.FileName));
+                StartImport(saveFileDialog.FileName);
+            }
+        }
+
+        public bool HasFile()
+        {
+            return File.Exists(_currentFile);
         }
 
     }
