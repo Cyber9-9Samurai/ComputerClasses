@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Test_Import_and_Export.Entities.Attributes
+﻿namespace ComputerClasses.Domain.Entities.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public sealed class ExcelColumnAttribute : Attribute

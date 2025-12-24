@@ -1,11 +1,5 @@
-﻿using ComputerClasses.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ComputerClasses.Domain.Entities.Attributes;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Test_Import_and_Export.Entities.Attributes;
 
 namespace ComputerClasses.Domain
 {

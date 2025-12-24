@@ -21,6 +21,7 @@ namespace ComputerClasses.BuildExtensions
                 services.AddTransient<ExcelRowExporter>();
                 services.AddTransient<CsvRowExporter>();
                 services.AddTransient<LogService>();
+                services.AddTransient<>
             });
             return builder;
         }

@@ -1,8 +1,8 @@
 ﻿using ComputerClasses.Domain;
+using ComputerClasses.Domain.Entities.Interfaces;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.IO;
-using Test_Import_and_Export.Entities.Interfaces;
 
 namespace Test_Import_and_Export.Export
 {

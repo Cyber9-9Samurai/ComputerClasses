@@ -1,5 +1,7 @@
 ﻿using ComputerClasses.Domain;
 using ComputerClasses.Domain.Entities;
+using ComputerClasses.Domain.Entities.Attributes;
+using ComputerClasses.Domain.Entities.Interfaces;
 using CsvHelper;
 using CsvHelper.Configuration;
 using System;
@@ -9,8 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Test_Import_and_Export.Entities.Attributes;
-using Test_Import_and_Export.Entities.Interfaces;
 
 namespace Test_Import_and_Export.Export
 {

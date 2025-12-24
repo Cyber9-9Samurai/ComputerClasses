@@ -1,4 +1,4 @@
-﻿using Test_Import_and_Export.Entities.Interfaces;
+﻿using ComputerClasses.Domain.Entities.Interfaces;
 
 namespace ComputerClasses.Domain.Entities
 {
