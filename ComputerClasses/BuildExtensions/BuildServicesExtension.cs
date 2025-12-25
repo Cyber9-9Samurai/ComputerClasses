@@ -1,4 +1,5 @@
-﻿using ComputerClasses.Domain.Import;
+﻿using ComputerClasses.DAL.Excel.Export;
+using ComputerClasses.Domain.Import;
 using ComputerClasses.Services;
 using ComputerClasses.Services.Logs;
 using ComputerClasses.Services.Notifications;
@@ -21,7 +22,7 @@ namespace ComputerClasses.BuildExtensions
                 services.AddTransient<ExcelRowExporter>();
                 services.AddTransient<CsvRowExporter>();
                 services.AddTransient<LogService>();
-                services.AddTransient<>
+                services.AddTransient<PdfRowExporter>();
             });
             return builder;
         }

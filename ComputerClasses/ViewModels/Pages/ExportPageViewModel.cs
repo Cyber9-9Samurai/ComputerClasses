@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ComputerClasses.DAL.Excel.Export;
 using ComputerClasses.Models;
 using ComputerClasses.Services;
 using ComputerClasses.ViewModels.Abstractions;
@@ -19,12 +20,14 @@ namespace ComputerClasses.ViewModels.Pages
         private readonly WorkFileService _workFileService;
         private readonly ExcelRowExporter _excelRowExporter;
         private readonly CsvRowExporter _csvRowExporter;
+        private readonly PdfRowExporter _pdfRowExporter;
 
-        public ExportPageViewModel(WorkFileService workFileService,ExcelRowExporter excelRowExporter,CsvRowExporter csvRowExporter)
+        public ExportPageViewModel(WorkFileService workFileService,ExcelRowExporter excelRowExporter,CsvRowExporter csvRowExporter,PdfRowExporter pdfRowExporter)
         {
             _workFileService = workFileService;
             _excelRowExporter = excelRowExporter;
             _csvRowExporter = csvRowExporter;
+            _pdfRowExporter = pdfRowExporter;
             LoadData();
             SelectedExportVar = ExportVar.FirstOrDefault() ?? string.Empty;
         }
@@ -111,6 +114,12 @@ namespace ComputerClasses.ViewModels.Pages
                     }
                 case ExportVariants.PDF:
                     {
+                        var result = ExportFile("PDF Files (*.pdf)|*.pdf", "pdf", out string path);
+                        if (result == true)
+                        {
+                            using var stream = File.OpenWrite(path);
+                            _pdfRowExporter.ExportToPdf(data, stream);
+                        }
                         break;
                     }
             }
