@@ -79,6 +79,8 @@ namespace ComputerClasses.ViewModels.Pages
         {
             baseRows = _workFileService.ImportData.Items;
             Rows = [.._workFileService.ImportData.Items];
+            OnPropertyChanged(nameof(Rows));
+            
         }
 
 

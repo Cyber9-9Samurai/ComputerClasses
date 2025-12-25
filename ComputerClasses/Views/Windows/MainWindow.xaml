@@ -8,8 +8,9 @@
         xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Windows"
         xmlns:converter="clr-namespace:ComputerClasses.Converters"
         xmlns:navigator="https://navigation.mvvm/"
+        xmlns:notifications="clr-namespace:ComputerClasses.Views.Notifications"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1080" Width="1920"
+        Title="MainWindow"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
@@ -28,5 +29,6 @@
         <Grid Background="#99000000" Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding NavigatorPopup.CurrentViewModel,Converter={StaticResource popupVis}}">
             <ContentControl Content="{Binding NavigatorPopup.CurrentViewModel}"/>
         </Grid>
+        <notifications:NotificationsView Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding NotificationViewModel}"/>
     </Grid>
 </Window>
