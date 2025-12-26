@@ -3,10 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using ComputerClasses.DAL.Excel.Export;
 using ComputerClasses.Models;
 using ComputerClasses.Services;
+using ComputerClasses.Services.Logs;
 using ComputerClasses.ViewModels.Abstractions;
+using ComputerClasses.ViewModels.Popups;
 using Microsoft.Win32;
+using Mvvm.Navigation;
 using System.IO;
-using System.Windows;
 using Test_Import_and_Export.Export;
 
 namespace ComputerClasses.ViewModels.Pages
@@ -21,13 +23,25 @@ namespace ComputerClasses.ViewModels.Pages
         private readonly ExcelRowExporter _excelRowExporter;
         private readonly CsvRowExporter _csvRowExporter;
         private readonly PdfRowExporter _pdfRowExporter;
+        private readonly Navigator<PopupBaseViewModel> _navigator;
+        private readonly LogService _logService;
+        private readonly ChangesMagazineViewModel _changesMagazineViewModel;
 
-        public ExportPageViewModel(WorkFileService workFileService,ExcelRowExporter excelRowExporter,CsvRowExporter csvRowExporter,PdfRowExporter pdfRowExporter)
+        public ExportPageViewModel(WorkFileService workFileService,
+            ExcelRowExporter excelRowExporter,
+            CsvRowExporter csvRowExporter,
+            PdfRowExporter pdfRowExporter,
+            Navigator<PopupBaseViewModel> navigator,
+            LogService logService,
+            ChangesMagazineViewModel changesMagazineViewModel)
         {
+            _changesMagazineViewModel = changesMagazineViewModel;
             _workFileService = workFileService;
             _excelRowExporter = excelRowExporter;
             _csvRowExporter = csvRowExporter;
             _pdfRowExporter = pdfRowExporter;
+            _navigator = navigator;
+            _logService = logService;
             LoadData();
             SelectedExportVar = ExportVar.FirstOrDefault() ?? string.Empty;
         }
@@ -44,7 +58,7 @@ namespace ComputerClasses.ViewModels.Pages
             }
         }
 
-        private bool ExportFile(string filter,string defaultExtesion, out string path)
+        private bool ExportFile(string filter, string defaultExtesion, out string path)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
@@ -52,7 +66,7 @@ namespace ComputerClasses.ViewModels.Pages
                 DefaultExt = defaultExtesion
             };
             bool result = saveFileDialog.ShowDialog() ?? false;
-            if (result) 
+            if (result)
             {
                 path = saveFileDialog.FileName;
             }
@@ -63,66 +77,77 @@ namespace ComputerClasses.ViewModels.Pages
             return result;
         }
 
+
         [RelayCommand]
-        private void Export()
+        private async Task Export()
         {
             var file = _workFileService.GetCurrentWorkFile();
             var data = _workFileService.ImportData.Items ?? new List<Domain.Row>();
-            switch (SelectedExportVar)
+            try
             {
-                case ExportVariants.ThisFile:
-                    {
-                        if(file is null)
+                switch (SelectedExportVar)
+                {
+                    case ExportVariants.ThisFile:
                         {
-                            MessageBox.Show("Текущий файл не выбран. Выберите другой вариант экспорта.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            if (file is null)
+                            {
+                                _navigator.Navigate<ErrorPopupViewModel>().SetDescription("Невозможно экспортировать в текущий файл, так как он не выбран. Пожалуйста, выберите другой вариант экспорта.");
+                            }
+                            else
+                            {
+                                _excelRowExporter.ExportToXlsx(data, File.OpenWrite(file));
+                            }
+                            break;
                         }
-                        else
+                    case ExportVariants.ExelXLS:
                         {
-                            _excelRowExporter.ExportToXlsx(data, File.OpenWrite(file));
-                        }                        
-                        break;
-                    }
-                case ExportVariants.ExelXLS:
-                    {
-                        var result = ExportFile("Excel Files (*.xls)|*.xls", "xls",out string path);
-                        if (result == true)
-                        {
-                            using var stream = File.OpenWrite(path);
-                            _excelRowExporter.ExportToXlsx(data, stream);
+                            var result = ExportFile("Excel Files (*.xls)|*.xls", "xls", out string path);
+                            if (result == true)
+                            {
+                                using var stream = File.OpenWrite(path);
+                                _excelRowExporter.ExportToXlsx(data, stream);
+                            }
+                            break;
                         }
-                        break;
-                    }
-                case ExportVariants.ExelXLSX:
-                    {
-                        var result = ExportFile("Excel Files (*.xlsx)|*.xlsx", "xlsx",out string path);
-                        if (result == true)
+                    case ExportVariants.ExelXLSX:
                         {
-                            using var stream = File.OpenWrite(path);
-                            _excelRowExporter.ExportToXlsx(data, stream);
+                            var result = ExportFile("Excel Files (*.xlsx)|*.xlsx", "xlsx", out string path);
+                            if (result == true)
+                            {
+                                using var stream = File.OpenWrite(path);
+                                _excelRowExporter.ExportToXlsx(data, stream);
+                            }
+                            break;
                         }
-                        break;
-                    }
-                case ExportVariants.Csv:
-                    {
-                        var result = ExportFile("CSV Files (*.csv)|*.csv", "csv",out string path);
-                        if (result == true)
+                    case ExportVariants.Csv:
                         {
-                            using var stream = File.OpenWrite(path);
-                            _csvRowExporter.ExportToCsv(data, stream);
+                            var result = ExportFile("CSV Files (*.csv)|*.csv", "csv", out string path);
+                            if (result == true)
+                            {
+                                using var stream = File.OpenWrite(path);
+                                _csvRowExporter.ExportToCsv(data, stream);
+                            }
+                            break;
                         }
-                        break;
-                    }
-                case ExportVariants.PDF:
-                    {
-                        var result = ExportFile("PDF Files (*.pdf)|*.pdf", "pdf", out string path);
-                        if (result == true)
+                    case ExportVariants.PDF:
                         {
-                            using var stream = File.OpenWrite(path);
-                            _pdfRowExporter.ExportToPdf(data, stream);
+                            var result = ExportFile("PDF Files (*.pdf)|*.pdf", "pdf", out string path);
+                            if (result == true)
+                            {
+                                using var stream = File.OpenWrite(path);
+                                _pdfRowExporter.ExportToPdf(data, stream);
+                            }
+                            break;
                         }
-                        break;
-                    }
+                }
+                _navigator.Navigate<SuccessPopupViewModel>().SetDescription("Файл был экспортирован!");
+                var hashFile = await _logService.HashFile(File.OpenRead(_workFileService.GetCurrentWorkFile()));
+                await _logService.SaveLog(hashFile , _changesMagazineViewModel.Logs.ToList());
+            }
+            catch (Exception ex)
+            {
+                _navigator.Navigate<ErrorPopupViewModel>().SetDescription("Не удалось экспортировать файл по неизвестным причинам. Может быть файл занят другой программой. Попробуйте снова позднее.");
+                }
             }
         }
-       }
     }

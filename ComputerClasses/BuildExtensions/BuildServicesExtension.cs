@@ -23,6 +23,7 @@ namespace ComputerClasses.BuildExtensions
                 services.AddTransient<CsvRowExporter>();
                 services.AddTransient<LogService>();
                 services.AddTransient<PdfRowExporter>();
+                services.AddSingleton<SessionService>();
             });
             return builder;
         }

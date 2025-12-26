@@ -4,12 +4,13 @@ using ComputerClasses.Domain;
 using ComputerClasses.Models;
 using ComputerClasses.Services;
 using ComputerClasses.Services.Data;
+using ComputerClasses.Services.Logs;
 using ComputerClasses.Services.Notifications;
 using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Popups;
-using Microsoft.Win32;
 using Mvvm.Navigation;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace ComputerClasses.ViewModels.Pages
 {
@@ -33,13 +34,25 @@ namespace ComputerClasses.ViewModels.Pages
         private readonly GetLocalImage _imageService;
         private readonly WorkFileService _workFileService;
         private readonly NotificationsService _notificationsService;
+        private readonly RowsDataSettingsService _rowsDataSettings;
+        private readonly ChangesMagazineViewModel _changesMagazineViewModel;
+        private readonly LogService _logService;
 
-        public MainPageViewModel(Navigator<PopupBaseViewModel> navigator, GetLocalImage imageService, WorkFileService workFileService, NotificationsService notificationsService)
+        public MainPageViewModel(Navigator<PopupBaseViewModel> navigator, 
+            GetLocalImage imageService, 
+            WorkFileService workFileService, 
+            NotificationsService notificationsService,
+            RowsDataSettingsService rowsDataSettingsService,
+            ChangesMagazineViewModel changesMagazineViewModel,
+            LogService logService)
         {
             _navigator = navigator;
             _imageService = imageService;
             _workFileService = workFileService;
             _notificationsService = notificationsService;
+            _rowsDataSettings = rowsDataSettingsService;
+            _changesMagazineViewModel = changesMagazineViewModel;
+            _logService = logService;
             LoadData();
         }
 
@@ -58,9 +71,18 @@ namespace ComputerClasses.ViewModels.Pages
                     LoadFile();
                     IsExistFile = _workFileService.HasFile();
                     
+                    
                 }
                 
 
+            };
+            _workFileService.PropertyChanged += async (s, e) =>
+            {
+                if (e.PropertyName == _workFileService.fileChanged)
+                {
+                    await _rowsDataSettings.GetData();
+                    _changesMagazineViewModel.Logs = [.. await _logService.GetLog(File.OpenRead(_workFileService.GetCurrentWorkFile()))];
+                }
             };
             
             this.PropertyChanged += (s, e) =>
@@ -102,8 +124,11 @@ namespace ComputerClasses.ViewModels.Pages
         [RelayCommand]
         private void Add()
         {
-            SelectedRow = null;
-            _navigator.Navigate<ChangeDataPopupViewModel>().GetData(DataChangesActions.Add, SelectedRow);
+            if (IsExistFile)
+            {
+                SelectedRow = null;
+                _navigator.Navigate<ChangeDataPopupViewModel>().GetData(DataChangesActions.Add, SelectedRow);
+            }
         }
 
         [RelayCommand]
