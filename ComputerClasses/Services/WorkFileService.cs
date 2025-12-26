@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ComputerClasses.Domain;
 using ComputerClasses.Domain.Import;
+using ComputerClasses.ViewModels.Abstractions;
+using ComputerClasses.ViewModels.Pages;
 using Microsoft.Win32;
+using Mvvm.Navigation;
 using System.IO;
 using System.Windows;
 using Test_Import_and_Export.Export;
@@ -13,13 +16,15 @@ namespace ComputerClasses.Services
         private string _currentFile;
         private readonly ExcelRowImporter _excelRowImporter;
         private readonly ExcelRowExporter _excelRowExporter;
+        private readonly Navigator<PageBaseViewModel> _navigator;
         [ObservableProperty]
         private ImportResult<Row> importData = new();
         public readonly string fileChanged;
-        public WorkFileService(ExcelRowImporter excelRowImporter,ExcelRowExporter excelRowExporter)
+        public WorkFileService(ExcelRowImporter excelRowImporter,ExcelRowExporter excelRowExporter,Navigator<PageBaseViewModel> navigator)
         {
             _excelRowImporter = excelRowImporter;
             _excelRowExporter = excelRowExporter;
+            _navigator = navigator;
             fileChanged = nameof(_currentFile);
         }
 
@@ -60,7 +65,7 @@ namespace ComputerClasses.Services
             if (result == true)
             {
                 _excelRowExporter.ExportToXlsx(new List<Row>(),File.OpenWrite(saveFileDialog.FileName));
-                StartImport(saveFileDialog.FileName);
+                _navigator.Navigate<ImportPageViewModel>();
             }
         }
 
