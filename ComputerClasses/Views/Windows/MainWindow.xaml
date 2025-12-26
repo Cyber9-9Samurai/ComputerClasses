@@ -26,9 +26,10 @@
         <Grid Grid.Row="1">
             <ContentControl Content="{Binding NavigatorPage.CurrentViewModel}"/>
         </Grid>
+        <notifications:NotificationsView Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding NotificationViewModel}"/>
         <Grid Background="#99000000" Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding NavigatorPopup.CurrentViewModel,Converter={StaticResource popupVis}}">
             <ContentControl Content="{Binding NavigatorPopup.CurrentViewModel}"/>
         </Grid>
-        <notifications:NotificationsView Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding NotificationViewModel}"/>
+        
     </Grid>
 </Window>

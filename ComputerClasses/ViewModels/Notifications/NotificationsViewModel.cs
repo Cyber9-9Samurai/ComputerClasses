@@ -54,14 +54,19 @@ namespace ComputerClasses.ViewModels.Notifications
                     Notifications.Add(new NotificationItem(item, true));
                 }
             }
-            _mainPageViewModel.PropertyChanged += async (s, e) =>
+            else
             {
-                if (e.PropertyName == nameof(MainPageViewModel.Rows))
+                HasNotifications = false;
+                _notHideCount = 0;
+            }
+                _mainPageViewModel.PropertyChanged += async (s, e) =>
                 {
-                    await LoadData();
-                }
+                    if (e.PropertyName == nameof(MainPageViewModel.Rows))
+                    {
+                        await LoadData();
+                    }
 
-            };
+                };
 
         }
 
