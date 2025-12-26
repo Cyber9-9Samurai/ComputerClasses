@@ -5,9 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ComputerClasses.Views.Popups"
              xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Popups"
+             xmlns:converters="clr-namespace:ComputerClasses.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance vm:ChangeDataPopupViewModel}">
+    <UserControl.Resources>
+        <converters:SelectedItemButtonVisabilityConverter x:Key="buttonVis"/>
+        <converters:DataToArrayConverter x:Key="arrayConv"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -15,30 +20,190 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.1*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.1*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Background="White">
-        <TextBox Text="{Binding Data.Facultie.Name}"/>
-        <TextBox Text="{Binding Data.DepartmentOrInstitute.Name}"/>
-        <TextBox Text="{Binding Data.Frame.Name}"/>
-        <TextBox Text="{Binding Data.AudienceNumber.Name}"/>
-        <TextBox Text="{Binding Data.AudienceName.Name}"/>
-        <TextBox Text="{Binding Data.ResponsiblePerson.Name}"/>
-        <TextBox Text="{Binding Data.InventoryNumber.Name}"/>
-        <TextBox Text="{Binding Data.OperatingSystem.Name}"/>
-        <TextBox Text="{Binding Data.Motherboard.Name}"/>
-        <TextBox Text="{Binding Data.Cpu.Name}"/>
-        <TextBox Text="{Binding Data.VideoCard.Name}"/>
-        <TextBox Text="{Binding Data.Disk.Name}"/>
-        <TextBox Text="{Binding Data.Ram.Name}"/>
-        <TextBox Text="{Binding Data.RamType.Name}"/>
-        <TextBox Text="{Binding Data.ApplicationList.Name}"/>
-        <TextBox Text="{Binding Data.Status.Name}"/>
-        <TextBox Text="{Binding Data.LastServiceDate.Name}"/>
-        <Button Content="Принять изменения" Command="{Binding AgreeChangesCommand}"/>
+            <TextBlock Text="Факультет: "/>
+            <WrapPanel>
+                <TextBox Text="{Binding FacultieAddText}"/>
+                <Button Content="+" Command="{Binding AddTemplateCommand}" 
+            CommandParameter="{Binding FacultiesName}"/>
+            </WrapPanel>
+            <ComboBox ItemsSource="{Binding Faculties}" SelectedItem="{Binding SelectedFacultie}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding .}"/>
+                            <Button Content="-" 
+                                    Command="{Binding DataContext.DeleteTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                                <Button.Visibility>
+                                    <MultiBinding Converter="{StaticResource buttonVis}">
+                                        <Binding Path="."/>
+                                        <Binding Path="DataContext.SelectedFacultie" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
+                                    </MultiBinding>
+                                </Button.Visibility>
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource arrayConv}">
+                                        <Binding Path="DataContext.FacultiesName" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
+                                        <Binding Path="."/>
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Кафедра/Институт: "/>
+            <WrapPanel>
+                <TextBox Text="{Binding DepartmentOrInstitudeAddText}"/>
+                <Button Content="+" Command="{Binding AddTemplateCommand}" 
+CommandParameter="{Binding DepartmentName}"/>
+            </WrapPanel>
+            <ComboBox ItemsSource="{Binding Departments}" SelectedItem="{Binding SelctedDepartmentOrInstitude}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding .}"/>
+                            <Button Content="-" 
+                    Command="{Binding DataContext.DeleteTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                                <Button.Visibility>
+                                    <MultiBinding Converter="{StaticResource buttonVis}">
+                                        <Binding Path="."/>
+                                        <Binding Path="DataContext.SelctedDepartmentOrInstitude" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
+                                    </MultiBinding>
+                                </Button.Visibility>
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource arrayConv}">
+                                        <Binding Path="DataContext.DepartmentName" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
+                                        <Binding Path="."/>
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Корпус: "/>
+            <WrapPanel>
+                <TextBox Text="{Binding FrameAddText}"/>
+                <Button Content="+" Command="{Binding AddTemplateCommand}" 
+CommandParameter="{Binding FrameName}"/>
+            </WrapPanel>
+            <ComboBox ItemsSource="{Binding Frames}" SelectedItem="{Binding SelectedFrame}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding .}"/>
+                            <Button Content="-" 
+                            Command="{Binding DataContext.DeleteTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                                <Button.Visibility>
+                                    <MultiBinding Converter="{StaticResource buttonVis}">
+                                        <Binding Path="."/>
+                                        <Binding Path="DataContext.SelectedFrame" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
+                                    </MultiBinding>
+                                </Button.Visibility>
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource arrayConv}">
+                                        <Binding Path="DataContext.FrameName" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
+                                        <Binding Path="."/>
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Номер аудитории: "/>
+            <TextBox Text="{Binding Data.AudienceNumber.Name}"/>
+            <TextBlock Text="Название аудитории: "/>
+            <TextBox Text="{Binding Data.AudienceName.Name}"/>
+            <TextBlock Text="Ответственный: "/>
+            <TextBox Text="{Binding Data.ResponsiblePerson.Name}"/>
+            <TextBlock Text="Инвентарный номер: "/>
+            <TextBox Text="{Binding Data.InventoryNumber.Name}"/>
+            <TextBlock Text="Оперционная система: "/>
+            <TextBox Text="{Binding Data.OperatingSystem.Name}"/>
+            <TextBlock Text="Материнская плата: "/>
+            <TextBox Text="{Binding Data.Motherboard.Name}"/>
+            <TextBlock Text="ЦП: "/>
+            <TextBox Text="{Binding Data.Cpu.Name}"/>
+            <TextBlock Text="Видеокарта: "/>
+            <TextBox Text="{Binding Data.VideoCard.Name}"/>
+            <TextBlock Text="Диски: "/>
+            <TextBox Text="{Binding Data.Disk.Name}"/>
+            <TextBlock Text="ОЗУ, ГБ: "/>
+            <TextBox Text="{Binding Data.Ram.Name}"/>
+            <TextBlock Text="Тип ОЗУ: "/>
+            <WrapPanel>
+                <TextBox Text="{Binding RamTypeAddText}"/>
+                <Button Content="+" Command="{Binding AddTemplateCommand}" 
+CommandParameter="{Binding RamTypeName}"/>
+            </WrapPanel>
+            <ComboBox ItemsSource="{Binding RamTypes}" SelectedItem="{Binding SelecetedRamType}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding .}"/>
+                            <Button Content="-" 
+                            Command="{Binding DataContext.DeleteTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                                <Button.Visibility>
+                                    <MultiBinding Converter="{StaticResource buttonVis}">
+                                        <Binding Path="."/>
+                                        <Binding Path="DataContext.SelecetedRamType" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
+                                    </MultiBinding>
+                                </Button.Visibility>
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource arrayConv}">
+                                        <Binding Path="DataContext.RamTypeName" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
+                                        <Binding Path="."/>
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Список установленных приложений: "/>
+            <TextBox Text="{Binding Data.ApplicationList.Name}"/>
+            <TextBlock Text="Статус: "/>
+            <WrapPanel>
+                <TextBox Text="{Binding StatusAddText}"/>
+                <Button Content="+" Command="{Binding AddTemplateCommand}" 
+CommandParameter="{Binding StatusName}"/>
+            </WrapPanel>
+            <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelecetedStatus}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding .}"/>
+                            <Button Content="-" 
+            Command="{Binding DataContext.DeleteTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                                <Button.Visibility>
+                                    <MultiBinding Converter="{StaticResource buttonVis}">
+                                        <Binding Path="."/>
+                                        <Binding Path="DataContext.SelecetedStatus" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
+                                    </MultiBinding>
+                                </Button.Visibility>
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource arrayConv}">
+                                        <Binding Path="DataContext.StatusName" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
+                                        <Binding Path="."/>
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Дата последнего обслуживания: "/>
+            <TextBox Text="{Binding Data.LastServiceDate.Name}"/>
+            <ScrollViewer MaxHeight="60">
+                <ItemsControl ItemsSource="{Binding Errors}" Foreground="Red"/>
+            </ScrollViewer>
+            <Button Content="Принять изменения" Command="{Binding AgreeChangesCommand}"/>
         <Button Content="Отменить" Command="{Binding CloseCommand}"/>
         </StackPanel>
     </Grid>
