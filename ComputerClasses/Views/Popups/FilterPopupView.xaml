@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="ComputerClasses.Views.Popups.FilterPopupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ComputerClasses.Views.Popups"
+             xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Popups"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance vm:FilterPopupViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.3*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Background="White" Grid.Row="1" Grid.Column="1">
+            <WrapPanel>
+                <TextBlock Text="По статусу:"/>
+                <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding StatusesSelected}"/>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Text="По количеству компьютеров:"/>
+                <TextBox Text="{Binding ComputersQuantityText,UpdateSourceTrigger=PropertyChanged}"/>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Text="По типу ос:"/>
+                <ComboBox ItemsSource="{Binding OperatingSystems}" SelectedItem="{Binding OpertaingSystemSelected}"/>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Text="По ответсвенному:"/>
+                <ComboBox ItemsSource="{Binding Resposibles}" SelectedItem="{Binding ResposibleSelected}"/>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Text="По факультету:"/>
+                <ComboBox ItemsSource="{Binding Faculties}" SelectedItem="{Binding FacultySelected}"/>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Text="По количеству ОЗУ:"/>
+                <TextBox Text="{Binding RamsQuantityText,UpdateSourceTrigger=PropertyChanged}"/>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Text="По типу ОЗУ:"/>
+                <ComboBox ItemsSource="{Binding RamTypes}" SelectedItem="{Binding RamTypeSelected}" />
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Text="По корпусу:"/>
+                <ComboBox ItemsSource="{Binding Frames}" SelectedItem="{Binding FrameSelected}"/>
+            </WrapPanel>
+            <WrapPanel>
+                <Button Content="Применить" Command="{Binding ApplyCommand}"/>
+                <Button Content="Сбросить" Command="{Binding ClearCommand}"/>
+                <Button Content="Закрыть" Command="{Binding CloseCommand}" CommandParameter="{Binding IsClose}"/>
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

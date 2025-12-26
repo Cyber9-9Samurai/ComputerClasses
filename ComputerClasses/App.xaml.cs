@@ -22,8 +22,8 @@ namespace ComputerClasses
         {
             return Host.CreateDefaultBuilder(args)
                 .BuildServices()
-                .BuildNavigation()
-                .BuildNotification();
+                .BuildNotification()
+                .BuildNavigation();
         }
 
         protected override async void OnStartup(StartupEventArgs e)

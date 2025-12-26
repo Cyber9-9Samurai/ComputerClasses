@@ -4,13 +4,10 @@ using ComputerClasses.Domain;
 using ComputerClasses.Models;
 using ComputerClasses.Services;
 using ComputerClasses.Services.Data;
-using ComputerClasses.Services.Logs;
-using ComputerClasses.Services.Notifications;
 using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Popups;
 using Mvvm.Navigation;
 using System.Collections.ObjectModel;
-using System.IO;
 
 namespace ComputerClasses.ViewModels.Pages
 {
@@ -33,91 +30,168 @@ namespace ComputerClasses.ViewModels.Pages
         private readonly Navigator<PopupBaseViewModel> _navigator;
         private readonly GetLocalImage _imageService;
         private readonly WorkFileService _workFileService;
-        private readonly NotificationsService _notificationsService;
-        private readonly RowsDataSettingsService _rowsDataSettings;
-        private readonly ChangesMagazineViewModel _changesMagazineViewModel;
-        private readonly LogService _logService;
+        private Dictionary<(int, int), int> comps = new();
 
-        public MainPageViewModel(Navigator<PopupBaseViewModel> navigator, 
-            GetLocalImage imageService, 
-            WorkFileService workFileService, 
-            NotificationsService notificationsService,
-            RowsDataSettingsService rowsDataSettingsService,
-            ChangesMagazineViewModel changesMagazineViewModel,
-            LogService logService)
+        public MainPageViewModel(Navigator<PopupBaseViewModel> navigator,
+            GetLocalImage imageService,
+            WorkFileService workFileService)
         {
             _navigator = navigator;
             _imageService = imageService;
             _workFileService = workFileService;
-            _notificationsService = notificationsService;
-            _rowsDataSettings = rowsDataSettingsService;
-            _changesMagazineViewModel = changesMagazineViewModel;
-            _logService = logService;
             LoadData();
         }
 
         private async void LoadData()
         {
-            OperationButtons = new List<MenuButtonItem>()
+            if (!IsExistFile)
             {
-                new MenuButtonItem("Добавить",_imageService.GetImage("Add.gif"),AddCommand),
-                new MenuButtonItem("Редактировать",_imageService.GetImage("Edit.gif"),EditCommand),
-                new MenuButtonItem("Удалить",_imageService.GetImage("Delete.gif"),RemoveCommand)
-            };
-            _workFileService.PropertyChanged += (s, e) =>
-            {
-                if (_workFileService.fileChanged == e.PropertyName)
+                OperationButtons = new List<MenuButtonItem>()
                 {
-                    LoadFile();
-                    IsExistFile = _workFileService.HasFile();
-                    
-                    
-                }
-                
+                    new MenuButtonItem("Добавить",_imageService.GetImage("Add.gif"),AddCommand),
+                    new MenuButtonItem("Редактировать",_imageService.GetImage("Edit.gif"),EditCommand),
+                    new MenuButtonItem("Удалить",_imageService.GetImage("Delete.gif"),RemoveCommand)
+                };
+                _workFileService.PropertyChanged += (s, e) =>
+                {
+                    if (_workFileService.fileChanged == e.PropertyName)
+                    {
+                        LoadFile();
+                        IsExistFile = _workFileService.HasFile();
 
-            };
-            _workFileService.PropertyChanged += async (s, e) =>
-            {
-                if (e.PropertyName == _workFileService.fileChanged)
+
+                    }
+                };
+                this.PropertyChanged += (s, e) =>
                 {
-                    await _rowsDataSettings.GetData();
-                    _changesMagazineViewModel.Logs = [.. await _logService.GetLog(File.OpenRead(_workFileService.GetCurrentWorkFile()))];
-                }
-            };
-            
-            this.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(SearchText))
+                    if (e.PropertyName == nameof(SearchText))
+                    {
+                        DoSearch();
+                    }
+                };
+
+                foreach (var item in baseRows)
                 {
-                    DoSearch();
+                    if (int.TryParse(item.Frame.Name, out int frame) && int.TryParse(item.AudienceNumber.Name, out int number))
+                    {
+                        if (comps.ContainsKey((frame, number)))
+                        {
+                            comps[(frame, number)] += 1;
+                        }
+                        else
+                        {
+                            comps.Add((frame, number), 1);
+                        }
+                    }
                 }
-            };
+            }
 
 
         }
+
+        [RelayCommand]
+        private void OpenFilter()
+        {
+            if (IsExistFile)
+            {
+                _navigator.BackStack.Clear();
+                _navigator.Navigate<FilterPopupViewModel>();
+            }
+        }
+
+        public void ApplyFilter(string?[] comboboxfilters, string?[] textboxfilters, bool isCleared = false)
+        {
+            if (isCleared)
+            {
+                Rows = [.. baseRows];
+                return;
+            }
+            string?[] comboboxFiltersCopy = comboboxfilters;
+            string?[] textboxFilterCopy = textboxfilters;
+            for (int j = 0; j < comboboxfilters.Length; j++)
+            {
+                switch (j)
+                {
+                    case 0:
+                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
+                        {
+                            Rows = [.. Rows.Where(i => i.Status.Name.Contains(comboboxfilters[j]!))];
+                        }
+                        break;
+                    case 1:
+                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
+                        {
+                            Rows = [.. Rows.Where(i => i.OperatingSystem.Name.Contains(comboboxfilters[j]!))];
+                        }
+                        break;
+                    case 2:
+                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
+                        {
+                            Rows = [.. Rows.Where(i => i.ResponsiblePerson.Name.Contains(comboboxfilters[j]!))];
+                        }
+                        break;
+                    case 3:
+                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
+                        {
+                            Rows = [.. Rows.Where(i => i.Facultie.Name.Contains(comboboxfilters[j]!))];
+                        }
+                        break;
+                    case 4:
+                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
+                        {
+                            Rows = [.. Rows.Where(i => i.RamType.Name.Contains(comboboxfilters[j]!))];
+                        }
+                        break;
+                    case 5:
+                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
+                        {
+                            Rows = [.. Rows.Where(i => i.Frame.Name.Contains(comboboxfilters[j]!))];
+                        }
+                        break;
+                }
+            }
+
+            for (int j = 0; j < textboxfilters.Length; j++)
+            {
+                switch (j)
+                {
+                    case 0:
+                        if (textboxfilters[j] is not null && textboxfilters[j] != string.Empty && textboxfilters[j] != textboxFilterCopy[j])
+                        {
+                            Rows = [.. Rows.Where(i => int.TryParse(i.Ram.Name, out int a) && a > int.Parse(textboxfilters[j]!))];
+                        }
+                        break;
+                    case 1:
+                        if (textboxfilters[j] is not null && textboxfilters[j] != string.Empty && textboxfilters[j] != textboxFilterCopy[j])
+                        {
+                            var collection = comps.Where(i => i.Value >= int.Parse(textboxfilters[j]!));
+                            Rows = [.. Rows.Where(i => int.TryParse(i.Frame.Name,out int frame)
+                            && int.TryParse(i.AudienceNumber.Name,out int number) && comps.ContainsKey((frame,number)))];
+                        }
+                        break;
+
+                }
+            }
+        }
+
 
 
         public void LoadFile()
         {
-            baseRows = _workFileService.ImportData.Items;
-            Rows = [.._workFileService.ImportData.Items];
-            OnPropertyChanged(nameof(Rows));
-            
+            baseRows = new(_workFileService.ImportData.Items);
+            Rows = [.. baseRows];
         }
-
-
-
 
         private void DoSearch()
         {
             var text = SearchText.ToLower();
             if (!string.IsNullOrWhiteSpace(text))
             {
-                Rows = [..baseRows.Where(i => i.AudienceName.Name.ToLower().Contains(text) || i.ApplicationList.Name.ToLower().Contains(text))];
+                Rows = [.. baseRows.Where(i => i.AudienceName.Name.ToLower().Contains(text) || i.ApplicationList.Name.ToLower().Contains(text))];
             }
             else if (baseRows.Count > Rows.Count)
             {
-                Rows = [..baseRows];
+                Rows = [.. baseRows];
             }
         }
 
