@@ -38,19 +38,14 @@
                         <WrapPanel>
                             <TextBlock Text="{Binding .}"/>
                             <Button Content="-" 
-                                    Command="{Binding DataContext.DeleteTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                                    Command="{Binding DataContext.DeleteFacultiesTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                    CommandParameter="{Binding .}">
                                 <Button.Visibility>
                                     <MultiBinding Converter="{StaticResource buttonVis}">
                                         <Binding Path="."/>
                                         <Binding Path="DataContext.SelectedFacultie" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
                                     </MultiBinding>
                                 </Button.Visibility>
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource arrayConv}">
-                                        <Binding Path="DataContext.FacultiesName" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
-                                        <Binding Path="."/>
-                                    </MultiBinding>
-                                </Button.CommandParameter>
                             </Button>
                         </WrapPanel>
                     </DataTemplate>
@@ -68,19 +63,14 @@ CommandParameter="{Binding DepartmentName}"/>
                         <WrapPanel>
                             <TextBlock Text="{Binding .}"/>
                             <Button Content="-" 
-                    Command="{Binding DataContext.DeleteTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                                    Command="{Binding DataContext.DeleteDepartmentsTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                    CommandParameter="{Binding .}">
                                 <Button.Visibility>
                                     <MultiBinding Converter="{StaticResource buttonVis}">
                                         <Binding Path="."/>
                                         <Binding Path="DataContext.SelctedDepartmentOrInstitude" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
                                     </MultiBinding>
                                 </Button.Visibility>
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource arrayConv}">
-                                        <Binding Path="DataContext.DepartmentName" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
-                                        <Binding Path="."/>
-                                    </MultiBinding>
-                                </Button.CommandParameter>
                             </Button>
                         </WrapPanel>
                     </DataTemplate>
@@ -98,19 +88,14 @@ CommandParameter="{Binding FrameName}"/>
                         <WrapPanel>
                             <TextBlock Text="{Binding .}"/>
                             <Button Content="-" 
-                            Command="{Binding DataContext.DeleteTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                            Command="{Binding DataContext.DeleteFramesTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                    CommandParameter="{Binding .}">
                                 <Button.Visibility>
                                     <MultiBinding Converter="{StaticResource buttonVis}">
                                         <Binding Path="."/>
                                         <Binding Path="DataContext.SelectedFrame" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
                                     </MultiBinding>
                                 </Button.Visibility>
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource arrayConv}">
-                                        <Binding Path="DataContext.FrameName" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
-                                        <Binding Path="."/>
-                                    </MultiBinding>
-                                </Button.CommandParameter>
                             </Button>
                         </WrapPanel>
                     </DataTemplate>
@@ -148,19 +133,14 @@ CommandParameter="{Binding RamTypeName}"/>
                         <WrapPanel>
                             <TextBlock Text="{Binding .}"/>
                             <Button Content="-" 
-                            Command="{Binding DataContext.DeleteTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                            Command="{Binding DataContext.DeleteRamTypesTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                    CommandParameter="{Binding .}">
                                 <Button.Visibility>
                                     <MultiBinding Converter="{StaticResource buttonVis}">
                                         <Binding Path="."/>
                                         <Binding Path="DataContext.SelecetedRamType" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
                                     </MultiBinding>
                                 </Button.Visibility>
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource arrayConv}">
-                                        <Binding Path="DataContext.RamTypeName" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
-                                        <Binding Path="."/>
-                                    </MultiBinding>
-                                </Button.CommandParameter>
                             </Button>
                         </WrapPanel>
                     </DataTemplate>
@@ -180,19 +160,14 @@ CommandParameter="{Binding StatusName}"/>
                         <WrapPanel>
                             <TextBlock Text="{Binding .}"/>
                             <Button Content="-" 
-            Command="{Binding DataContext.DeleteTemplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+            Command="{Binding DataContext.DeleteStatusesTeplateCommand,RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                    CommandParameter="{Binding .}">
                                 <Button.Visibility>
                                     <MultiBinding Converter="{StaticResource buttonVis}">
                                         <Binding Path="."/>
                                         <Binding Path="DataContext.SelecetedStatus" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
                                     </MultiBinding>
                                 </Button.Visibility>
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource arrayConv}">
-                                        <Binding Path="DataContext.StatusName" RelativeSource="{RelativeSource AncestorType=ComboBox}"/>
-                                        <Binding Path="."/>
-                                    </MultiBinding>
-                                </Button.CommandParameter>
                             </Button>
                         </WrapPanel>
                     </DataTemplate>

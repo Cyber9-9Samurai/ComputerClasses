@@ -225,7 +225,7 @@ namespace ComputerClasses.ViewModels.Popups
                             break;
                         }
                 }
-                await _rowsSettings.SaveSettings(_rowsSettings);
+                
                 Close();
             }
             catch (Exception)
@@ -362,53 +362,50 @@ namespace ComputerClasses.ViewModels.Popups
             return valid;
         }
 
+
         [RelayCommand]
-        private void DeleteTemplate(object[] parameters)
+        private async Task DeleteFacultiesTemplate(string item)
         {
-            if(parameters is string[] param){
-
-
-                var coll = this.GetType().GetProperty(param[0]);
-                if (coll != null)
-                {
-                    switch (param[0])
-                    {
-                        case nameof(Faculties):
-                            {
-                                Faculties.Remove(param[1]);
-                                _rowsSettings.Faculties.Remove(param[1]);
-                                break;
-                            }
-                        case nameof(Departments):
-                            {
-                                Departments.Remove(param[1]);
-                                _rowsSettings.DepartmentsOrInstitutes.Remove(param[1]);
-                                break;
-                            }
-                        case nameof(Frames):
-                            {
-                                Frames.Remove(param[1]);
-                                _rowsSettings.Frames.Remove(param[1]);
-                                break;
-                            }
-                        case nameof(RamTypes):
-                            {
-                                RamTypes.Remove(param[1]);
-                                _rowsSettings.RamTypes.Remove(param[1]);
-                                break;
-                            }
-                        case nameof(Statuses):
-                            {
-                                Statuses.Remove(param[1]);
-                                _rowsSettings.Statuses.Remove(param[1]);
-                                break;
-                            }
-                    }
-                }
-            }
+            Faculties.Remove(item);
+            _rowsSettings.Faculties.Remove(item);
+            await _rowsSettings.SaveSettings(_rowsSettings);
         }
+
         [RelayCommand]
-        private void AddTemplate(string collection)
+        private async Task DeleteDepartmentsTemplate(string item)
+        {
+            Departments.Remove(item);
+            _rowsSettings.DepartmentsOrInstitutes.Remove(item);
+            await _rowsSettings.SaveSettings(_rowsSettings);
+        }
+
+        [RelayCommand]
+        private async Task DeleteFramesTemplate(string item)
+        {
+            Frames.Remove(item);
+            _rowsSettings.Frames.Remove(item);
+            await _rowsSettings.SaveSettings(_rowsSettings);
+        }
+
+        [RelayCommand]
+        private async Task DeleteRamTypesTemplate(string item)
+        {
+            RamTypes.Remove(item);
+            _rowsSettings.RamTypes.Remove(item);
+            await _rowsSettings.SaveSettings(_rowsSettings);
+        }
+
+        [RelayCommand]
+        private async Task DeleteStatusesTeplate(string item)
+        {
+            Statuses.Remove(item);
+            _rowsSettings.Statuses.Remove(item);
+            await _rowsSettings.SaveSettings(_rowsSettings);
+        }
+
+
+        [RelayCommand]
+        private async Task AddTemplate(string collection)
         {
             var coll = this.GetType().GetProperty(collection);
             if (coll != null)
@@ -466,6 +463,7 @@ namespace ComputerClasses.ViewModels.Popups
                             break;
                         }
                 }
+                await _rowsSettings.SaveSettings(_rowsSettings);
             }
         }
     }
