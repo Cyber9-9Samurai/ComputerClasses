@@ -64,13 +64,13 @@ namespace ComputerClasses.ViewModels.Pages
             var openFileDialog = new Microsoft.Win32.OpenFileDialog();
             openFileDialog.Filter = "Excel Files|*.xlsx;*.xls";
             var result = openFileDialog.ShowDialog();
-            if (string.IsNullOrWhiteSpace(UserName))
-            {
-                _navigatorPopup.Navigate<ErrorPopupViewModel>().SetDescription("Введите имя пользователя!");
-                return;
-            }
             if (result == true)
             {
+                if (string.IsNullOrWhiteSpace(UserName))
+                {
+                    _navigatorPopup.Navigate<ErrorPopupViewModel>().SetDescription("Введите имя пользователя!");
+                    return;
+                }
                 try
                 {
                     _fileService.StartImport(openFileDialog.FileName);
