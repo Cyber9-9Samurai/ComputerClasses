@@ -46,7 +46,7 @@ namespace ComputerClasses.Services.Logs
                     logs.Add(await WriteLog($"Изменён компьютер {addOrEditRow.Id}: {row}", name));
                     break;
                 case DataChangesActions.Remove:
-                    logs.Add(await WriteLog($"Удалён компьютер {addOrEditRow}", name));
+                    logs.Add(await WriteLog($"Удалён компьютер {addOrEditRow.Id}", name));
                     break;
             }
             return logs;
@@ -61,7 +61,6 @@ namespace ComputerClasses.Services.Logs
         public async Task<string> HashFile(Stream stream)
         {
             using var sha256 = SHA256.Create();
-
             byte[] hash = await sha256.ComputeHashAsync(stream);
             return Convert.ToHexString(hash);
         }
