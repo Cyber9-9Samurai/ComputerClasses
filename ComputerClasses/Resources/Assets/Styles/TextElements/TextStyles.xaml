@@ -3,4 +3,14 @@
     <Style x:Key="HiText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="Red"/>
     </Style>
+    <Style x:Key="AddItemTemplate" TargetType="TextBox" >
+        <Setter Property="Width" Value="157"/>
+        <Setter Property="Height" Value="27" />
+        <Setter Property="Padding" Value="4"/>
+    </Style>
+    <Style x:Key="InputInPopup" TargetType="TextBox">
+        <Setter Property="Width" Value="184"/>
+        <Setter Property="Height" Value="27" />
+        <Setter Property="Padding" Value="4"/>
+    </Style>
 </ResourceDictionary>

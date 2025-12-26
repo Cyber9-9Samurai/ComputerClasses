@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="/Resources/DataTemplates/PageDataTemplate.xaml"/>
                 <ResourceDictionary Source="/Resources/DataTemplates/PopupDataTemplate.xaml"/>
                 <ResourceDictionary Source="/Resources/Assets/Styles/TextElements/TextStyles.xaml"/>
+                <ResourceDictionary Source="/Resources/Assets/Styles/ButtonElements/ButtonsStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
