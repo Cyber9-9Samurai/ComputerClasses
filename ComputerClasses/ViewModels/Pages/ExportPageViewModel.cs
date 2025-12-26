@@ -8,6 +8,7 @@ using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Popups;
 using Microsoft.Win32;
 using Mvvm.Navigation;
+using System.Collections.ObjectModel;
 using System.IO;
 using Test_Import_and_Export.Export;
 
@@ -82,7 +83,7 @@ namespace ComputerClasses.ViewModels.Pages
         private async Task Export()
         {
             var file = _workFileService.GetCurrentWorkFile();
-            var data = _workFileService.ImportData.Items ?? new List<Domain.Row>();
+            var data = _workFileService.ImportData.Items ?? new ObservableCollection<Domain.Row>();
             try
             {
                 switch (SelectedExportVar)

@@ -3,6 +3,7 @@ using ComputerClasses.Services;
 using ComputerClasses.Services.Logs;
 using ComputerClasses.ViewModels.Abstractions;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace ComputerClasses.ViewModels.Pages
 {
@@ -16,6 +17,22 @@ namespace ComputerClasses.ViewModels.Pages
         {
             _logService = logService;
             _workFileService = workFileService;
+            if (_workFileService.HasFile())
+            {
+                LoadData();
+            }
+            _workFileService.PropertyChanged += async (s, e) =>
+            {
+                if (e.PropertyName == _workFileService.fileChanged)
+                {
+                    LoadData();
+                }
+            };
+        }
+
+        private async void LoadData()
+        {
+            Logs = [.. await _logService.GetLog(File.OpenRead(_workFileService.GetCurrentWorkFile()))];
         }
 
     }

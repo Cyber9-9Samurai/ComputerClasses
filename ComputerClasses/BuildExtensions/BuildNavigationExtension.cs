@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using ComputerClasses.ViewModels.Abstractions;
+﻿using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Navigation;
 using ComputerClasses.ViewModels.Windows;
 using ComputerClasses.Views.Windows;
@@ -20,15 +14,18 @@ namespace ComputerClasses.BuildExtensions
         {
             builder.ConfigureServices((context, services) =>
             {
-                services.AddScoped<MainWindowViewModel>();
-                services.AddScoped(s => new MainWindow()
+                services.AddMvvmNavigation();
+
+                services.AddSingleton<MainWindowViewModel>();
+                services.AddSingleton(s => new MainWindow()
                 {
                     DataContext = s.GetRequiredService<MainWindowViewModel>()
                 });
-                services.AddScoped<Navigator<PageBaseViewModel>>();
-                services.AddScoped<Navigator<PopupBaseViewModel>>();
-                services.AddScoped<NavigationMenuViewModel>();
-                services.AddMvvmNavigation();
+
+                services.AddSingleton<Navigator<PageBaseViewModel>>();
+                services.AddSingleton<Navigator<PopupBaseViewModel>>();
+
+                services.AddSingleton<NavigationMenuViewModel>();
 
             });
 

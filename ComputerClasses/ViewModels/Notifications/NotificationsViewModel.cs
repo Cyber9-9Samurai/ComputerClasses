@@ -44,7 +44,7 @@ namespace ComputerClasses.ViewModels.Notifications
         private async Task LoadData()
         {
             Notifications.Clear();
-            var notif = await _notificationsService.NotificationsServiceStart(_workFileService.ImportData.Items);
+            var notif = await _notificationsService.NotificationsServiceStart(_workFileService.ImportData.Items.ToList());
             if (notif != null && notif?.Count > 0)
             {
                 HasNotifications = true;

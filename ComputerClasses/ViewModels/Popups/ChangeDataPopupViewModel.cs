@@ -175,7 +175,7 @@ namespace ComputerClasses.ViewModels.Popups
             _navigatorPopup.BackStack.Clear();
             _navigatorPopup.Navigate<EmptyPopupViewModel>();
             _navigatorPage.BackStack.Clear();
-            _navigatorPage.Navigate<MainPageViewModel>().LoadFile();
+            _navigatorPage.Navigate<MainPageViewModel>();
         }
 
         [RelayCommand]

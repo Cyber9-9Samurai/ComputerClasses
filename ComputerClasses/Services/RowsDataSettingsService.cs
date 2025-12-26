@@ -18,21 +18,44 @@ namespace ComputerClasses.Services
         private List<string> statuses = new();
         [ObservableProperty]
         private List<string> ramTypes = new();
+        [ObservableProperty]
+        private List<string> operatingSystemType = new();
+        [ObservableProperty]
+        private List<string> responsible = new();
 
-        private readonly WorkFileService _workFileService;
+        private WorkFileService _workFileService;
 
-        public RowsDataSettingsService(WorkFileService workFileService)
+        public RowsDataSettingsService()
         {
-            _workFileService = workFileService;
             _path = Path.Combine(_path, _localPath);
-            
+        }
+
+        public async void GetFileService(WorkFileService workFileService)
+        {
+
+            _workFileService = workFileService;
+             await GetData();
+            _workFileService.PropertyChanged += async (s, e) =>
+            {
+                if(e.PropertyName == _workFileService.fileChanged)
+                {
+                    await GetData();
+                }
+            };
         }
 
         public async Task GetData()
         {
+            if(_workFileService is null)
+            {
+                return;
+            }
+            if (!_workFileService.HasFile())
+            {
+                return;
+            }
             await IsFirstStart();
-            await CheckUniqueValue();
-            var settings = await ReadData();
+            var settings = await CheckUniqueValue();
             if (settings is not null)
             {
                 Faculties = settings.Faculties;
@@ -40,6 +63,8 @@ namespace ComputerClasses.Services
                 Frames = settings.Frames;
                 Statuses = settings.Statuses;
                 RamTypes = settings.RamTypes;
+                OperatingSystemType = settings.OperatingSystemType;
+                Responsible = settings.Responsible;
             }
         }
 
@@ -62,14 +87,14 @@ namespace ComputerClasses.Services
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(_localPath)!);
                 File.Create(_localPath).Close();
-                await SaveSettings(new RowsDataSettingsService(_workFileService));
+                await SaveSettings(new RowsDataSettingsService());
             }
             
         }
 
 
 
-        private async Task CheckUniqueValue()
+        private async Task<RowsDataSettingsService> CheckUniqueValue()
         {
             var settings = await ReadData();
             if (settings is not null)
@@ -106,9 +131,28 @@ namespace ComputerClasses.Services
                     {
                         settings.RamTypes.Add(item.RamType.Name);
                     }
+                    if(!settings.OperatingSystemType.Contains(item.OperatingSystem.Name) &&
+                        !string.IsNullOrWhiteSpace(item.OperatingSystem.Name) &&
+                        item.OperatingSystem.Name != "Нет даных")
+                    {
+                        settings.OperatingSystemType.Add(item.OperatingSystem.Name);
+                    }
+                    if (!settings.Responsible.Contains(item.ResponsiblePerson.Name) &&
+                        !string.IsNullOrWhiteSpace(item.ResponsiblePerson.Name) &&
+                        item.ResponsiblePerson.Name != "Нет даных")
+                    {
+                        settings.Responsible.Add(item.ResponsiblePerson.Name);
+                    }
                 }
-                await SaveSettings(settings);
+                
+                
             }
+            else
+            {
+                settings = new RowsDataSettingsService();
+            }
+            await SaveSettings(settings);
+            return settings ;
         }
     }
 }

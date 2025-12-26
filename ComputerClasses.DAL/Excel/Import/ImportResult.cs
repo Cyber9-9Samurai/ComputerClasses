@@ -8,7 +8,7 @@ namespace ComputerClasses.Domain.Import
     public sealed partial class ImportResult<T> : ObservableObject
     {
         [ObservableProperty]
-        private List<T> items = new();
+        private ObservableCollection<T> items = new();
         public List<ImportError> Errors { get; } = [];
         public bool HasErrors => Errors.Count > 0;
     }

@@ -16,6 +16,7 @@ namespace ComputerClasses.BuildExtensions
             builder.ConfigureServices((context, services) =>
             {
                 services.AddScoped<GetLocalImage>();
+                services.AddSingleton<RowsDataSettingsService>();
                 services.AddSingleton<WorkFileService>();
                 services.AddTransient<ExcelRowImporter>();
                 services.AddScoped<NotificationsService>();
@@ -23,7 +24,6 @@ namespace ComputerClasses.BuildExtensions
                 services.AddTransient<CsvRowExporter>();
                 services.AddTransient<LogService>();
                 services.AddTransient<PdfRowExporter>();
-                services.AddScoped<RowsDataSettingsService>();
                 services.AddSingleton<SessionService>();
             });
             return builder;

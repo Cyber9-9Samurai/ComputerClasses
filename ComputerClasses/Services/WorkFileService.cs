@@ -17,11 +17,17 @@ namespace ComputerClasses.Services
         private readonly ExcelRowImporter _excelRowImporter;
         private readonly ExcelRowExporter _excelRowExporter;
         private readonly Navigator<PageBaseViewModel> _navigator;
+        private readonly RowsDataSettingsService _rowsDataSettingsService;
         [ObservableProperty]
         private ImportResult<Row> importData = new();
         public readonly string fileChanged;
-        public WorkFileService(ExcelRowImporter excelRowImporter,ExcelRowExporter excelRowExporter,Navigator<PageBaseViewModel> navigator)
+        public WorkFileService(
+            ExcelRowImporter excelRowImporter,
+            ExcelRowExporter excelRowExporter,
+            Navigator<PageBaseViewModel> navigator,
+            RowsDataSettingsService rowsDataSettingsService)
         {
+            _rowsDataSettingsService = rowsDataSettingsService;
             _excelRowImporter = excelRowImporter;
             _excelRowExporter = excelRowExporter;
             _navigator = navigator;
@@ -37,6 +43,7 @@ namespace ComputerClasses.Services
         {
             _currentFile = path;
             OnPropertyChanged(fileChanged);
+            _rowsDataSettingsService.GetFileService(this);
         }
 
         public void StartImport(string path)
