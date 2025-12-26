@@ -9,4 +9,10 @@
     <DataTemplate DataType="{x:Type vm:ChangeDataPopupViewModel}">
         <view:ChangeDataPopupView DataContext="{Binding}"/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:ErrorPopupViewModel}">
+        <view:ErrorPopupView DataContext="{Binding}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SuccessPopupViewModel}">
+        <view:SeccessPopupView/>
+    </DataTemplate>
 </ResourceDictionary>
