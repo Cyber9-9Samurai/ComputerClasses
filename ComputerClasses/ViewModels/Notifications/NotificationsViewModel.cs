@@ -5,6 +5,10 @@ using ComputerClasses.Services;
 using ComputerClasses.Services.Notifications;
 using ComputerClasses.ViewModels.Pages;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
+using WpfAnimatedGif;
 
 namespace ComputerClasses.ViewModels.Notifications
 {
@@ -12,8 +16,9 @@ namespace ComputerClasses.ViewModels.Notifications
     {
         private readonly NotificationsService _notificationsService;
         private readonly WorkFileService _workFileService;
-        private readonly MainPageViewModel _mainPageViewModel;
+        private ImageAnimationController _animator;
         private int _notHideCount = 0;
+        private bool _isSubscribe;
 
         [ObservableProperty]
         private ObservableCollection<NotificationItem> notifications = new();
@@ -23,22 +28,23 @@ namespace ComputerClasses.ViewModels.Notifications
         private bool hasNotifications;
         [ObservableProperty]
         private MenuButtonItem notificationButton;
+        [ObservableProperty]
+        private bool isPaused;
+        
         public NotificationsViewModel(NotificationsService notificationsService,
             WorkFileService workFileService,
-            MainPageViewModel mainPageViewModel,
             GetLocalImage getLocalImageService)
         {
             _notificationsService = notificationsService;
             _workFileService = workFileService;
-            _mainPageViewModel = mainPageViewModel;
+            NotificationButton = new MenuButtonItem("",getLocalImageService.GetImage("Notifications.gif"), ChangeNotificationsVisabilityCommand);
             _workFileService.PropertyChanged += async (s, e) =>
             {
-                if (e.PropertyName == _workFileService.fileChanged)
+                if (e.PropertyName == _workFileService.fileChanged || e.PropertyName == nameof(_workFileService.ImportData.Items))
                 {
                     await LoadData();
                 }
             };
-            NotificationButton = new MenuButtonItem("",getLocalImageService.GetImage("Notifications.gif"), ChangeNotificationsVisabilityCommand);
         }
 
         private async Task LoadData()
@@ -59,14 +65,6 @@ namespace ComputerClasses.ViewModels.Notifications
                 HasNotifications = false;
                 _notHideCount = 0;
             }
-                _mainPageViewModel.PropertyChanged += async (s, e) =>
-                {
-                    if (e.PropertyName == nameof(MainPageViewModel.Rows))
-                    {
-                        await LoadData();
-                    }
-
-                };
 
         }
 
@@ -86,5 +84,54 @@ namespace ComputerClasses.ViewModels.Notifications
         {
             IsOpen = !IsOpen;
         }
+        [RelayCommand]
+        private async Task Load(RoutedEventArgs args)
+        {
+            if (args is not null)
+            {
+                if (args.Source is Image imageControl)
+                {
+                    await Dispatcher.CurrentDispatcher.InvokeAsync(() =>
+                    {
+                        _animator = ImageBehavior.GetAnimationController(imageControl);
+                        if (_animator != null && !_isSubscribe)
+                        {
+                            _isSubscribe = true;
+                            this.PropertyChanged += (s, e) =>
+                            {
+                                if (e.PropertyName == nameof(HasNotifications))
+                                {
+                                    _animator?.Play();
+                                    _animator.CurrentFrameChanged += (s,e) => 
+                                    {
+                                        if (_animator.CurrentFrame == _animator.FrameCount - 1)
+                                        {
+                                            _animator.Pause();
+                                            _animator.GotoFrame(0);
+                                        }
+                                    };
+                                    
+                                }
+                            };
+                        }
+
+                    },DispatcherPriority.Loaded);
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void Play()
+        {
+            _animator?.Play();
+        }
+        [RelayCommand]
+        private void Pause()
+        {
+            _animator?.Pause();
+            _animator?.GotoFrame(0);
+        }
+
+        
     }
 }
