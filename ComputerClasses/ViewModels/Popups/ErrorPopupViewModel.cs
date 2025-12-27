@@ -4,6 +4,7 @@ using ComputerClasses.ViewModels.Abstractions;
 using Mvvm.Navigation;
 using System;
 using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +14,9 @@ namespace ComputerClasses.ViewModels.Popups
     public partial class ErrorPopupViewModel : PopupBaseViewModel
     {
         private readonly Navigator<PopupBaseViewModel> _navigator;
+        private readonly string defaultMessage = "Ошибка.Что - то пошло не так!";
         [ObservableProperty]
-        private string errorMessage = "Ошибка.Что - то пошло не так!";
+        private string errorMessage;
         public ErrorPopupViewModel(Navigator<PopupBaseViewModel> navigator)
         {
             _navigator = navigator;
@@ -24,7 +26,7 @@ namespace ComputerClasses.ViewModels.Popups
         {
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                ErrorMessage += "\n" + errorMessage;
+                ErrorMessage = defaultMessage + "\n" + errorMessage;
             }
         }
 
