@@ -15,10 +15,14 @@ namespace ComputerClasses.ViewModels.Popups
 {
     public partial class ChangeDataPopupViewModel : PopupBaseViewModel
     {
-        private DataChangesActions _actions;
+        [ObservableProperty]
+        private DataChangesActions actions;
         [ObservableProperty]
         private Row data;
         private int lastId = 0;
+
+        [ObservableProperty]
+        private string popupTitle = string.Empty;
         
         private readonly RowsDataSettingsService _rowsSettings;
 
@@ -99,7 +103,7 @@ namespace ComputerClasses.ViewModels.Popups
         public void GetData(DataChangesActions actions, Row? row)
         {
             lastId = _workFileService.ImportData.Items.Count > 0 ? _workFileService.ImportData.Items.Max(i => i.Id) + 1 : 1;
-            _actions = actions;
+            Actions = actions;
             if (row == null)
             {
                 Data = new Row()
@@ -167,6 +171,14 @@ namespace ComputerClasses.ViewModels.Popups
             StatusName = nameof(Statuses);
 
             Errors.Clear();
+
+            PopupTitle = Actions switch
+            {
+                DataChangesActions.Add => "Добавление",
+                DataChangesActions.Edit => "Редактирование",
+                DataChangesActions.Remove => "Удаление",
+                _ => ""
+            };
         }
 
         [RelayCommand]
@@ -184,7 +196,7 @@ namespace ComputerClasses.ViewModels.Popups
             try
             {
                 
-                switch (_actions)
+                switch (Actions)
                 {
                     case DataChangesActions.Add:
                         {
