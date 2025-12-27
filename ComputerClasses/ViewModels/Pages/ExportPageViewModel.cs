@@ -84,20 +84,18 @@ namespace ComputerClasses.ViewModels.Pages
         {
             var file = _workFileService.GetCurrentWorkFile();
             var data = _workFileService.ImportData.Items ?? new ObservableCollection<Domain.Row>();
+            if (file is null)
+            {
+                _navigator.Navigate<ErrorPopupViewModel>().SetDescription("Невозможно экспортировать файл, так как он не выбран.");
+                return;
+            }
             try
             {
                 switch (SelectedExportVar)
                 {
                     case ExportVariants.ThisFile:
                         {
-                            if (file is null)
-                            {
-                                _navigator.Navigate<ErrorPopupViewModel>().SetDescription("Невозможно экспортировать в текущий файл, так как он не выбран. Пожалуйста, выберите другой вариант экспорта.");
-                            }
-                            else
-                            {
-                                _excelRowExporter.ExportToXlsx(data, File.OpenWrite(file));
-                            }
+                            _excelRowExporter.ExportToXlsx(data, File.OpenWrite(file));
                             break;
                         }
                     case ExportVariants.ExelXLS:
