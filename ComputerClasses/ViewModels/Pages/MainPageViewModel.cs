@@ -106,73 +106,51 @@ namespace ComputerClasses.ViewModels.Pages
                 Rows = [.. baseRows];
                 return;
             }
-            string?[] comboboxFiltersCopy = comboboxfilters;
-            string?[] textboxFilterCopy = textboxfilters;
-            for (int j = 0; j < comboboxfilters.Length; j++)
-            {
-                switch (j)
-                {
-                    case 0:
-                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
-                        {
-                            Rows = [.. Rows.Where(i => i.Status.Name.Contains(comboboxfilters[j]!))];
-                        }
-                        break;
-                    case 1:
-                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
-                        {
-                            Rows = [.. Rows.Where(i => i.OperatingSystem.Name.Contains(comboboxfilters[j]!))];
-                        }
-                        break;
-                    case 2:
-                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
-                        {
-                            Rows = [.. Rows.Where(i => i.ResponsiblePerson.Name.Contains(comboboxfilters[j]!))];
-                        }
-                        break;
-                    case 3:
-                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
-                        {
-                            Rows = [.. Rows.Where(i => i.Facultie.Name.Contains(comboboxfilters[j]!))];
-                        }
-                        break;
-                    case 4:
-                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
-                        {
-                            Rows = [.. Rows.Where(i => i.RamType.Name.Contains(comboboxfilters[j]!))];
-                        }
-                        break;
-                    case 5:
-                        if (comboboxfilters[j] is not null && comboboxfilters[j] != string.Empty && comboboxfilters[j] != comboboxFiltersCopy[j])
-                        {
-                            Rows = [.. Rows.Where(i => i.Frame.Name.Contains(comboboxfilters[j]!))];
-                        }
-                        break;
-                }
-            }
 
-            for (int j = 0; j < textboxfilters.Length; j++)
+            var filtered = baseRows.Where(row =>
             {
-                switch (j)
+                for (int j = 0; j < comboboxfilters.Length; j++)
                 {
-                    case 0:
-                        if (textboxfilters[j] is not null && textboxfilters[j] != string.Empty && textboxfilters[j] != textboxFilterCopy[j])
-                        {
-                            Rows = [.. Rows.Where(i => int.TryParse(i.Ram.Name, out int a) && a > int.Parse(textboxfilters[j]!))];
-                        }
-                        break;
-                    case 1:
-                        if (textboxfilters[j] is not null && textboxfilters[j] != string.Empty && textboxfilters[j] != textboxFilterCopy[j])
-                        {
-                            var collection = comps.Where(i => i.Value >= int.Parse(textboxfilters[j]!));
-                            Rows = [.. Rows.Where(i => int.TryParse(i.Frame.Name,out int frame)
-                            && int.TryParse(i.AudienceNumber.Name,out int number) && comps.ContainsKey((frame,number)))];
-                        }
-                        break;
+                    if (string.IsNullOrEmpty(comboboxfilters[j])) continue;
 
+                    bool matches = j switch
+                    {
+                        0 => row.Status?.Name.Contains(comboboxfilters[j]) ?? false,
+                        1 => row.OperatingSystem?.Name.Contains(comboboxfilters[j]) ?? false,
+                        2 => row.ResponsiblePerson?.Name.Contains(comboboxfilters[j]) ?? false,
+                        3 => row.Facultie?.Name.Contains(comboboxfilters[j]) ?? false,
+                        4 => row.RamType?.Name.Contains(comboboxfilters[j]) ?? false,
+                        5 => row.Frame?.Name.Contains(comboboxfilters[j]) ?? false,
+                        _ => true
+                    };
+
+                    if (!matches) return false; 
                 }
-            }
+
+                for (int j = 0; j < textboxfilters.Length; j++)
+                {
+                    if (string.IsNullOrEmpty(textboxfilters[j])) continue;
+
+                    bool matches = j switch
+                    {
+                        0 => int.TryParse(row.Ram?.Name, out int ram) &&
+                             ram > int.Parse(textboxfilters[j]),
+                        1 => int.TryParse(row.Frame?.Name, out int frame) &&
+                             int.TryParse(row.AudienceNumber?.Name, out int number) &&
+                             comps.ContainsKey((frame, number)) &&
+                             comps[(frame, number)] >= int.Parse(textboxfilters[j]),
+                        _ => true
+                    };
+
+                    if (!matches) return false;
+                }
+
+                return true;
+            }).ToList();
+
+            Rows = [.. filtered]; 
         }
+
 
 
 

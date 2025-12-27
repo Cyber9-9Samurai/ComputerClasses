@@ -99,53 +99,51 @@ namespace ComputerClasses.Services
             var settings = await ReadData();
             if (settings is not null)
             {
+                HashSet<string> faculties = new(settings.Faculties);
+                HashSet<string> departments = new(settings.DepartmentsOrInstitutes);
+                HashSet<string> frames = new(settings.Frames);
+                HashSet<string> statuses = new(settings.Statuses);
+                HashSet<string> ramTypes = new(settings.RamTypes);
+                HashSet<string> operatingSystems = new(settings.OperatingSystemType);
+                HashSet<string> resposibles = new(settings.Responsible);
                 foreach (var item in _workFileService.ImportData.Items)
                 {
-                    if (!settings.Faculties.Contains(item.Facultie.Name) &&
-                         !string.IsNullOrWhiteSpace(item.Facultie.Name) &&
-                         item.Facultie.Name != "Нет данных")
+                    if(!string.IsNullOrWhiteSpace(item.Facultie.Name) && item.Facultie.Name != "Нет данных")
                     {
-                        settings.Faculties.Add(item.Facultie.Name);
+                        faculties.Add(item.Facultie.Name);
                     }
-                    if (!settings.DepartmentsOrInstitutes.Contains(item.DepartmentOrInstitute.Name) &&
-                         !string.IsNullOrWhiteSpace(item.DepartmentOrInstitute.Name) &&
-                         item.DepartmentOrInstitute.Name != "Нет данных")
+                    if (!string.IsNullOrWhiteSpace(item.DepartmentOrInstitute.Name) && item.DepartmentOrInstitute.Name != "Нет данных")
                     {
-                        settings.DepartmentsOrInstitutes.Add(item.DepartmentOrInstitute.Name);
+                        departments.Add(item.DepartmentOrInstitute.Name);
                     }
-                    if (!settings.Frames.Contains(item.Frame.Name) &&
-                        !string.IsNullOrWhiteSpace(item.Frame.Name) &&
-                        item.Frame.Name != "Нет данных")
+                    if (!string.IsNullOrWhiteSpace(item.Frame.Name) && item.Frame.Name != "Нет данных")
                     {
-                        settings.Frames.Add(item.Frame.Name);
+                        frames.Add(item.Frame.Name);
                     }
-                    if (!settings.Statuses.Contains(item.Status.Name) &&
-                        !string.IsNullOrWhiteSpace(item.Status.Name) &&
-                        item.Status.Name != "Нет данных")
+                    if (!string.IsNullOrWhiteSpace(item.Status.Name) && item.Status.Name != "Нет данных")
                     {
-                        settings.Statuses.Add(item.Status.Name);
+                        statuses.Add(item.Status.Name);
                     }
-                    if (!settings.RamTypes.Contains(item.RamType.Name) &&
-                        !string.IsNullOrWhiteSpace(item.RamType.Name) &&
-                        item.RamType.Name != "Нет данных")
+                    if (!string.IsNullOrWhiteSpace(item.RamType.Name) && item.RamType.Name != "Нет данных")
                     {
-                        settings.RamTypes.Add(item.RamType.Name);
+                        ramTypes.Add(item.RamType.Name);
                     }
-                    if(!settings.OperatingSystemType.Contains(item.OperatingSystem.Name) &&
-                        !string.IsNullOrWhiteSpace(item.OperatingSystem.Name) &&
-                        item.OperatingSystem.Name != "Нет даных")
+                    if (!string.IsNullOrWhiteSpace(item.OperatingSystem.Name) && item.OperatingSystem.Name != "Нет данных")
                     {
-                        settings.OperatingSystemType.Add(item.OperatingSystem.Name);
+                        operatingSystems.Add(item.OperatingSystem.Name);
                     }
-                    if (!settings.Responsible.Contains(item.ResponsiblePerson.Name) &&
-                        !string.IsNullOrWhiteSpace(item.ResponsiblePerson.Name) &&
-                        item.ResponsiblePerson.Name != "Нет даных")
+                    if (!string.IsNullOrWhiteSpace(item.ResponsiblePerson.Name) && item.ResponsiblePerson.Name != "Нет данных")
                     {
-                        settings.Responsible.Add(item.ResponsiblePerson.Name);
+                        resposibles.Add(item.ResponsiblePerson.Name);
                     }
                 }
-                
-                
+                settings.Faculties = faculties.ToList();
+                settings.DepartmentsOrInstitutes = departments.ToList();
+                settings.Frames = frames.ToList();
+                settings.Statuses = statuses.ToList();
+                settings.RamTypes = ramTypes.ToList();
+                settings.OperatingSystemType = operatingSystems.ToList();
+                settings.Responsible = resposibles.ToList();
             }
             else
             {
