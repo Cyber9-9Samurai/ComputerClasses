@@ -2,14 +2,16 @@
 using CommunityToolkit.Mvvm.Input;
 using ComputerClasses.ViewModels.Abstractions;
 using Mvvm.Navigation;
+using System.IO.Packaging;
 
 namespace ComputerClasses.ViewModels.Popups
 {
     public partial class SuccessPopupViewModel : PopupBaseViewModel
     {
         private readonly Navigator<PopupBaseViewModel> _navigatorPopup;
+        private readonly string defaultMessage = "Операция прошла успешно!";
         [ObservableProperty]
-        private string description = "Операция прошла успешно!";
+        private string description;
         public SuccessPopupViewModel(Navigator<PopupBaseViewModel> navigator)
         {
             _navigatorPopup = navigator;
@@ -17,7 +19,7 @@ namespace ComputerClasses.ViewModels.Popups
 
         public void SetDescription(string description)
         {
-            Description += "\n" + description;
+            Description = defaultMessage + "\n" + description;
         }
 
         [RelayCommand]
