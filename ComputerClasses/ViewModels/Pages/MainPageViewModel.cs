@@ -156,8 +156,8 @@ namespace ComputerClasses.ViewModels.Pages
 
         public void LoadFile()
         {
-            baseRows = new(_workFileService.ImportData.Items);
-            Rows = [.. baseRows];
+            baseRows = [.._workFileService.ImportData.Items];
+            Rows = _workFileService.ImportData.Items;
         }
 
         private void DoSearch()
