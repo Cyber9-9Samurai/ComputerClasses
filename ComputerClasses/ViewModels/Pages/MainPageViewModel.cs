@@ -8,6 +8,9 @@ using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Popups;
 using Mvvm.Navigation;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
+using WpfAnimatedGif;
 
 namespace ComputerClasses.ViewModels.Pages
 {
@@ -48,9 +51,9 @@ namespace ComputerClasses.ViewModels.Pages
             {
                 OperationButtons = new List<MenuButtonItem>()
                 {
-                    new MenuButtonItem("Добавить",_imageService.GetImage("Add.gif"),AddCommand),
-                    new MenuButtonItem("Редактировать",_imageService.GetImage("Edit.gif"),EditCommand),
-                    new MenuButtonItem("Удалить",_imageService.GetImage("Delete.gif"),RemoveCommand)
+                    new MenuButtonItem("Добавить",_imageService.GetImage("Add.gif"),AddCommand,null),
+                    new MenuButtonItem("Редактировать",_imageService.GetImage("Edit.gif"),EditCommand,null),
+                    new MenuButtonItem("Удалить",_imageService.GetImage("Delete.gif"),RemoveCommand,null)
                 };
                 _workFileService.PropertyChanged += (s, e) =>
                 {
@@ -205,6 +208,39 @@ namespace ComputerClasses.ViewModels.Pages
         private void CreateFile()
         {
             _workFileService.CreateNewWorkFile();
+        }
+
+        [RelayCommand]
+        private void LoadImage(RoutedEventArgs args)
+        {
+            if (args is not null)
+            {
+                if (args.Source is Image imageControl)
+                {
+                    if (imageControl.DataContext is MenuButtonItem item)
+                    {
+                        item.Animator = ImageBehavior.GetAnimationController(imageControl);
+                    }
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void Play(MenuButtonItem item)
+        {
+            item.Animator?.Play();
+            if(item.Animator != null && !item.IsSubscribe)
+            {
+                item.IsSubscribe = true;
+                item.Animator.CurrentFrameChanged += (s, e) =>
+                {
+                    if (item.Animator.CurrentFrame == item.Animator.FrameCount - 1)
+                    {
+                        item.Animator.Pause();
+                        item.Animator.GotoFrame(0);
+                    }
+                };
+            }
         }
     }
 }

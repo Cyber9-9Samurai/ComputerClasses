@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:ComputerClasses.Views.Pages"
              xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Pages"
              xmlns:converters="clr-namespace:ComputerClasses.Converters"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:anim="clr-namespace:WpfAnimatedGif;assembly=WpfAnimatedGif"
              mc:Ignorable="d" 
              d:DesignHeight="1080" d:DesignWidth="1920"
              d:DataContext="{d:DesignInstance vm:ExportPageViewModel}">
@@ -54,6 +56,27 @@
                            Margin="0,18,0,6"
                            HorizontalAlignment="Center" />
 
+            </StackPanel>
+        </Button>
+            <TextBlock Text="Выберите способ экспорта"/>
+            <ComboBox ItemsSource="{Binding ExportVar}" SelectedItem="{Binding SelectedExportVar}"/>
+        </StackPanel>
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportButton.NavCommand}">
+            <StackPanel>
+                <Image anim:ImageBehavior.AnimatedSource="{Binding ExportButton.Image}"
+                               anim:ImageBehavior.AutoStart="False">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Loaded">
+                            <b:InvokeCommandAction Command="{Binding LoadImageCommand}" 
+                                                   PassEventArgsToCommand="True"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <b:InvokeCommandAction Command="{Binding PlayCommand}" 
+                                     CommandParameter="{Binding ExportButton}"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Image>
+                <TextBlock/>
             </StackPanel>
         </Button>
     </Grid>
