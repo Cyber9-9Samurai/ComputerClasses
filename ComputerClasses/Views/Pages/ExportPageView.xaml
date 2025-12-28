@@ -5,9 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ComputerClasses.Views.Pages"
              xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Pages"
+             xmlns:converters="clr-namespace:ComputerClasses.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="1080" d:DesignWidth="1920"
              d:DataContext="{d:DesignInstance vm:ExportPageViewModel}">
+    <UserControl.Resources>
+        <converters:SelectedItemButtonVisabilityConverter x:Key="buttonVis"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -17,11 +21,40 @@
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock HorizontalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Экспорт"/>
+        <TextBlock Margin="0 20 0 0" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Экспорт" Style="{StaticResource Content}" FontSize="48"/>
         <StackPanel Grid.Column="0" Grid.Row="1">
-            <TextBlock Text="Выберите способ экспорта"/>
-            <ComboBox ItemsSource="{Binding ExportVar}" SelectedItem="{Binding SelectedExportVar}"/>
+            <TextBlock Text="Выберите способ экспорта:" FontSize="32" Margin="0 52 0 0" TextAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding ExportVar}" SelectedItem="{Binding SelectedExportVar}" Width="767" Height="53" Margin="53">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding .}" VerticalAlignment="Center" FontSize="32" />
+                            <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
+                                    Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                    CommandParameter="{Binding .}">
+                                <Button.Visibility>
+                                    <MultiBinding Converter="{StaticResource buttonVis}">
+                                        <Binding Path="." />
+                                        <Binding Path="DataContext.SelectedFacultie"
+                                 RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                    </MultiBinding>
+                                </Button.Visibility>
+                            </Button>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
-        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportCommand}"/>
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportCommand}" Style="{StaticResource ImportButton}">
+            <StackPanel>
+                <Image Source="/Resources/Assets/Images/Export.gif" Width="300" Height="300"/>
+                <TextBlock Text="Нажмите, чтобы сохранить"
+                           FontSize="32" 
+                           FontWeight="SemiBold"
+                           Margin="0,18,0,6"
+                           HorizontalAlignment="Center" />
+
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>
