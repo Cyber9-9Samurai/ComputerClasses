@@ -15,7 +15,7 @@
         <converter:EventArgsAndDataConverter x:Key="conv"/>
     </UserControl.Resources>
     <Grid>
-        <ItemsControl ItemsSource="{Binding NavigationItems}">
+        <ItemsControl ItemsSource="{Binding NavigationItems}" Margin="20 20 0 0" >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
@@ -23,8 +23,13 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Command="{Binding NavCommand}" Width="100">
-                        <Canvas>
+                    <Button Command="{Binding NavCommand}" Width="110" Background="Transparent" BorderThickness="0">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Button.Template>
+                        <StackPanel>
                             <Image Width="45" Height="45"
                                 anim:ImageBehavior.AnimatedSource="{Binding Image}"
                                 anim:ImageBehavior.AutoStart="False">
@@ -43,8 +48,8 @@
                                     </b:EventTrigger>
                                 </b:Interaction.Triggers >
                             </Image>
-                            <TextBlock Text="{Binding Title}"/>
-                        </Canvas>
+                            <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0 5 0 0"/>
+                        </StackPanel>
                     </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
