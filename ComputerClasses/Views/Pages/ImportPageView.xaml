@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:b="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors"
+             xmlns:anim="clr-namespace:WpfAnimatedGif;assembly=WpfAnimatedGif"
              xmlns:local="clr-namespace:ComputerClasses.Views.Pages"
              xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Pages"
              mc:Ignorable="d" 
@@ -16,13 +17,26 @@
         </Grid.RowDefinitions>
         <WrapPanel Grid.Row="0" Margin="20 20 0 0">
             <TextBlock Text="Введите ваше ФИО: " FontSize="32" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding UserName}" Width="400" Style="{StaticResource AddItemTemplate}" VerticalAlignment="Center" Margin="0 5 0 0" FontSize="14">
+            <TextBox Text="{Binding UserName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="400" Style="{StaticResource AddItemTemplate}" VerticalAlignment="Center" Margin="0 5 0 0" FontSize="14">
                 
             </TextBox>
         </WrapPanel>
-        <Button AllowDrop="True" Command="{Binding OpenFileDialogCommand}" Grid.Row="1" Style="{StaticResource ImportButton}">
+        <Button AllowDrop="True" Command="{Binding ImportButton.NavCommand}" Grid.Row="1" Style="{StaticResource ImportButton}">
             <StackPanel>
-                <Image Source="/Resources/Assets/Images/Import.gif" Width="400" Height="400"/>
+                <Image anim:ImageBehavior.AnimatedSource="{Binding ImportButton.Image}"
+                       anim:ImageBehavior.AutoStart="False"
+                        Width="400" Height="400">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Loaded">
+                            <b:InvokeCommandAction Command="{Binding LoadImageCommand}" 
+                               PassEventArgsToCommand="True"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <b:InvokeCommandAction Command="{Binding PlayCommand}" 
+                 CommandParameter="{Binding ImportButton}"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Image>
                 <TextBlock Text="Перетащите сюда файл"
                            FontSize="32" 
                            FontWeight="SemiBold"
@@ -38,6 +52,7 @@
                     <b:InvokeCommandAction Command="{Binding DataContext.ImportCommand, RelativeSource={RelativeSource AncestorType=Button}}" PassEventArgsToCommand="True" />
                 </b:EventTrigger>
             </b:Interaction.Triggers>
+            
         </Button>
     </Grid>
 </UserControl>

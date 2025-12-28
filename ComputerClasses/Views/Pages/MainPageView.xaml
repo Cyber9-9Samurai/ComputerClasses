@@ -71,8 +71,13 @@
                 </b:Interaction.Triggers>
             </Run> новый файл Exel для работы(.xlsx)?
         </TextBlock>
-        <DataGrid Grid.Column="1" Grid.ColumnSpan="2" 
+        <DataGrid Visibility="{Binding IsExistFile,Converter={StaticResource dataGridVis}}"
+                  Grid.Column="1" Grid.ColumnSpan="2" 
                   CanUserAddRows="False" 
+                  EnableColumnVirtualization="True"
+                  EnableRowVirtualization="True"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
                   CanUserDeleteRows="False" 
                   CanUserSortColumns="True" 
                   CanUserResizeColumns="True" 
@@ -82,27 +87,26 @@
                   Grid.Row="1"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding Rows,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding SelectedRow}"
-                  Visibility="{Binding IsExistFile,Converter={StaticResource dataGridVis}}">
+                  SelectedItem="{Binding SelectedRow}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Идентификатор" Binding="{Binding Id}" Width="Auto"/>
-                <DataGridTextColumn Header="Факультет" Binding="{Binding Facultie.Name}" Width="auto"/>
-                <DataGridTextColumn Header="Кафедра/Институт" Binding="{Binding DepartmentOrInstitute.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Корпус" Binding="{Binding Frame.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Номер аудитории" Binding="{Binding AudienceNumber.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Название аудитории" Binding="{Binding AudienceName.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Ответственный" Binding="{Binding ResponsiblePerson.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Инвентарный номер" Binding="{Binding InventoryNumber.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="ОС" Binding="{Binding OperatingSystem.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Материнская плата" Binding="{Binding Motherboard.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="ЦП" Binding="{Binding Cpu.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Видеокарта" Binding="{Binding VideoCard.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Диски" Binding="{Binding Disk.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="ОЗУ, ГБ" Binding="{Binding Ram.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Тип ОЗУ" Binding="{Binding RamType.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Список установленных приложений" Binding="{Binding ApplicationList.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Status.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Дата последнего обслуживания" Binding="{Binding LastServiceDate.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Идентификатор" Binding="{Binding Id}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Факультет" Binding="{Binding Facultie.Name}" Width="auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Кафедра/Институт" Binding="{Binding DepartmentOrInstitute.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Корпус" Binding="{Binding Frame.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Номер аудитории" Binding="{Binding AudienceNumber.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Название аудитории" Binding="{Binding AudienceName.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Ответственный" Binding="{Binding ResponsiblePerson.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Инвентарный номер" Binding="{Binding InventoryNumber.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="ОС" Binding="{Binding OperatingSystem.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Материнская плата" Binding="{Binding Motherboard.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="ЦП" Binding="{Binding Cpu.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Видеокарта" Binding="{Binding VideoCard.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Диски" Binding="{Binding Disk.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="ОЗУ, ГБ" Binding="{Binding Ram.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Тип ОЗУ" Binding="{Binding RamType.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Список установленных приложений" Binding="{Binding ApplicationList.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Статус" Binding="{Binding Status.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Дата последнего обслуживания" Binding="{Binding LastServiceDate.Name}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

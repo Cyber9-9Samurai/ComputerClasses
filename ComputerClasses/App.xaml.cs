@@ -32,7 +32,6 @@ namespace ComputerClasses
             var navigator = _host.Services.GetRequiredService<Navigator<PageBaseViewModel>>();
             navigator.Navigate<MainPageViewModel>();
             MainWindow.Show();
-            await _host.RunAsync();
             base.OnStartup(e);
         }
         protected override async void OnExit(ExitEventArgs e)

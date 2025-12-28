@@ -43,9 +43,10 @@ namespace ComputerClasses.ViewModels.Pages
             _imageService = imageService;
             _workFileService = workFileService;
             LoadData();
+            
         }
 
-        private async void LoadData()
+        private void LoadData()
         {
             if (!IsExistFile)
             {
@@ -61,8 +62,6 @@ namespace ComputerClasses.ViewModels.Pages
                     {
                         LoadFile();
                         IsExistFile = _workFileService.HasFile();
-
-
                     }
                 };
                 this.PropertyChanged += (s, e) =>
@@ -211,13 +210,13 @@ namespace ComputerClasses.ViewModels.Pages
         }
 
         [RelayCommand]
-        private void LoadImage(RoutedEventArgs args)
+        private async Task LoadImage(RoutedEventArgs args)
         {
             if (args is not null)
             {
                 if (args.Source is Image imageControl)
                 {
-                    if (imageControl.DataContext is MenuButtonItem item)
+                    if (imageControl.DataContext is MenuButtonItem item && item.Animator is null)
                     {
                         item.Animator = ImageBehavior.GetAnimationController(imageControl);
                     }

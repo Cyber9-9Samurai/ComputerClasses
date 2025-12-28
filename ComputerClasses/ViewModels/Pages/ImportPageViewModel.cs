@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ComputerClasses.Models;
 using ComputerClasses.Services;
 using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Popups;
 using Mvvm.Navigation;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using WpfAnimatedGif;
 
 namespace ComputerClasses.ViewModels.Pages
 {
@@ -15,21 +18,28 @@ namespace ComputerClasses.ViewModels.Pages
         private readonly Navigator<PageBaseViewModel> _navigator;
         private readonly Navigator<PopupBaseViewModel> _navigatorPopup;
         private readonly SessionService _session;
+        private readonly GetLocalImage _getLocalImage;
         [ObservableProperty]
         private string userName;
+        [ObservableProperty]
+        private MenuButtonItem importButton;
         public ImportPageViewModel(WorkFileService fileService, 
             Navigator<PageBaseViewModel> navigator,
             Navigator<PopupBaseViewModel> navigatorPopup,
-            SessionService session)
+            SessionService session,
+            GetLocalImage getLocalImage)
         {
             _fileService = fileService;
             _navigator = navigator;
             _navigatorPopup = navigatorPopup;
             _session = session;
+            _getLocalImage = getLocalImage;
+            ImportButton = new MenuButtonItem("", _getLocalImage.GetImage("Import.gif"), OpenFileDialogCommand, null);
         }
         [RelayCommand]
         private void Import(DragEventArgs args)
         {
+            
             if (string.IsNullOrWhiteSpace(UserName))
             {
                 _navigatorPopup.Navigate<ErrorPopupViewModel>().SetDescription("Введите имя пользователя!");
@@ -85,6 +95,32 @@ namespace ComputerClasses.ViewModels.Pages
                 
             }
 
+        }
+
+        [RelayCommand]
+        private async Task LoadImage(RoutedEventArgs args)
+        {
+            if (args is not null && args.Source is Image imageControl)
+            {
+                await Task.Delay(100);
+                ImportButton.Animator = ImageBehavior.GetAnimationController(imageControl);
+            }
+        }
+        [RelayCommand]
+        private void Play(MenuButtonItem buttonItem)
+        {
+            buttonItem.Animator?.Play();
+            if (buttonItem.Animator != null && !buttonItem.IsSubscribe)
+            {
+                buttonItem.Animator.CurrentFrameChanged += (s, e) =>
+                {
+                    if (buttonItem.Animator.CurrentFrame == buttonItem.Animator.FrameCount - 1)
+                    {
+                        buttonItem.Animator.Pause();
+                        buttonItem.Animator.GotoFrame(0);
+                    }
+                };
+            }
         }
 
     }

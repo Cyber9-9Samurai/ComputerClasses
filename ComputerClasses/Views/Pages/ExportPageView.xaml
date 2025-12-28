@@ -31,17 +31,6 @@
                     <DataTemplate>
                         <WrapPanel>
                             <TextBlock Text="{Binding .}" VerticalAlignment="Center" FontSize="32" />
-                            <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
-                                    Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                                    CommandParameter="{Binding .}">
-                                <Button.Visibility>
-                                    <MultiBinding Converter="{StaticResource buttonVis}">
-                                        <Binding Path="." />
-                                        <Binding Path="DataContext.SelectedFacultie"
-                                 RelativeSource="{RelativeSource AncestorType=ComboBox}" />
-                                    </MultiBinding>
-                                </Button.Visibility>
-                            </Button>
                         </WrapPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -59,8 +48,7 @@
             </StackPanel>
         </Button>
             <TextBlock Text="Выберите способ экспорта"/>
-            <ComboBox ItemsSource="{Binding ExportVar}" SelectedItem="{Binding SelectedExportVar}"/>
-        </StackPanel>
+        <ComboBox ItemsSource="{Binding ExportVar}" SelectedItem="{Binding SelectedExportVar}"/>
         <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportButton.NavCommand}">
             <StackPanel>
                 <Image anim:ImageBehavior.AnimatedSource="{Binding ExportButton.Image}"
