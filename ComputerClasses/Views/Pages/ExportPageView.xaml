@@ -47,24 +47,11 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportCommand}" Style="{StaticResource ImportButton}">
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportButton.NavCommand}" Style="{StaticResource ImportButton}">
             <StackPanel>
-                <Image Source="/Resources/Assets/Images/Export.gif" Width="300" Height="300"/>
-                <TextBlock Text="Нажмите, чтобы сохранить"
-                           FontSize="32" 
-                           FontWeight="SemiBold"
-                           Margin="0,18,0,6"
-                           HorizontalAlignment="Center" />
-
-            </StackPanel>
-        </Button>
-            <TextBlock Text="Выберите способ экспорта"/>
-            <ComboBox ItemsSource="{Binding ExportVar}" SelectedItem="{Binding SelectedExportVar}"/>
-        </StackPanel>
-        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportButton.NavCommand}">
-            <StackPanel>
-                <Image anim:ImageBehavior.AnimatedSource="{Binding ExportButton.Image}"
-                               anim:ImageBehavior.AutoStart="False">
+                <Image anim:ImageBehavior.AnimatedSource="{Binding ExportButton.Image}"        
+                       anim:ImageBehavior.AutoStart="False" 
+                       Width="300" Height="300">
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="Loaded">
                             <b:InvokeCommandAction Command="{Binding LoadImageCommand}" 
@@ -76,7 +63,11 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </Image>
-                <TextBlock/>
+                <TextBlock Text="Нажмите, чтобы сохранить"
+                            FontSize="32" 
+                        FontWeight="SemiBold"
+           Margin="0,18,0,6"
+           HorizontalAlignment="Center" />
             </StackPanel>
         </Button>
     </Grid>
