@@ -14,9 +14,21 @@
         <converter:ListVisibilityConverter x:Key="ListVis"/>
     </UserControl.Resources>
     <Grid>
-        <TextBlock Visibility="{Binding Logs.Count,Converter={StaticResource MsgVis}}" Text="Пока ничего нет"/>
-        <ScrollViewer Visibility="{Binding Logs.Count,Converter={StaticResource ListVis}}">
-            <ItemsControl ItemsSource="{Binding Logs}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Visibility="{Binding Logs.Count,Converter={StaticResource MsgVis}}" Text="Нет изменений" Grid.Column="1" Grid.Row="1"/>
+
+        <ScrollViewer Visibility="{Binding Logs.Count,Converter={StaticResource ListVis}}" Grid.Column="1" Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding Logs}"/>
         </ScrollViewer>
     </Grid>
 </UserControl>
