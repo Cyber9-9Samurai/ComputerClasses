@@ -10,7 +10,10 @@ using Microsoft.Win32;
 using Mvvm.Navigation;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
+using System.Windows.Controls;
 using Test_Import_and_Export.Export;
+using WpfAnimatedGif;
 
 namespace ComputerClasses.ViewModels.Pages
 {
@@ -27,6 +30,10 @@ namespace ComputerClasses.ViewModels.Pages
         private readonly Navigator<PopupBaseViewModel> _navigator;
         private readonly LogService _logService;
         private readonly ChangesMagazineViewModel _changesMagazineViewModel;
+        private readonly GetLocalImage _getLocalImage;
+
+        [ObservableProperty]
+        private MenuButtonItem exportButton;
 
         public ExportPageViewModel(WorkFileService workFileService,
             ExcelRowExporter excelRowExporter,
@@ -34,7 +41,8 @@ namespace ComputerClasses.ViewModels.Pages
             PdfRowExporter pdfRowExporter,
             Navigator<PopupBaseViewModel> navigator,
             LogService logService,
-            ChangesMagazineViewModel changesMagazineViewModel)
+            ChangesMagazineViewModel changesMagazineViewModel,
+            GetLocalImage getLocalImage)
         {
             _changesMagazineViewModel = changesMagazineViewModel;
             _workFileService = workFileService;
@@ -43,12 +51,14 @@ namespace ComputerClasses.ViewModels.Pages
             _pdfRowExporter = pdfRowExporter;
             _navigator = navigator;
             _logService = logService;
+            _getLocalImage = getLocalImage;
             LoadData();
             SelectedExportVar = ExportVar.FirstOrDefault() ?? string.Empty;
         }
 
         private void LoadData()
         {
+            ExportButton = new MenuButtonItem("",_getLocalImage.GetImage("Export.gif"),ExportCommand,null);
             var variants = typeof(ExportVariants).GetFields();
             foreach (var field in variants)
             {
@@ -148,5 +158,31 @@ namespace ComputerClasses.ViewModels.Pages
                 _navigator.Navigate<ErrorPopupViewModel>().SetDescription("Не удалось экспортировать файл по неизвестным причинам. Может быть файл занят другой программой. Попробуйте снова позднее.");
                 }
             }
-        }
+
+            [RelayCommand]
+            private async Task LoadImage(RoutedEventArgs args)
+            {
+                if(args is not null && args.Source is Image imageControl)
+                {
+                        await Task.Delay(100);
+                        ExportButton.Animator = ImageBehavior.GetAnimationController(imageControl);
+                }
+            }
+            [RelayCommand]
+            private void Play(MenuButtonItem buttonItem)
+            {
+                buttonItem.Animator?.Play();
+                if(buttonItem.Animator != null && !buttonItem.IsSubscribe)
+                {
+                    buttonItem.Animator.CurrentFrameChanged += (s, e) =>
+                    {
+                        if (buttonItem.Animator.CurrentFrame == buttonItem.Animator.FrameCount - 1)
+                        {
+                            buttonItem.Animator.Pause();
+                            buttonItem.Animator.GotoFrame(0);
+                        }
+                    };
+                }
+            }
     }
+}

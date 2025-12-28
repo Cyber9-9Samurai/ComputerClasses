@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using ComputerClasses.Models;
 using ComputerClasses.Services;
 using ComputerClasses.Services.Notifications;
-using ComputerClasses.ViewModels.Pages;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,7 +36,7 @@ namespace ComputerClasses.ViewModels.Notifications
         {
             _notificationsService = notificationsService;
             _workFileService = workFileService;
-            NotificationButton = new MenuButtonItem("",getLocalImageService.GetImage("Notifications.gif"), ChangeNotificationsVisabilityCommand);
+            NotificationButton = new MenuButtonItem("",getLocalImageService.GetImage("Notifications.gif"), ChangeNotificationsVisabilityCommand,null);
             _workFileService.PropertyChanged += async (s, e) =>
             {
                 if (e.PropertyName == _workFileService.fileChanged || e.PropertyName == nameof(_workFileService.ImportData.Items))
@@ -91,31 +90,8 @@ namespace ComputerClasses.ViewModels.Notifications
             {
                 if (args.Source is Image imageControl)
                 {
-                    await Dispatcher.CurrentDispatcher.InvokeAsync(() =>
-                    {
-                        _animator = ImageBehavior.GetAnimationController(imageControl);
-                        if (_animator != null && !_isSubscribe)
-                        {
-                            _isSubscribe = true;
-                            this.PropertyChanged += (s, e) =>
-                            {
-                                if (e.PropertyName == nameof(HasNotifications))
-                                {
-                                    _animator?.Play();
-                                    _animator.CurrentFrameChanged += (s,e) => 
-                                    {
-                                        if (_animator.CurrentFrame == _animator.FrameCount - 1)
-                                        {
-                                            _animator.Pause();
-                                            _animator.GotoFrame(0);
-                                        }
-                                    };
-                                    
-                                }
-                            };
-                        }
-
-                    },DispatcherPriority.Loaded);
+                    await Task.Delay(100);
+                    NotificationButton.Animator = ImageBehavior.GetAnimationController(imageControl);
                 }
             }
         }
@@ -123,13 +99,18 @@ namespace ComputerClasses.ViewModels.Notifications
         [RelayCommand]
         private void Play()
         {
-            _animator?.Play();
-        }
-        [RelayCommand]
-        private void Pause()
-        {
-            _animator?.Pause();
-            _animator?.GotoFrame(0);
+            NotificationButton.Animator?.Play();
+            if (NotificationButton.Animator != null && !NotificationButton.IsSubscribe)
+            {   NotificationButton.IsSubscribe = true;
+                NotificationButton.Animator.CurrentFrameChanged += (s, e) =>
+                {
+                    if (NotificationButton.Animator.CurrentFrame == NotificationButton.Animator.FrameCount - 1)
+                    {
+                        NotificationButton.Animator.Pause();
+                        NotificationButton.Animator.GotoFrame(0);
+                    }
+                };
+            }
         }
 
         

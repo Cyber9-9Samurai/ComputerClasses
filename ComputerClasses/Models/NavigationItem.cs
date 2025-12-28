@@ -1,11 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using WpfAnimatedGif;
 
 namespace ComputerClasses.Models
 {
@@ -17,12 +13,17 @@ namespace ComputerClasses.Models
         private BitmapImage image;
         [ObservableProperty]
         private ICommand navCommand;
+        [ObservableProperty]
+        private ImageAnimationController? animator;
+        [ObservableProperty]
+        private bool isSubscribe;
 
-        public MenuButtonItem(string title, BitmapImage image, ICommand navCommand)
+        public MenuButtonItem(string title, BitmapImage image, ICommand navCommand, ImageAnimationController? controller)
         {
             Title = title;
             Image = image;
             NavCommand = navCommand;
+            Animator = controller;
         }
     }
 }

@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ComputerClasses.Views.Pages"
              xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Pages"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:anim="clr-namespace:WpfAnimatedGif;assembly=WpfAnimatedGif"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance vm:ExportPageViewModel}">
@@ -22,6 +24,23 @@
             <TextBlock Text="Выберите способ экспорта"/>
             <ComboBox ItemsSource="{Binding ExportVar}" SelectedItem="{Binding SelectedExportVar}"/>
         </StackPanel>
-        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportCommand}"/>
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportButton.NavCommand}">
+            <StackPanel>
+                <Image anim:ImageBehavior.AnimatedSource="{Binding ExportButton.Image}"
+                               anim:ImageBehavior.AutoStart="False">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Loaded">
+                            <b:InvokeCommandAction Command="{Binding LoadImageCommand}" 
+                                                   PassEventArgsToCommand="True"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="MouseEnter">
+                            <b:InvokeCommandAction Command="{Binding PlayCommand}" 
+                                     CommandParameter="{Binding ExportButton}"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Image>
+                <TextBlock/>
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>
