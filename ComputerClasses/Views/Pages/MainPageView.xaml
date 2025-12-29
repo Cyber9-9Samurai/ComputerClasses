@@ -41,21 +41,7 @@
                 <DataTemplate>
                     <Button Width="200" Height="200" Command="{Binding NavCommand}" Background="Transparent" BorderThickness="0">
                         <StackPanel>
-                            <Image Width="100" Height="100"
-                                   anim:ImageBehavior.AnimatedSource="{Binding Image}"
-                                   anim:ImageBehavior.AutoStart="False">
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Loaded">
-                                        <b:InvokeCommandAction Command="{Binding DataContext.LoadImageCommand,
-                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                            PassEventArgsToCommand="True"/>
-                                    </b:EventTrigger>
-                                    <b:EventTrigger EventName="MouseEnter">
-                                        <b:InvokeCommandAction Command="{Binding DataContext.PlayCommand,
-                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                            CommandParameter="{Binding .}"/>
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers> 
+                            <Image Width="100" Height="100" Source="{Binding Image}">
                             </Image>
                             <TextBlock Text="{Binding Title}" TextAlignment="Center"/>
                         </StackPanel>

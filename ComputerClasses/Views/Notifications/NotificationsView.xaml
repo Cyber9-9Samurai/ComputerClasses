@@ -32,19 +32,7 @@
 
                 <Image Width="80"
                        Height="80"
-                       anim:ImageBehavior.AnimatedSource="{Binding NotificationButton.Image}"
-                       anim:ImageBehavior.AutoStart="False">
-
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="Loaded">
-                            <b:InvokeCommandAction Command="{Binding LoadCommand}"
-                                                   PassEventArgsToCommand="True" />
-                        </b:EventTrigger>
-
-                        <b:EventTrigger EventName="MouseEnter">
-                            <b:InvokeCommandAction Command="{Binding PlayCommand}" />
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
+                       Source="{Binding NotificationButton.Image}">
                 </Image>
 
                 <Ellipse Width="10"

@@ -30,23 +30,7 @@
                             </ControlTemplate>
                         </Button.Template>
                         <StackPanel>
-                            <Image Width="45" Height="45"
-                                anim:ImageBehavior.AnimatedSource="{Binding Image}"
-                                anim:ImageBehavior.AutoStart="False">
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Loaded">
-                                        <b:InvokeCommandAction 
-                                            Command="{Binding DataContext.LoadImageCommand,
-                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                            PassEventArgsToCommand="True">
-                                        </b:InvokeCommandAction>
-                                    </b:EventTrigger>
-                                    <b:EventTrigger EventName="MouseEnter">
-                                        <b:InvokeCommandAction Command="{Binding DataContext.PlayCommand,
-                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
-                                            CommandParameter="{Binding .}"/>
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers >
+                            <Image Width="45" Height="45" Source="{Binding Image}">
                             </Image>
                             <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0 5 0 0"/>
                         </StackPanel>

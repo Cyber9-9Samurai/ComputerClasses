@@ -23,19 +23,8 @@
         </WrapPanel>
         <Button AllowDrop="True" Command="{Binding ImportButton.NavCommand}" Grid.Row="1" Style="{StaticResource ImportButton}">
             <StackPanel>
-                <Image anim:ImageBehavior.AnimatedSource="{Binding ImportButton.Image}"
-                       anim:ImageBehavior.AutoStart="False"
+                <Image Source="{Binding ImportButton.Image}"
                         Width="400" Height="400">
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="Loaded">
-                            <b:InvokeCommandAction Command="{Binding LoadImageCommand}" 
-                               PassEventArgsToCommand="True"/>
-                        </b:EventTrigger>
-                        <b:EventTrigger EventName="MouseEnter">
-                            <b:InvokeCommandAction Command="{Binding PlayCommand}" 
-                 CommandParameter="{Binding ImportButton}"/>
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
                 </Image>
                 <TextBlock Text="Перетащите сюда файл"
                            FontSize="32" 

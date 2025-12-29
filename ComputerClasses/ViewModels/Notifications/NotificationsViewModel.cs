@@ -83,36 +83,5 @@ namespace ComputerClasses.ViewModels.Notifications
         {
             IsOpen = !IsOpen;
         }
-        [RelayCommand]
-        private async Task Load(RoutedEventArgs args)
-        {
-            if (args is not null)
-            {
-                if (args.Source is Image imageControl)
-                {
-                    await Task.Delay(100);
-                    NotificationButton.Animator = ImageBehavior.GetAnimationController(imageControl);
-                }
-            }
-        }
-
-        [RelayCommand]
-        private void Play()
-        {
-            NotificationButton.Animator?.Play();
-            if (NotificationButton.Animator != null && !NotificationButton.IsSubscribe)
-            {   NotificationButton.IsSubscribe = true;
-                NotificationButton.Animator.CurrentFrameChanged += (s, e) =>
-                {
-                    if (NotificationButton.Animator.CurrentFrame == NotificationButton.Animator.FrameCount - 1)
-                    {
-                        NotificationButton.Animator.Pause();
-                        NotificationButton.Animator.GotoFrame(0);
-                    }
-                };
-            }
-        }
-
-        
     }
 }

@@ -38,19 +38,8 @@
         </StackPanel>
         <Button Grid.Column="1" Grid.Row="1" Command="{Binding ExportButton.NavCommand}" Style="{StaticResource ImportButton}">
             <StackPanel>
-                <Image anim:ImageBehavior.AnimatedSource="{Binding ExportButton.Image}"        
-                       anim:ImageBehavior.AutoStart="False" 
+                <Image Source="{Binding ExportButton.Image}" 
                        Width="300" Height="300">
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="Loaded">
-                            <b:InvokeCommandAction Command="{Binding LoadImageCommand}" 
-                                                   PassEventArgsToCommand="True"/>
-                        </b:EventTrigger>
-                        <b:EventTrigger EventName="MouseEnter">
-                            <b:InvokeCommandAction Command="{Binding PlayCommand}" 
-                                     CommandParameter="{Binding ExportButton}"/>
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
                 </Image>
                 <TextBlock Text="Нажмите, чтобы сохранить"
                             FontSize="32" 

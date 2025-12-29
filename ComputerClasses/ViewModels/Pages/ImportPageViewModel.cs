@@ -97,31 +97,6 @@ namespace ComputerClasses.ViewModels.Pages
 
         }
 
-        [RelayCommand]
-        private async Task LoadImage(RoutedEventArgs args)
-        {
-            if (args is not null && args.Source is Image imageControl)
-            {
-                await Task.Delay(100);
-                ImportButton.Animator = ImageBehavior.GetAnimationController(imageControl);
-            }
-        }
-        [RelayCommand]
-        private void Play(MenuButtonItem buttonItem)
-        {
-            buttonItem.Animator?.Play();
-            if (buttonItem.Animator != null && !buttonItem.IsSubscribe)
-            {
-                buttonItem.Animator.CurrentFrameChanged += (s, e) =>
-                {
-                    if (buttonItem.Animator.CurrentFrame == buttonItem.Animator.FrameCount - 1)
-                    {
-                        buttonItem.Animator.Pause();
-                        buttonItem.Animator.GotoFrame(0);
-                    }
-                };
-            }
-        }
 
     }
 
