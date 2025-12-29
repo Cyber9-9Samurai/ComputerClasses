@@ -52,9 +52,9 @@ namespace ComputerClasses.ViewModels.Pages
             {
                 OperationButtons = new List<MenuButtonItem>()
                 {
-                    new MenuButtonItem("Добавить",_imageService.GetImage("Add.gif"),AddCommand,null),
-                    new MenuButtonItem("Редактировать",_imageService.GetImage("Edit.gif"),EditCommand,null),
-                    new MenuButtonItem("Удалить",_imageService.GetImage("Delete.gif"),RemoveCommand,null)
+                    new MenuButtonItem("Добавить",_imageService.GetImage("Add.png"),AddCommand,null),
+                    new MenuButtonItem("Редактировать",_imageService.GetImage("Edit.png"),EditCommand,null),
+                    new MenuButtonItem("Удалить",_imageService.GetImage("Delete.png"),RemoveCommand,null)
                 };
                 _workFileService.PropertyChanged += (s, e) =>
                 {

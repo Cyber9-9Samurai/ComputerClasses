@@ -30,10 +30,10 @@ namespace ComputerClasses.ViewModels.Navigation
         {
             NavigationItems = new List<MenuButtonItem>
             {
-                new MenuButtonItem("Главная",_imageService.GetImage("MainPage.gif"),ToMainCommand,null),
-                new MenuButtonItem("Импорт",_imageService.GetImage("Import.gif"),ToImportCommand,null),
-                new MenuButtonItem("Экспорт",_imageService.GetImage("Export.gif"), ToExportCommand,null),
-                new MenuButtonItem("Журнал изменений", _imageService.GetImage("ChangesLog.gif"), ToChangesCommand,null)
+                new MenuButtonItem("Главная",_imageService.GetImage("MainPage.png"),ToMainCommand,null),
+                new MenuButtonItem("Импорт",_imageService.GetImage("Import.png"),ToImportCommand,null),
+                new MenuButtonItem("Экспорт",_imageService.GetImage("Export.png"), ToExportCommand,null),
+                new MenuButtonItem("Журнал изменений", _imageService.GetImage("ChangesLog.png"), ToChangesCommand,null)
             };
 
         }

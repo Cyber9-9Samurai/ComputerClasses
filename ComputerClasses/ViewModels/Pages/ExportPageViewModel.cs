@@ -58,7 +58,7 @@ namespace ComputerClasses.ViewModels.Pages
 
         private void LoadData()
         {
-            ExportButton = new MenuButtonItem("",_getLocalImage.GetImage("Export.gif"),ExportCommand,null);
+            ExportButton = new MenuButtonItem("",_getLocalImage.GetImage("Export.png"),ExportCommand,null);
             var variants = typeof(ExportVariants).GetFields();
             foreach (var field in variants)
             {

@@ -20,9 +20,9 @@
     <Grid Height="Auto" Width="Auto">
 
         <Button x:Name="not"
-                Style="{StaticResource NotificationButton}"
-                Width="80"
-                Height="80"
+                Width="90" Height="80" 
+                Background="Transparent" 
+                BorderThickness="0"
                 Margin="0 0 10 0"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"
@@ -30,8 +30,8 @@
 
             <WrapPanel>
 
-                <Image Width="80"
-                       Height="80"
+                <Image Width="60"
+                       Height="60"
                        Source="{Binding NotificationButton.Image}">
                 </Image>
 

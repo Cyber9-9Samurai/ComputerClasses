@@ -34,7 +34,7 @@ namespace ComputerClasses.ViewModels.Pages
             _navigatorPopup = navigatorPopup;
             _session = session;
             _getLocalImage = getLocalImage;
-            ImportButton = new MenuButtonItem("", _getLocalImage.GetImage("Import.gif"), OpenFileDialogCommand, null);
+            ImportButton = new MenuButtonItem("", _getLocalImage.GetImage("Import.png"), OpenFileDialogCommand, null);
         }
         [RelayCommand]
         private void Import(DragEventArgs args)

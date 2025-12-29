@@ -28,7 +28,7 @@
             <RowDefinition Height="0.1*"/>
         </Grid.RowDefinitions>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" >
-            <Button Content="Фильтр" Command="{Binding OpenFilterCommand}" Style="{StaticResource RoundedButtonStyle}" FontSize="16" Background="White" BorderThickness="1" BorderBrush="Black"  Height="30" Width="92"/>
+            <Button Content="Фильтр" Command="{Binding OpenFilterCommand}" Style="{StaticResource RoundedButtonStyle}"  FontSize="16" Background="White" BorderThickness="1" BorderBrush="Black"  Height="30" Width="92"/>
             <TextBox Text="{Binding SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputInPopup}" Width="300" Margin="20 0 0 0"/>
         </WrapPanel>
         <ItemsControl Grid.Column="0" Grid.Row="1" ItemsSource="{Binding OperationButtons}">
@@ -39,11 +39,12 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Width="200" Height="200" Command="{Binding NavCommand}" Background="Transparent" BorderThickness="0">
+                    <Button Width="100" Height="100" Command="{Binding NavCommand}" Background="Transparent" BorderThickness="0" Margin="0 40 0 0">
+                        
                         <StackPanel>
-                            <Image Width="100" Height="100" Source="{Binding Image}">
+                            <Image Width="70" Height="70" Source="{Binding Image}" >
                             </Image>
-                            <TextBlock Text="{Binding Title}" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0 5 0 0"/>
                         </StackPanel>
                     </Button>
                 </DataTemplate>

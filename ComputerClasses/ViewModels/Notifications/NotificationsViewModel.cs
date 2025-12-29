@@ -36,7 +36,7 @@ namespace ComputerClasses.ViewModels.Notifications
         {
             _notificationsService = notificationsService;
             _workFileService = workFileService;
-            NotificationButton = new MenuButtonItem("",getLocalImageService.GetImage("Notifications.gif"), ChangeNotificationsVisabilityCommand,null);
+            NotificationButton = new MenuButtonItem("",getLocalImageService.GetImage("Notifications.png"), ChangeNotificationsVisabilityCommand,null);
             _workFileService.PropertyChanged += async (s, e) =>
             {
                 if (e.PropertyName == _workFileService.fileChanged || e.PropertyName == nameof(_workFileService.ImportData.Items))

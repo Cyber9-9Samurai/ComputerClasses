@@ -23,12 +23,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Command="{Binding NavCommand}" Width="110" Background="Transparent" BorderThickness="0">
-                        <Button.Template>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <ContentPresenter />
-                            </ControlTemplate>
-                        </Button.Template>
+                    <Button Command="{Binding NavCommand}" Width="110" Height="80" Margin="10 0 0 0" Background="Transparent" BorderThickness="0">
                         <StackPanel>
                             <Image Width="45" Height="45" Source="{Binding Image}">
                             </Image>
