@@ -5,4 +5,13 @@
     <DataTemplate DataType="{x:Type vm:MainPageViewModel}">
         <view:MainPageView DataContext="{Binding}"/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:ImportPageViewModel}">
+        <view:ImportPageView DataContext="{Binding}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:ExportPageViewModel}">
+        <view:ExportPageView DataContext="{Binding}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:ChangesMagazineViewModel}">
+        <view:ChangesMagazineView DataContext="{Binding}"/>
+    </DataTemplate>
 </ResourceDictionary>

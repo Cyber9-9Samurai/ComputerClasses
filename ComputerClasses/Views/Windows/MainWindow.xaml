@@ -4,11 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComputerClasses.Views.Windows"
+        xmlns:nav="clr-namespace:ComputerClasses.Views.Navigation" 
         xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Windows"
         xmlns:converter="clr-namespace:ComputerClasses.Converters"
         xmlns:navigator="https://navigation.mvvm/"
+        xmlns:notifications="clr-namespace:ComputerClasses.Views.Notifications"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1080" Width="1920"
+        Title="MainWindow"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
@@ -17,14 +19,17 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.1*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <nav:NavigationMenuView Grid.Row="0" DataContext="{Binding NavigationMenu}"/>
         <Grid Grid.Row="1">
             <ContentControl Content="{Binding NavigatorPage.CurrentViewModel}"/>
         </Grid>
-        <Grid Background="Black" Opacity="0.6" Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding NavigatorPopup.CurrentViewModel,Converter={StaticResource popupVis}}">
+        <notifications:NotificationsView Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding NotificationViewModel}"/>
+        <Grid Background="#99000000" Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding NavigatorPopup.CurrentViewModel,Converter={StaticResource popupVis}}">
             <ContentControl Content="{Binding NavigatorPopup.CurrentViewModel}"/>
         </Grid>
+        
     </Grid>
 </Window>

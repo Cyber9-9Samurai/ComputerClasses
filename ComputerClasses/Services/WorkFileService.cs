@@ -1,0 +1,85 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ComputerClasses.Domain;
+using ComputerClasses.Domain.Import;
+using ComputerClasses.ViewModels.Abstractions;
+using ComputerClasses.ViewModels.Pages;
+using Microsoft.Win32;
+using Mvvm.Navigation;
+using System.IO;
+using System.Windows;
+using Test_Import_and_Export.Export;
+
+namespace ComputerClasses.Services
+{
+    public partial class WorkFileService : ObservableObject
+    {
+        private string _currentFile;
+        private readonly ExcelRowImporter _excelRowImporter;
+        private readonly ExcelRowExporter _excelRowExporter;
+        private readonly Navigator<PageBaseViewModel> _navigator;
+        private readonly RowsDataSettingsService _rowsDataSettingsService;
+        [ObservableProperty]
+        private ImportResult<Row> importData = new();
+        public readonly string fileChanged;
+        public WorkFileService(
+            ExcelRowImporter excelRowImporter,
+            ExcelRowExporter excelRowExporter,
+            Navigator<PageBaseViewModel> navigator,
+            RowsDataSettingsService rowsDataSettingsService)
+        {
+            _rowsDataSettingsService = rowsDataSettingsService;
+            _excelRowImporter = excelRowImporter;
+            _excelRowExporter = excelRowExporter;
+            _navigator = navigator;
+            fileChanged = nameof(_currentFile);
+        }
+
+        public string GetCurrentWorkFile()
+        {
+            return _currentFile;
+        }
+
+        private void SetCurrentWorkFile(string path)
+        {
+            _currentFile = path;
+            OnPropertyChanged(fileChanged);
+            _rowsDataSettingsService.GetFileService(this);
+        }
+
+        public void StartImport(string path)
+        {
+            ImportData = _excelRowImporter.Import(File.OpenRead(path));
+            if (ImportData.HasErrors)
+            {
+                string text = "";
+                foreach (var error in ImportData.Errors)
+                {
+                    text += "/n" + error.Message;
+                }
+                MessageBox.Show(text);
+            }
+            else
+            {
+                SetCurrentWorkFile(path);
+            }
+        }
+
+        public void CreateNewWorkFile()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Файлы Exel(*.xlsx)|*.xlsx";
+            var result = saveFileDialog.ShowDialog();
+            if (result == true)
+            {
+                _excelRowExporter.ExportToXlsx(new List<Row>(),File.OpenWrite(saveFileDialog.FileName));
+                _navigator.Navigate<ImportPageViewModel>();
+            }
+        }
+
+        public bool HasFile()
+        {
+            return File.Exists(_currentFile);
+        }
+
+    }
+}

@@ -1,0 +1,427 @@
+﻿<UserControl x:Class="ComputerClasses.Views.Popups.ChangeDataPopupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ComputerClasses.Views.Popups"
+             xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Popups"
+             xmlns:converters="clr-namespace:ComputerClasses.Converters"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance vm:ChangeDataPopupViewModel}">
+
+    <UserControl.Resources>
+        <converters:SelectedItemButtonVisabilityConverter x:Key="buttonVis" />
+        <converters:DataToArrayConverter x:Key="arrayConv" />
+        <converters:RectConverter x:Key="RectConverter" />
+        <converters:PopupButtonAcceptColorConverter x:Key="acceptColor"/>
+        <converters:PopupButtonAcceptTextConverter x:Key="acceptText"/>
+        <converters:PopupButtonCancelColorConverter x:Key="cancelColor"/>
+        <converters:PopupIsReadOnlyElementConverter x:Key="isInteractive"/>
+        <converters:PopupIsEditableOrEnabledConverter x:Key="isEnabled"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.2*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.2*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="1"
+              Grid.Row="1"
+              Width="786"
+              Height="560"
+              x:Name="Root">
+
+            <Grid.Clip>
+                <RectangleGeometry RadiusX="20" RadiusY="20">
+                    <RectangleGeometry.Rect>
+                        <MultiBinding Converter="{StaticResource RectConverter}">
+                            <Binding ElementName="Root" Path="ActualWidth" />
+                            <Binding ElementName="Root" Path="ActualHeight" />
+                        </MultiBinding>
+                    </RectangleGeometry.Rect>
+                </RectangleGeometry>
+            </Grid.Clip>
+
+            <StackPanel Background="White">
+                <TextBlock Text="{Binding PopupTitle}"
+                           TextAlignment="Center"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Margin="0,22,0,0" />
+
+                <Grid Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Факультет: "
+                                       VerticalAlignment="Center" />
+
+                            <StackPanel Margin="131,0,0,0">
+                                <ComboBox ItemsSource="{Binding Faculties}"
+                                          SelectedItem="{Binding SelectedFacultie}"
+                                          Width="184"
+                                          Height="27"
+                                          IsEnabled="{Binding Actions,Converter={StaticResource isEnabled}}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <WrapPanel>
+                                                <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
+                                                <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
+                                                        Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                                        CommandParameter="{Binding .}">
+                                                    <Button.Visibility>
+                                                        <MultiBinding Converter="{StaticResource buttonVis}">
+                                                            <Binding Path="." />
+                                                            <Binding Path="DataContext.SelectedFacultie"
+                                                                     RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                                        </MultiBinding>
+                                                    </Button.Visibility>
+                                                </Button>
+                                            </WrapPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <WrapPanel>
+                                    <TextBox Text="{Binding FacultieAddText}"
+                                             Style="{StaticResource AddItemTemplate}"
+                                             IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                                    <Button Content="+"
+                                            Width="27"
+                                            Height="27"
+                                            Command="{Binding AddTemplateCommand}"
+                                            CommandParameter="{Binding FacultiesName}" 
+                                            IsEnabled="{Binding Actions,Converter={StaticResource isEnabled}}"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Кафедра/Институт: "
+                                       VerticalAlignment="Center" />
+
+                            <StackPanel Margin="85,0,0,0">
+                                <ComboBox ItemsSource="{Binding Departments}"
+                                          SelectedItem="{Binding SelctedDepartmentOrInstitude}"
+                                          Width="184"
+                                          Height="27"
+                                          IsEnabled="{Binding Actions,Converter={StaticResource isEnabled}}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <WrapPanel>
+                                                <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
+                                                <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
+                                                        Command="{Binding DataContext.DeleteDepartmentsTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                                        CommandParameter="{Binding .}">
+                                                    <Button.Visibility>
+                                                        <MultiBinding Converter="{StaticResource buttonVis}">
+                                                            <Binding Path="." />
+                                                            <Binding Path="DataContext.SelctedDepartmentOrInstitude"
+                                                                     RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                                        </MultiBinding>
+                                                    </Button.Visibility>
+                                                </Button>
+                                            </WrapPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <WrapPanel>
+                                    <TextBox Text="{Binding DepartmentOrInstitudeAddText}"
+                                             Style="{StaticResource AddItemTemplate}"
+                                             IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                                    <Button Content="+"
+                                            Width="27"
+                                            Height="27"
+                                            Command="{Binding AddTemplateCommand}"
+                                            CommandParameter="{Binding DepartmentName}" 
+                                            IsEnabled="{Binding Actions,Converter={StaticResource isEnabled}}"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Корпус: "
+                                       VerticalAlignment="Center" />
+
+                            <StackPanel Margin="147,0,0,0">
+                                <ComboBox ItemsSource="{Binding Frames}"
+                                          SelectedItem="{Binding SelectedFrame}"
+                                          Width="184"
+                                          Height="27"
+                                          IsEnabled="{Binding Actions,Converter={StaticResource isEnabled}}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <WrapPanel>
+                                                <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
+                                                <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
+                                                        Command="{Binding DataContext.DeleteFramesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                                        CommandParameter="{Binding .}">
+                                                    <Button.Visibility>
+                                                        <MultiBinding Converter="{StaticResource buttonVis}">
+                                                            <Binding Path="." />
+                                                            <Binding Path="DataContext.SelectedFrame"
+                                                                     RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                                        </MultiBinding>
+                                                    </Button.Visibility>
+                                                </Button>
+                                            </WrapPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <WrapPanel>
+                                    <TextBox Text="{Binding FrameAddText}"
+                                             Style="{StaticResource AddItemTemplate}"
+                                             IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                                    <Button Content="+"
+                                            Width="27"
+                                            Height="27"
+                                            Command="{Binding AddTemplateCommand}"
+                                            CommandParameter="{Binding FrameName}" 
+                                            IsEnabled="{Binding Actions,Converter={StaticResource isEnabled}}"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Номер аудитории: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.AudienceNumber.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="87,0,0,0"
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Название аудитории: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.AudienceName.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="72,0,0,0" 
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Ответственный: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.ResponsiblePerson.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="103,0,0,0"
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Инвентарный номер: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.InventoryNumber.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="72,0,0,0" 
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Оперционная система: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.OperatingSystem.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="63,0,0,0"
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Background="White">
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Материнская плата: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.Motherboard.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="80,0,0,0"
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="ЦП: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.Cpu.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="169,0,0,0" 
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Видеокарта: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.VideoCard.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="123,0,0,0" 
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Диски: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.Disk.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="153,0,0,0"
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="ОЗУ, ГБ: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.Ram.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="146,0,0,0"
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Тип ОЗУ: "
+                                       VerticalAlignment="Center" />
+
+                            <StackPanel Margin="141,0,0,0">
+                                <ComboBox ItemsSource="{Binding RamTypes}"
+                                          SelectedItem="{Binding SelecetedRamType}"
+                                          Width="184"
+                                          Height="27"
+                                          IsEnabled="{Binding Actions,Converter={StaticResource isEnabled}}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <WrapPanel>
+                                                <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
+                                                <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
+                                                        Command="{Binding DataContext.DeleteRamTypesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                                        CommandParameter="{Binding .}">
+                                                    <Button.Visibility>
+                                                        <MultiBinding Converter="{StaticResource buttonVis}">
+                                                            <Binding Path="." />
+                                                            <Binding Path="DataContext.SelecetedRamType"
+                                                                     RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                                        </MultiBinding>
+                                                    </Button.Visibility>
+                                                </Button>
+                                            </WrapPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <WrapPanel>
+                                    <TextBox Text="{Binding RamTypeAddText}"
+                                             Style="{StaticResource AddItemTemplate}"
+                                             IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                                    <Button Content="+"
+                                            Width="27"
+                                            Height="27"
+                                            Command="{Binding AddTemplateCommand}"
+                                            CommandParameter="{Binding RamTypeName}"
+                                            IsEnabled="{Binding Actions,Converter={StaticResource isEnabled}}"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Список приложений: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.ApplicationList.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="73,0,0,0"
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Статус: "
+                                       VerticalAlignment="Center" />
+
+                            <StackPanel Margin="152,0,0,0">
+                                <ComboBox ItemsSource="{Binding Statuses}"
+                                          SelectedItem="{Binding SelecetedStatus}"
+                                          Width="184"
+                                          Height="27"
+                                          IsEnabled="{Binding Actions,Converter={StaticResource isEnabled}}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <WrapPanel>
+                                                <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
+                                                <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
+                                                        Command="{Binding DataContext.DeleteStatusesTeplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                                        CommandParameter="{Binding .}">
+                                                    <Button.Visibility>
+                                                        <MultiBinding Converter="{StaticResource buttonVis}">
+                                                            <Binding Path="." />
+                                                            <Binding Path="DataContext.SelecetedStatus"
+                                                                     RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                                        </MultiBinding>
+                                                    </Button.Visibility>
+                                                </Button>
+                                            </WrapPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <WrapPanel>
+                                    <TextBox Text="{Binding StatusAddText}"
+                                             Style="{StaticResource AddItemTemplate}" 
+                                             IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                                    <Button Content="+"
+                                            Width="27"
+                                            Height="27"
+                                            Command="{Binding AddTemplateCommand}"
+                                            CommandParameter="{Binding StatusName}" 
+                                            IsEnabled="{Binding Actions,Converter={StaticResource isEnabled}}"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="8,8,8,0">
+                            <TextBlock Text="Дата последнего обслуживания: "
+                                       VerticalAlignment="Center" />
+                            <TextBox Text="{Binding Data.LastServiceDate.Name}"
+                                     Style="{StaticResource InputInPopup}"
+                                     Margin="11,0,0,0" 
+                                     IsReadOnly="{Binding Actions,Converter={StaticResource isInteractive}}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </Grid>
+
+                <ScrollViewer MaxHeight="60">
+                    <ItemsControl ItemsSource="{Binding Errors}"
+                                  Foreground="Red" >
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Height="20" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <WrapPanel HorizontalAlignment="Center">
+                    <Button Content="Отменить"
+                            Background="{Binding Actions,Converter={StaticResource cancelColor}}"
+                            Command="{Binding CloseCommand}"
+                            Style="{StaticResource RoundedButtonStyle}" />
+
+                    <Button Content="{Binding Actions,Converter={StaticResource acceptText}}"
+                            Command="{Binding AgreeChangesCommand}"
+                            Style="{StaticResource RoundedButtonStyle}"
+                            Background="{Binding Actions,Converter={StaticResource acceptColor}}"
+                            Margin="50,0,0,0" />
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

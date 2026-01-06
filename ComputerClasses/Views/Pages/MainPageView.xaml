@@ -5,13 +5,98 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ComputerClasses.Views.Pages"
              xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Pages"
+             xmlns:converter="clr-namespace:ComputerClasses.Converters"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:anim="clr-namespace:WpfAnimatedGif;assembly=WpfAnimatedGif"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance vm:MainPageViewModel}">
+    <UserControl.Resources>
+        <converter:DataGridViewVisabilityConverter x:Key="dataGridVis"/>
+        <converter:EmptyDataMessageVisabilityConverter x:Key="emptyDataVis"/>
+    </UserControl.Resources>
     <Grid>
-        <StackPanel>
-            <TextBlock Text="{Binding Hi}" Style="{StaticResource HiText}"/>
-            <Button Content="Popup" Command="{Binding OpenPopupCommand}"/>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" >
+            <Button Content="Фильтр" Command="{Binding OpenFilterCommand}" Style="{StaticResource RoundedButtonStyle}"  FontSize="16" Background="White" BorderThickness="1" BorderBrush="Black"  Height="30" Width="92"/>
+            <TextBox Text="{Binding SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputInPopup}" Width="300" Margin="20 0 0 0"/>
+        </WrapPanel>
+        <ItemsControl Grid.Column="0" Grid.Row="1" ItemsSource="{Binding OperationButtons}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Width="100" Height="100" Command="{Binding NavCommand}" Background="Transparent" BorderThickness="0" Margin="0 40 0 0">
+                        
+                        <StackPanel>
+                            <Image Width="70" Height="70" Source="{Binding Image}" >
+                            </Image>
+                            <TextBlock Text="{Binding Title}" TextAlignment="Center" Margin="0 5 0 0"/>
+                        </StackPanel>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" FontSize="20" Visibility="{Binding IsExistFile,Converter={StaticResource emptyDataVis}}">
+            Файл не нйден , может <Run Foreground="Blue">
+                создать
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseDown">
+                        <b:InvokeCommandAction Command="{Binding CreateFileCommand}"/>
+                    </b:EventTrigger>       
+                </b:Interaction.Triggers>
+            </Run> новый файл Exel для работы(.xlsx)?
+        </TextBlock>
+        <DataGrid Visibility="{Binding IsExistFile,Converter={StaticResource dataGridVis}}"
+                  Grid.Column="1" Grid.ColumnSpan="2" 
+                  CanUserAddRows="False" 
+                  EnableColumnVirtualization="True"
+                  EnableRowVirtualization="True"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  CanUserDeleteRows="False" 
+                  CanUserSortColumns="True" 
+                  CanUserResizeColumns="True" 
+                  CanUserReorderColumns="False" 
+                  SelectionMode="Single"
+                  IsReadOnly="True"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Rows,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedRow}">
+            <DataGrid.Columns>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Идентификатор" Binding="{Binding Id}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Факультет" Binding="{Binding Facultie.Name}" Width="auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Кафедра/Институт" Binding="{Binding DepartmentOrInstitute.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Корпус" Binding="{Binding Frame.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Номер аудитории" Binding="{Binding AudienceNumber.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Название аудитории" Binding="{Binding AudienceName.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Ответственный" Binding="{Binding ResponsiblePerson.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Инвентарный номер" Binding="{Binding InventoryNumber.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="ОС" Binding="{Binding OperatingSystem.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Материнская плата" Binding="{Binding Motherboard.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="ЦП" Binding="{Binding Cpu.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Видеокарта" Binding="{Binding VideoCard.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Диски" Binding="{Binding Disk.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="ОЗУ, ГБ" Binding="{Binding Ram.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Тип ОЗУ" Binding="{Binding RamType.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Список установленных приложений" Binding="{Binding ApplicationList.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Статус" Binding="{Binding Status.Name}" Width="Auto"/>
+                <DataGridTextColumn VirtualizingPanel.IsVirtualizing="True" Header="Дата последнего обслуживания" Binding="{Binding LastServiceDate.Name}" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

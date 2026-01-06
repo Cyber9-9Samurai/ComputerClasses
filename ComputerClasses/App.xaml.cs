@@ -21,6 +21,8 @@ namespace ComputerClasses
         private static IHostBuilder CreateBuilder(string[]? args = null)
         {
             return Host.CreateDefaultBuilder(args)
+                .BuildServices()
+                .BuildNotification()
                 .BuildNavigation();
         }
 
@@ -30,7 +32,6 @@ namespace ComputerClasses
             var navigator = _host.Services.GetRequiredService<Navigator<PageBaseViewModel>>();
             navigator.Navigate<MainPageViewModel>();
             MainWindow.Show();
-            await _host.RunAsync();
             base.OnStartup(e);
         }
         protected override async void OnExit(ExitEventArgs e)
