@@ -72,6 +72,10 @@ namespace ComputerClasses.ViewModels.Pages
                     }
                 };
 
+                
+            }
+
+            //подсчет количесва компьютеров в текущем фале и заполенения коллекции comps
                 foreach (var item in baseRows)
                 {
                     if (int.TryParse(item.Frame.Name, out int frame) && int.TryParse(item.AudienceNumber.Name, out int number))
@@ -86,7 +90,6 @@ namespace ComputerClasses.ViewModels.Pages
                         }
                     }
                 }
-            }
 
 
         }
