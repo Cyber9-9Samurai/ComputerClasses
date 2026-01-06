@@ -12,6 +12,7 @@
     <None Remove="Resources\Assets\Images\Add.gif" />
     <None Remove="Resources\Assets\Images\ChangesLog.gif" />
     <None Remove="Resources\Assets\Images\ChangesLog.png" />
+    <None Remove="Resources\Assets\Images\chart-histogram.ico" />
     <None Remove="Resources\Assets\Images\Delete.gif" />
     <None Remove="Resources\Assets\Images\Delete.png" />
     <None Remove="Resources\Assets\Images\Edit.gif" />
@@ -63,6 +64,7 @@
     <Resource Include="Resources\Assets\Images\ChangesLog.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Assets\Images\chart-histogram.ico" />
     <Resource Include="Resources\Assets\Images\Delete.gif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

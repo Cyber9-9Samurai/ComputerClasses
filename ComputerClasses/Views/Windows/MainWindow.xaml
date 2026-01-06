@@ -10,10 +10,11 @@
         xmlns:navigator="https://navigation.mvvm/"
         xmlns:notifications="clr-namespace:ComputerClasses.Views.Notifications"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="ExelDataHandler"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
+        Icon="/Resources/Assets/Images/chart-histogram.ico">
     <Window.Resources>
         <converter:PopupVisibilityConverter x:Key="popupVis"/>
     </Window.Resources>
