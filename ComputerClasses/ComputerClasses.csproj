@@ -29,6 +29,12 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Resources\Assets\Fonts\" />
+    <Folder Include="Resources\Assets\Styles\Buttons\" />
+    <Folder Include="Resources\Assets\Styles\Containers\" />
+    <Folder Include="Resources\Assets\Styles\Images\" />
+    <Folder Include="Services\" />
+    <Folder Include="ViewModels\Navigation\" />
+    <Folder Include="Views\Navigation\" />
   </ItemGroup>
 
   <ItemGroup>
