@@ -35,6 +35,7 @@ namespace ComputerClasses.ViewModels.Pages
         private readonly WorkFileService _workFileService;
         private Dictionary<(int, int), int> comps = new();
 
+        private int lastSearchLenght = 0;
         public MainPageViewModel(Navigator<PopupBaseViewModel> navigator,
             GetLocalImage imageService,
             WorkFileService workFileService)
@@ -64,11 +65,14 @@ namespace ComputerClasses.ViewModels.Pages
                         IsExistFile = _workFileService.HasFile();
                     }
                 };
-                this.PropertyChanged += (s, e) =>
+                //подписка на событие при изменении текущего объекта
+                this.PropertyChanged += async (s, e) =>
                 {
+                    //проверка если изменилось значение в поле поиска
                     if (e.PropertyName == nameof(SearchText))
                     {
-                        DoSearch();
+                        //вызываем метод поиска
+                        await DoSearch();
                     }
                 };
 
@@ -165,8 +169,15 @@ namespace ComputerClasses.ViewModels.Pages
             Rows = _workFileService.ImportData.Items;
         }
 
-        private void DoSearch()
+        //метод поиска по названию аудитории или установленным приложениям
+        private async Task DoSearch()
         {
+            if(lastSearchLenght > 0 && SearchText.Length-lastSearchLenght < 0)
+        {
+                await Task.Delay(700);
+            }
+            //нормализация значения
+            lastSearchLenght = SearchText.Length;
             var text = SearchText.ToLower();
             if (!string.IsNullOrWhiteSpace(text))
             {
