@@ -66,13 +66,21 @@ namespace ComputerClasses.ViewModels.Popups
         }
 
         [RelayCommand]
-        private void Apply()
+        private async Task Apply()
         {
-            Close(true);
+            bool valid = await Validate();
+            if (valid)
+            {
+                Close(true);
+            }
+            else 
+            { 
+                Close(false);
+            }
         }
 
         [RelayCommand]
-        private void Clear()
+        private async Task Clear()
         {
             StatusesSelected = string.Empty;
             OpertaingSystemSelected = string.Empty;
@@ -126,5 +134,17 @@ namespace ComputerClasses.ViewModels.Popups
             Frames.Insert(0, string.Empty);
         }
 
+        private async Task<bool> Validate()
+        {
+            if (!int.TryParse(RamsQuantityText,out int _))
+            {
+                return false;
+            }
+            if(!int.TryParse(ComputersQuantityText,out int _))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
