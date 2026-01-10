@@ -58,7 +58,11 @@ namespace ComputerClasses.ViewModels.Popups
             _navigatorPopup = navigatorPopup;
             _pageNavigator = navigatorPage;
             _rowsDataSettingsService = rowsDataSettingsService;
-            SetCollections();
+            _rowsDataSettingsService.PropertyChanged += async (s, e) =>
+            {
+                await SetCollections();
+            };
+            _ = SetCollections();
         }
 
         [RelayCommand]
@@ -105,7 +109,7 @@ namespace ComputerClasses.ViewModels.Popups
             }
         }
 
-        private void SetCollections()
+        private async Task SetCollections()
         {
             Faculties = [.. _rowsDataSettingsService.Faculties];
             Statuses = [.. _rowsDataSettingsService.Statuses];
