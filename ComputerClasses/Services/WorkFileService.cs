@@ -46,20 +46,22 @@ namespace ComputerClasses.Services
             _rowsDataSettingsService.GetFileService(this);
         }
 
-        public void StartImport(string path)
+        public void StartImport(string path,out bool hasErrors, out string text)
         {
             ImportData = _excelRowImporter.Import(File.OpenRead(path));
             if (ImportData.HasErrors)
             {
-                string text = "";
+                hasErrors = true;
+                text = "";
                 foreach (var error in ImportData.Errors)
                 {
-                    text += "/n" + error.Message;
+                    text += error.Message + "\n";
                 }
-                MessageBox.Show(text);
             }
             else
             {
+                hasErrors = false;
+                text = String.Empty;
                 SetCurrentWorkFile(path);
             }
         }

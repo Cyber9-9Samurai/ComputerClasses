@@ -57,7 +57,12 @@ namespace ComputerClasses.ViewModels.Pages
                     }
                     else
                     {
-                        _fileService.StartImport(filePath);
+                        _fileService.StartImport(filePath,out bool hasErrors,out string errorsText);
+                        if (hasErrors)
+                        {
+                            _navigatorPopup.Navigate<ErrorPopupViewModel>().SetDescription(errorsText);
+                            return;
+                        }
                         _navigator.Navigate<MainPageViewModel>();
                         _session.ClearSession();
                         _session.SetUser(UserName);
@@ -83,7 +88,13 @@ namespace ComputerClasses.ViewModels.Pages
                 }
                 try
                 {
-                    _fileService.StartImport(openFileDialog.FileName);
+                    //запускаем импорт с помошью сервиса хранения текущего файла
+                    _fileService.StartImport(openFileDialog.FileName,out bool hasErrors,out string errorText);
+                    if (hasErrors)
+                    {
+                        _navigatorPopup.Navigate<ErrorPopupViewModel>().SetDescription(errorText);
+                    }
+                    //перенаправляем пользователя на главню страницу
                     _navigator.Navigate<MainPageViewModel>();
                     _session.ClearSession();
                     _session.SetUser(UserName);
