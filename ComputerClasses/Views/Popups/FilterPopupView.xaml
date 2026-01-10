@@ -68,7 +68,7 @@
                 </WrapPanel>
                 <WrapPanel Margin="0 10 0 0">
                     <TextBlock Text="По количеству компьютеров:" FontSize="18"/>
-                    <TextBox Text="{Binding ComputersQuantityText,UpdateSourceTrigger=PropertyChanged}" Width="184" Height="27" Margin="27 0 0 0"/>
+                    <TextBox Text="{Binding ComputersQuantityText,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputInPopup}" Width="184" Height="27" Margin="27 0 0 0"/>
                 </WrapPanel>
                 <WrapPanel Margin="0 10 0 0">
                     <TextBlock Text="По типу ос:" FontSize="18"/>
@@ -78,13 +78,13 @@
                                 <WrapPanel>
                                     <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
                                     <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
-                    Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                    CommandParameter="{Binding .}">
+                                            Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                            CommandParameter="{Binding .}">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{StaticResource buttonVis}">
                                                 <Binding Path="." />
                                                 <Binding Path="DataContext.SelectedFacultie"
-         RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                                         RelativeSource="{RelativeSource AncestorType=ComboBox}" />
                                             </MultiBinding>
                                         </Button.Visibility>
                                     </Button>
@@ -101,13 +101,13 @@
                                 <WrapPanel>
                                     <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
                                     <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
-                    Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                    CommandParameter="{Binding .}">
+                                            Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                            CommandParameter="{Binding .}">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{StaticResource buttonVis}">
                                                 <Binding Path="." />
                                                 <Binding Path="DataContext.SelectedFacultie"
-         RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                                         RelativeSource="{RelativeSource AncestorType=ComboBox}" />
                                             </MultiBinding>
                                         </Button.Visibility>
                                     </Button>
@@ -124,13 +124,13 @@
                                 <WrapPanel>
                                     <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
                                     <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
-                    Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                    CommandParameter="{Binding .}">
+                                            Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                            CommandParameter="{Binding .}">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{StaticResource buttonVis}">
                                                 <Binding Path="." />
                                                 <Binding Path="DataContext.SelectedFacultie"
-         RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                                         RelativeSource="{RelativeSource AncestorType=ComboBox}" />
                                             </MultiBinding>
                                         </Button.Visibility>
                                     </Button>
@@ -141,7 +141,7 @@
                 </WrapPanel>
                 <WrapPanel Margin="0 10 0 0">
                     <TextBlock Text="По количеству ОЗУ:" FontSize="18"/>
-                    <TextBox Text="{Binding RamsQuantityText,UpdateSourceTrigger=PropertyChanged}" Width="184" Height="27" Margin="109 0 0 0"/>
+                    <TextBox Text="{Binding RamsQuantityText,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputInPopup}" Width="184" Height="27" Margin="109 0 0 0"/>
                 </WrapPanel>
                 <WrapPanel Margin="0 10 0 0">
                     <TextBlock Text="По типу ОЗУ:" FontSize="18"/>
