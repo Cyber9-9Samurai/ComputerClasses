@@ -108,16 +108,7 @@ namespace ComputerClasses.ViewModels.Pages
                             _excelRowExporter.ExportToXlsx(data, File.OpenWrite(file));
                             break;
                         }
-                    case ExportVariants.ExelXLS:
-                        {
-                            var result = ExportFile("Excel Files (*.xls)|*.xls", "xls", out string path);
-                            if (result == true)
-                            {
-                                using var stream = File.OpenWrite(path);
-                                _excelRowExporter.ExportToXlsx(data, stream);
-                            }
-                            break;
-                        }
+                    //если в новый .xlsx файл
                     case ExportVariants.ExelXLSX:
                         {
                             var result = ExportFile("Excel Files (*.xlsx)|*.xlsx", "xlsx", out string path);
