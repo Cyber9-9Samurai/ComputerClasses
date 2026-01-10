@@ -55,14 +55,20 @@ namespace ComputerClasses.ViewModels.Pages
                 {
                     new MenuButtonItem("Добавить",_imageService.GetImage("Add.png"),AddCommand,null),
                     new MenuButtonItem("Редактировать",_imageService.GetImage("Edit.png"),EditCommand,null),
-                    new MenuButtonItem("Удалить",_imageService.GetImage("Delete.png"),RemoveCommand,null)
+                    new MenuButtonItem("Удалить",_imageService.GetImage("Delete.png"),RemoveCommand,null),
+                    new MenuButtonItem("Обновить",_imageService.GetImage("Sync.png"),LoadFileCommand,null)
                 };
                 _workFileService.PropertyChanged += (s, e) =>
+                _workFileService.PropertyChanged += async (s, e) =>
                 {
                     if (_workFileService.fileChanged == e.PropertyName)
                     {
-                        LoadFile();
+
+                        //обновляем статус
                         IsExistFile = _workFileService.HasFile();
+                        //загружаем данные из файла
+                        await LoadFile();
+                        
                     }
                 };
                 //подписка на событие при изменении текущего объекта
@@ -162,10 +168,15 @@ namespace ComputerClasses.ViewModels.Pages
 
 
 
-
-        public void LoadFile()
+        //метод загрузки данных из файла
+        [RelayCommand]
+        public async Task LoadFile()
         {
-            baseRows = [.._workFileService.ImportData.Items];
+            if (IsExistFile)
+        {
+                //передача ссылки на данные в коллекцию для восстановления значений
+                baseRows = [.. _workFileService.ImportData.Items];
+                //передачи сслыки на данные в отображаемую коллекцию
             Rows = _workFileService.ImportData.Items;
         }
 
