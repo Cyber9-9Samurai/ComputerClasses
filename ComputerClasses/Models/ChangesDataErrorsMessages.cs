@@ -23,6 +23,6 @@ namespace ComputerClasses.Models
         public const string diskIsNotSelected = "Диск(и) не указан(ы)\n";
         public const string ramIsNotRight = "ОЗУ не указана или указана неверно\n";
         public const string ramTypeIsNotSelected = "Тип ОЗУ не указан\n";
-        public const string lastSeviceDateIsNotSelected = "Дата последнего обслуживания не указана\n";
+        public const string lastSeviceDateIsNotSelected = "Дата последнего обслуживания не указана или указана неверно\n";
     }
 }

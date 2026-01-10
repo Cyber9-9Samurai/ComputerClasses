@@ -10,6 +10,7 @@ using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Pages;
 using Mvvm.Navigation;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 namespace ComputerClasses.ViewModels.Popups
 {
@@ -190,58 +191,80 @@ namespace ComputerClasses.ViewModels.Popups
             _navigatorPage.Navigate<MainPageViewModel>();
         }
 
+        //метод для сохранения изменений
         [RelayCommand]
         public async Task AgreeChanges()
         {
+            //пытаемся применить изменения
             try
             {
-                
+                //проверяем какое действие выполняется
                 switch (Actions)
                 {
+                    //если добавление
                     case DataChangesActions.Add:
                         {
+                            //проверяем правильно ли введены данные
                             if (!IsValidData())
                             {
                                 return;
                             }
+                            //добавляем в коллекцию к импортированным данным
                             _workFileService.ImportData.Items.Add(Data);
+                            //логируем действие
                             _changesMagazineViewModel.Logs = [..await _logService.
                             WriteLogLine(_changesMagazineViewModel.Logs.ToList(),DataChangesActions.Add, Data, _session.Name)];
+                            await AddTemplateCommand.ExecuteAsync(nameof(_rowsSettings.OperatingSystemType));
+                            await AddTemplateCommand.ExecuteAsync(nameof(_rowsSettings.Responsible));
                             break;
                         }
+                    //если изменение
                     case DataChangesActions.Edit:
                         {
+                            //проверяем правильно ли введены данные
                             if (!IsValidData())
                             {
                                 return;
                             }
+                            //получаем строку по id
                             var item = _workFileService.ImportData.Items.FirstOrDefault(i => i.Id == Data.Id);
+                            //проверка если строка существует
                             if (item != null)
                             {
+                                //получаем индекс элемента в коллекции
                                 var index = _workFileService.ImportData.Items.IndexOf(item);
+                                //изменяет заначение в импортированных данных по индексу
                                 _workFileService.ImportData.Items[index] = Data;
+                                //логируем действие
                                 _changesMagazineViewModel.Logs = [..await _logService.
                             WriteLogLine(_changesMagazineViewModel.Logs.ToList(),DataChangesActions.Edit, Data, _session.Name)];
                             }
                             break;
                         }
+                    //если удаление
                     case DataChangesActions.Remove:
                         {
+                            //получаем строку по id
                             var item = _workFileService.ImportData.Items.FirstOrDefault(i => i.Id == Data.Id);
+                            //проверка если строка существует
                             if (item != null)
                             {
+                                //удаляем элемент из коллекции импортированных данных
                                 _workFileService.ImportData.Items.Remove(item);
+                                //логируем действие
                                 _changesMagazineViewModel.Logs = [..await _logService.
                             WriteLogLine(_changesMagazineViewModel.Logs.ToList(),DataChangesActions.Remove, Data, _session.Name)];
                             }
                             break;
                         }
                 }
-                
+                //закрываем текущее модальное окно
                 Close();
             }
+            //если произошло исключение
             catch (Exception)
             {
+                //открываем модальное окно вывода сообщений об ошибках
                 _navigatorPopup.Navigate<ErrorPopupViewModel>();
             }
         }
@@ -299,7 +322,7 @@ namespace ComputerClasses.ViewModels.Popups
                 Errors.Add(ChangesDataErrorsMessages.resposibleIsNotSelected);
             }
 
-            if (!int.TryParse(Data.InventoryNumber.Name, out int _))
+            if (!Regex.IsMatch(Data.InventoryNumber.Name, @"^\d+$"))
             {
                 valid = false;
                 Errors.Add(ChangesDataErrorsMessages.inventoryNumberIsNotRight);
@@ -366,7 +389,7 @@ namespace ComputerClasses.ViewModels.Popups
                 Data.Status.Name = SelecetedStatus;
             }
 
-            if (!DateTime.TryParse(Data.LastServiceDate.Name, out DateTime _))
+            if (!DateTime.TryParse(Data.LastServiceDate.Name, out DateTime date) || date > DateTime.Today)
             {
                 valid = false;
                 Errors.Add(ChangesDataErrorsMessages.lastSeviceDateIsNotSelected);
@@ -420,6 +443,10 @@ namespace ComputerClasses.ViewModels.Popups
         private async Task AddTemplate(string collection)
         {
             var coll = this.GetType().GetProperty(collection);
+            if(coll == null)
+            {
+                coll = _rowsSettings.GetType().GetProperty(collection);
+            }
             if (coll != null)
             {
                 switch (collection)
@@ -472,6 +499,23 @@ namespace ComputerClasses.ViewModels.Popups
                                 _rowsSettings.Statuses.Add(StatusAddText);
                                 StatusAddText = "";
                             }       
+                            break;
+                        }
+                    case nameof(_rowsSettings.OperatingSystemType):
+                        {
+                            if (!string.IsNullOrWhiteSpace(Data.OperatingSystem.Name))
+                            {
+                                _rowsSettings.OperatingSystemType.Add(Data.OperatingSystem.Name);
+                                
+                            }
+                            break;
+                        }
+                    case nameof(_rowsSettings.Responsible):
+                        {
+                            if (!string.IsNullOrWhiteSpace(Data.ResponsiblePerson.Name))
+                            {
+                                _rowsSettings.Responsible.Add(Data.ResponsiblePerson.Name);
+                            }
                             break;
                         }
                 }
