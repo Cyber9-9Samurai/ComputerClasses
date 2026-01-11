@@ -3,27 +3,37 @@
     <Style x:Key="RoundedButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="#69A5FF"/>
         <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="Width" Value="140" />
-        <Setter Property="Height" Value="45" />
+        <Setter Property="Width" Value="140"/>
+        <Setter Property="Height" Value="45"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
+                    <Border Name="Border"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="15"
                         SnapsToDevicePixels="True">
-                        <ContentPresenter
-                        Margin="{TemplateBinding Padding}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        RecognizesAccessKey="True"/>
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      RecognizesAccessKey="True"/>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.8"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+
+
 
     <Style x:Key="ImportButton" TargetType="Button">
         <Setter Property="Background" Value="White"/>

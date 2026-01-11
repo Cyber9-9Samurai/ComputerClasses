@@ -398,7 +398,7 @@
                     </StackPanel>
                 </Grid>
 
-                <ScrollViewer MaxHeight="60">
+                <ScrollViewer MaxHeight="60" Margin="8,8,8,8">
                     <ItemsControl ItemsSource="{Binding Errors}"
                                   Foreground="Red" >
                         <ItemsControl.ItemTemplate>
