@@ -136,11 +136,11 @@ namespace ComputerClasses.ViewModels.Popups
 
         private async Task<bool> Validate()
         {
-            if (!int.TryParse(RamsQuantityText,out int _))
+            if (!string.IsNullOrWhiteSpace(RamsQuantityText) && !int.TryParse(RamsQuantityText,out int _))
             {
                 return false;
             }
-            if(!int.TryParse(ComputersQuantityText,out int _))
+            if(!string.IsNullOrWhiteSpace(ComputersQuantityText) && !int.TryParse(ComputersQuantityText,out int _))
             {
                 return false;
             }
