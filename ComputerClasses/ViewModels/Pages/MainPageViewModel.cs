@@ -112,21 +112,7 @@ namespace ComputerClasses.ViewModels.Pages
                 
             }
 
-            //подсчет количесва компьютеров в текущем фале и заполенения коллекции comps
-            foreach (var item in baseRows)
-                {
-                    if (int.TryParse(item.Frame.Name, out int frame) && int.TryParse(item.AudienceNumber.Name, out int number))
-                    {
-                        if (comps.ContainsKey((frame, number)))
-                        {
-                            comps[(frame, number)] += 1;
-                        }
-                        else
-                        {
-                            comps.Add((frame, number), 1);
-                        }
-                    }
-                }
+            
 
 
         }
@@ -226,6 +212,21 @@ namespace ComputerClasses.ViewModels.Pages
                 baseRows = [.. _workFileService.ImportData.Items];
                 //передачи сслыки на данные в отображаемую коллекцию
                 Rows = _workFileService.ImportData.Items;
+                //подсчет количесва компьютеров в текущем фале и заполенения коллекции comps
+                foreach (var item in baseRows)
+                {
+                    if (int.TryParse(item.Frame.Name, out int frame) && int.TryParse(item.AudienceNumber.Name, out int number))
+                    {
+                        if (comps.ContainsKey((frame, number)))
+                        {
+                            comps[(frame, number)] += 1;
+                        }
+                        else
+                        {
+                            comps.Add((frame, number), 1);
+                        }
+                    }
+                }
             }
         }
 
