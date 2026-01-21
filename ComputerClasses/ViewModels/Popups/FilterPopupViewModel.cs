@@ -93,7 +93,7 @@ namespace ComputerClasses.ViewModels.Popups
             isCleared = true;
         }
         [RelayCommand]
-        private void Close(bool isApply)
+        private async Task Close(bool isApply)
         {
             _navigatorPopup.BackStack.Clear();
             _navigatorPopup.Navigate<EmptyPopupViewModel>();
@@ -112,7 +112,7 @@ namespace ComputerClasses.ViewModels.Popups
                   RamsQuantityText,
                   ComputersQuantityText
                  };
-                _pageNavigator.Navigate<MainPageViewModel>().ApplyFilter(comboboxFilters, textboxFilters,isCleared);
+                await _pageNavigator.Navigate<MainPageViewModel>().ApplyFilter(comboboxFilters, textboxFilters,isCleared);
                 isCleared = false;
             }
         }

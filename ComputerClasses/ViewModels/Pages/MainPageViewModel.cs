@@ -53,6 +53,8 @@ namespace ComputerClasses.ViewModels.Pages
         private Dictionary<(int, int), int> comps = new();
 
         private int lastSearchLenght = 0;
+        private string?[] _textboxfilters;
+        private string?[] _comboboxfilters;
 
         //получение зависимостей через конструктор с помощью DI
         public MainPageViewModel(Navigator<PopupBaseViewModel> navigator,
@@ -132,18 +134,22 @@ namespace ComputerClasses.ViewModels.Pages
         }
 
         //метод для применения фильтров
-        public void ApplyFilter(string?[] comboboxfilters, string?[] textboxfilters, bool isCleared = false)
+        public async Task ApplyFilter(string?[] comboboxfilters, string?[] textboxfilters, bool isCleared = false)
         {
+            _comboboxfilters = comboboxfilters;
+            _textboxfilters = textboxfilters;
+            
             //проверка если фильтры были сброшены
             if (isCleared)
             {
                 //восстановление изначальной коллекции
                 Rows = [.. baseRows];
+                await DoSearch();
                 return;
             }
 
             //применение фильтров с помощью LINQ-запроса
-            var filtered = baseRows.Where(row => //берется каждая строка из коллекции
+            var filtered = Rows.Where(row => //берется каждая строка из коллекции
             {
                 //цикл для прохождения по всем фильтрам из ComboBox-ов
                 for (int j = 0; j < comboboxfilters.Length; j++)
@@ -244,7 +250,7 @@ namespace ComputerClasses.ViewModels.Pages
             if (!string.IsNullOrWhiteSpace(text))
             {
                 //обновлеям отображаемую коллекцию
-                Rows = [.. baseRows.Where(i => i.AudienceName.Name.ToLower().Contains(text) 
+                Rows = [.. Rows.Where(i => i.AudienceName.Name.ToLower().Contains(text) 
                 || i.ApplicationList.Name.ToLower().Contains(text))];
             }
             //проверка если коичество элементов в отображаемой коллекции
@@ -253,7 +259,9 @@ namespace ComputerClasses.ViewModels.Pages
             {   
                 //восстанавливаем значение
                 Rows = [.. baseRows];
+                await ApplyFilter(_comboboxfilters, _textboxfilters, false);
             }
+            
         }
 
         //метод открытия модального окна взаимодействия с данными для добавления
