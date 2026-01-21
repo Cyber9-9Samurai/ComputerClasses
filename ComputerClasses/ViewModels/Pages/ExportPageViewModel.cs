@@ -116,6 +116,7 @@ namespace ComputerClasses.ViewModels.Pages
                     case ExportVariants.ThisFile:
                         {
                             //с помощью сервиса экспорта сохраняем данные в этот же файл
+                            globPath = file;
                             _excelRowExporter.ExportToXlsx(data, File.OpenWrite(file));
                             _navigator.Navigate<SuccessPopupViewModel>().SetDescription("Файл был экспортирован!");
                             break;
