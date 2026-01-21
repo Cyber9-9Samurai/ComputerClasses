@@ -17,7 +17,10 @@ namespace ComputerClasses
     /// </summary>
     public partial class App : Application
     {
+        //создание host для управления жизненным циклом приложения
         private IHost _host = CreateBuilder().Build();
+
+        //создание builder для host и регистрация всех зависимостей с помощью extension методов
         private static IHostBuilder CreateBuilder(string[]? args = null)
         {
             return Host.CreateDefaultBuilder(args)
@@ -26,6 +29,7 @@ namespace ComputerClasses
                 .BuildNavigation();
         }
 
+        //создание главного окна с контекстом данных и навигатора при запуске приложения
         protected override async void OnStartup(StartupEventArgs e)
         {
             var MainWindow = _host.Services.GetRequiredService<MainWindow>();
@@ -34,6 +38,8 @@ namespace ComputerClasses
             MainWindow.Show();
             base.OnStartup(e);
         }
+
+        //освобождение ресурсов при закрытии для избежания утечек памяти
         protected override async void OnExit(ExitEventArgs e)
         {
             await _host.StopAsync();

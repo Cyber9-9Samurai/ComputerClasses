@@ -1,20 +1,28 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<!--Словарь ресурсов для динамической смены View страниц в зависимости от активного ViewModel-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Popups"
                     xmlns:view="clr-namespace:ComputerClasses.Views.Popups">
-    
+    <!--Регистрация связки для пустого модального окна, 
+    оно необходимо для корректной работы навигации-->
     <DataTemplate DataType="{x:Type vm:EmptyPopupViewModel}">
         <view:EmptyPopupView DataContext="{Binding}"/>
     </DataTemplate>
+    <!--Регистрация связки для модального окна взаимодействия с данными-->
     <DataTemplate DataType="{x:Type vm:ChangeDataPopupViewModel}">
         <view:ChangeDataPopupView DataContext="{Binding}"/>
     </DataTemplate>
+    <!--Регистрация связки для модального окна вывода сообщений 
+    об ошибках при выполнении-->
     <DataTemplate DataType="{x:Type vm:ErrorPopupViewModel}">
         <view:ErrorPopupView DataContext="{Binding}"/>
     </DataTemplate>
+    <!--Регистрация связки для модального окна вывода сообщений
+     об успешных операциях-->
     <DataTemplate DataType="{x:Type vm:SuccessPopupViewModel}">
         <view:SeccessPopupView DataContext="{Binding}"/>
     </DataTemplate>
+    <!--Регистрация связки для модального окна выбора настройки фильтров-->
     <DataTemplate DataType="{x:Type vm:FilterPopupViewModel}">
         <view:FilterPopupView DataContext="{Binding}"/>
     </DataTemplate>

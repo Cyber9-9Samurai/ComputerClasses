@@ -89,64 +89,99 @@ namespace ComputerClasses.ViewModels.Pages
         }
 
 
+        //метод для экспорта данных в классе логики страницы экспорта
         [RelayCommand]
         private async Task Export()
         {
+            //получаем информацию о текущем файле из соответсвующего сервиса
             var file = _workFileService.GetCurrentWorkFile();
+            //получаем данные для экспрота из сервиса , если пустой то новую коллекцию
             var data = _workFileService.ImportData.Items ?? new ObservableCollection<Domain.Row>();
+            //проверка пустая ли информация о текущем файле
             if (file is null)
             {
-                _navigator.Navigate<ErrorPopupViewModel>().SetDescription("Невозможно экспортировать файл, так как он не выбран.");
+                //открываем модальное окно для вывода ошибок и передаем сообщение
+                _navigator.Navigate<ErrorPopupViewModel>()
+                .SetDescription("Невозможно экспортировать файл, так как он не выбран.");
                 return;
             }
+            //пытаемся экспротировать
             try
             {
+                //проверяем какой вариант экспорта выбрал пользователь
                 switch (SelectedExportVar)
                 {
+                    //если в этот же файл
                     case ExportVariants.ThisFile:
                         {
+                            //с помощью сервиса экспорта сохраняем данные в этот же файл
                             _excelRowExporter.ExportToXlsx(data, File.OpenWrite(file));
                             break;
                         }
                     //если в новый .xlsx файл
                     case ExportVariants.ExelXLSX:
                         {
+                            //открываем окно выбора пути для сохранения 
+                            //и запоминаем результат
                             var result = ExportFile("Excel Files (*.xlsx)|*.xlsx", "xlsx", out string path);
+                            //проверка если пользователь выбрал путь
                             if (result == true)
                             {
+                                //с помощью сервиса экспорта 
+                                //сохраняем данные в .xlsx файл
                                 using var stream = File.OpenWrite(path);
                                 _excelRowExporter.ExportToXlsx(data, stream);
                             }
                             break;
                         }
+                    //если в csv файл
                     case ExportVariants.Csv:
                         {
+                            //открываем окно выбора пути для сохранения 
+                            //и запоминаем результат
                             var result = ExportFile("CSV Files (*.csv)|*.csv", "csv", out string path);
+                            //проверка если пользователь выбрал путь
                             if (result == true)
                             {
+                                //с помощью сервиса экспорта 
+                                //сохраняем данные .csv файл
                                 using var stream = File.OpenWrite(path);
                                 _csvRowExporter.ExportToCsv(data, stream);
                             }
                             break;
                         }
+                    //если в pdf файл
                     case ExportVariants.PDF:
                         {
+                            //открываем окно выбора пути для сохранения 
+                            //и запоминаем результат
                             var result = ExportFile("PDF Files (*.pdf)|*.pdf", "pdf", out string path);
+                            //проверка если пользователь выбрал путь
                             if (result == true)
                             {
+                                //с помощью сервиса экспорта 
+                                //сохраняем данные в .pdf
                                 using var stream = File.OpenWrite(path);
                                 _pdfRowExporter.ExportToPdf(data, stream);
                             }
                             break;
                         }
                 }
+                //открываем модальное окно для сообщений об успешных
+                //операциях и передаем сообщение
                 _navigator.Navigate<SuccessPopupViewModel>().SetDescription("Файл был экспортирован!");
+                //вычисляем хэш экспортированного файла
                 var hashFile = await _logService.HashFile(File.OpenRead(_workFileService.GetCurrentWorkFile()));
+                //сохраняем логи для этого файла по хэш-ключу
                 await _logService.SaveLog(hashFile , _changesMagazineViewModel.Logs.ToList());
             }
+            //если возникло исключение
             catch (Exception ex)
             {
-                _navigator.Navigate<ErrorPopupViewModel>().SetDescription("Не удалось экспортировать файл по неизвестным причинам. Может быть файл занят другой программой. Попробуйте снова позднее.");
+                //открываем коно для вывода сообщений об ошибках
+                //и передаем текст сообщения
+                _navigator.Navigate<ErrorPopupViewModel>()
+                .SetDescription("Не удалось экспортировать файл по неизвестным причинам. Может быть файл занят другой программой. Попробуйте снова позднее.");
                 }
             }
 

@@ -24,6 +24,8 @@
     <None Remove="Resources\Assets\Images\MainPage.gif" />
     <None Remove="Resources\Assets\Images\MainPage.png" />
     <None Remove="Resources\Assets\Images\Notifications.gif" />
+    <None Remove="Resources\Assets\Images\Sync.gif" />
+    <None Remove="Resources\Assets\Images\Sync.png" />
     <None Remove="Services\Notifications\notifications_settings.json" />
   </ItemGroup>
 
@@ -105,6 +107,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Assets\Images\Add.png" />
+    <Resource Include="Resources\Assets\Images\Sync.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Images\Sync.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Services\Notifications\notifications_settings.json" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
-﻿<Window x:Class="ComputerClasses.Views.Windows.MainWindow"
+﻿<!--Разметка главного окна-->
+<Window x:Class="ComputerClasses.Views.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,19 +16,28 @@
         WindowState="Maximized"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         Icon="/Resources/Assets/Images/chart-histogram.ico">
+    <!--Подключение ресурсов для окна-->
     <Window.Resources>
         <converter:PopupVisibilityConverter x:Key="popupVis"/>
     </Window.Resources>
+    <!--Создание сетки с 2 строками где первая занимает 10% от всего объема,
+     а вторая оставшееся пространство-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <!--Подключение View навигации в качестве компонента-->
         <nav:NavigationMenuView Grid.Row="0" DataContext="{Binding NavigationMenu}"/>
+        <!--Создание элемента который будет передавать текущий ViewModel страницы в навигаторе
+        и с помощью словарей ресурсов View страницы будет меняться-->
         <Grid Grid.Row="1">
             <ContentControl Content="{Binding NavigatorPage.CurrentViewModel}"/>
         </Grid>
+        <!--Подключение View уведомлений в качестве компонента-->
         <notifications:NotificationsView Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding NotificationViewModel}"/>
+        <!--Создание элемента который будет передавать текущий ViewModel модального окна
+        в навигаторе и с помощью словарей ресурсов View модального окна будет меняться-->
         <Grid Background="#99000000" Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding NavigatorPopup.CurrentViewModel,Converter={StaticResource popupVis}}">
             <ContentControl Content="{Binding NavigatorPopup.CurrentViewModel}"/>
         </Grid>

@@ -1,16 +1,21 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<!--Словарь ресурсов для динамической смены View страниц в зависимости от активного ViewModel-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:vm="clr-namespace:ComputerClasses.ViewModels.Pages"
                     xmlns:view="clr-namespace:ComputerClasses.Views.Pages">
+    <!--Регистрация связки для главной страницы-->
     <DataTemplate DataType="{x:Type vm:MainPageViewModel}">
         <view:MainPageView DataContext="{Binding}"/>
     </DataTemplate>
+    <!--Регистрация связки для страницы импорта-->
     <DataTemplate DataType="{x:Type vm:ImportPageViewModel}">
         <view:ImportPageView DataContext="{Binding}"/>
     </DataTemplate>
+    <!--Регистрация связки для страницы экспорта-->
     <DataTemplate DataType="{x:Type vm:ExportPageViewModel}">
         <view:ExportPageView DataContext="{Binding}"/>
     </DataTemplate>
+    <!--Регистрация связки для страницы изменений-->
     <DataTemplate DataType="{x:Type vm:ChangesMagazineViewModel}">
         <view:ChangesMagazineView DataContext="{Binding}"/>
     </DataTemplate>

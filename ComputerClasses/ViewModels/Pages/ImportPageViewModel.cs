@@ -72,20 +72,29 @@ namespace ComputerClasses.ViewModels.Pages
             }
         }
 
+        //метод для импорта данных в классе логики импорта
         [RelayCommand]
         private void OpenFileDialog()
         {
-
+            //создаем диалоговое коно выбора файла
             var openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            //настраиваем фильтр для окна выбора файла
             openFileDialog.Filter = "Excel Files|*.xlsx;*.xls";
+            //открываем окно и запоминаем результат работы
             var result = openFileDialog.ShowDialog();
+            //проверка если пользователь выбрал файл
             if (result == true)
             {
+                //проверка если пользователь не ввел имя или логин
                 if (string.IsNullOrWhiteSpace(UserName))
                 {
+                    //открываем окно для отображения сообщений об ошибках
+                    //и передаем сообщение ошибки
                     _navigatorPopup.Navigate<ErrorPopupViewModel>().SetDescription("Введите имя пользователя!");
                     return;
                 }
+                //если пользователь ввел имя или логин,
+                //то пробуем импортировать
                 try
                 {
                     //запускаем импорт с помошью сервиса хранения текущего файла
@@ -96,11 +105,15 @@ namespace ComputerClasses.ViewModels.Pages
                     }
                     //перенаправляем пользователя на главню страницу
                     _navigator.Navigate<MainPageViewModel>();
+                    //отчищаем страую сессию и сохраняем новую
                     _session.ClearSession();
                     _session.SetUser(UserName);
                 }
-                catch (Exception ex)
+                //если возникло исключение
+                catch (Exception)
                 {
+                    //открываем окно для отображения сообщений об ошибках
+                    //и передаем сообщение ошибки
                     _navigatorPopup.Navigate<ErrorPopupViewModel>().SetDescription("Ошибка при импорте!");
                 }
                 
