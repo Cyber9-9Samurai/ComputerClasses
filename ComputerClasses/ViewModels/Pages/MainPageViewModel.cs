@@ -8,9 +8,6 @@ using ComputerClasses.ViewModels.Abstractions;
 using ComputerClasses.ViewModels.Popups;
 using Mvvm.Navigation;
 using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Controls;
-using WpfAnimatedGif;
 
 namespace ComputerClasses.ViewModels.Pages
 {
@@ -67,7 +64,7 @@ namespace ComputerClasses.ViewModels.Pages
             _workFileService = workFileService;
             //вызов метода для загрузки данных
             LoadData();
-            
+
         }
 
         //метод загрузки данных
@@ -88,7 +85,7 @@ namespace ComputerClasses.ViewModels.Pages
                 //подписка на событие при изменении полей в 
                 //сервисе для хранения рабочего файла
                 _workFileService.PropertyChanged += async (s, e) =>
-                {   
+                {
                     //проверка если изменился сам файл
                     if (_workFileService.fileChanged == e.PropertyName)
                     {
@@ -97,7 +94,7 @@ namespace ComputerClasses.ViewModels.Pages
                         IsExistFile = _workFileService.HasFile();
                         //загружаем данные из файла
                         await LoadFile();
-                        
+
                     }
                 };
                 //подписка на событие при изменении текущего объекта
@@ -111,10 +108,10 @@ namespace ComputerClasses.ViewModels.Pages
                     }
                 };
 
-                
+
             }
 
-            
+
 
 
         }
@@ -138,7 +135,7 @@ namespace ComputerClasses.ViewModels.Pages
         {
             _comboboxfilters = comboboxfilters;
             _textboxfilters = textboxfilters;
-            
+
             //проверка если фильтры были сброшены
             if (isCleared)
             {
@@ -168,10 +165,10 @@ namespace ComputerClasses.ViewModels.Pages
                         5 => row.Frame?.Name.Contains(comboboxfilters[j]) ?? false,
                         _ => true
                     };
-                    
+
                     //если строка не соответсвует хотя бы одному фильтру,
                     //то она нам не подходит
-                    if (!matches) return false; 
+                    if (!matches) return false;
                 }
 
                 //цикл для прохождения по всем фильрам из TextBox-ов
@@ -203,7 +200,7 @@ namespace ComputerClasses.ViewModels.Pages
             }).ToList(); //перевод все коллекции в список
 
             //замена текущей коллекции на отфильтрованную
-            Rows = [.. filtered]; 
+            Rows = [.. filtered];
         }
 
 
@@ -239,7 +236,7 @@ namespace ComputerClasses.ViewModels.Pages
         //метод поиска по названию аудитории или установленным приложениям
         private async Task DoSearch()
         {
-            if(lastSearchLenght > 0 && SearchText.Length-lastSearchLenght < 0)
+            if (lastSearchLenght > 0 && SearchText.Length - lastSearchLenght < 0)
             {
                 await Task.Delay(700);
             }
@@ -250,18 +247,21 @@ namespace ComputerClasses.ViewModels.Pages
             if (!string.IsNullOrWhiteSpace(text))
             {
                 //обновлеям отображаемую коллекцию
-                Rows = [.. Rows.Where(i => i.AudienceName.Name.ToLower().Contains(text) 
+                Rows = [.. Rows.Where(i => i.AudienceName.Name.ToLower().Contains(text)
                 || i.ApplicationList.Name.ToLower().Contains(text))];
             }
             //проверка если коичество элементов в отображаемой коллекции
             //меньше чем должно быть
             else if (baseRows.Count > Rows.Count)
-            {   
+            {
                 //восстанавливаем значение
                 Rows = [.. baseRows];
-                await ApplyFilter(_comboboxfilters, _textboxfilters, false);
+                if (_comboboxfilters is not null && _textboxfilters is not null)
+                {
+                    await ApplyFilter(_comboboxfilters, _textboxfilters, false);
+                }
             }
-            
+
         }
 
         //метод открытия модального окна взаимодействия с данными для добавления
