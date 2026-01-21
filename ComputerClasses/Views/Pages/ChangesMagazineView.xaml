@@ -27,7 +27,7 @@
         
         <TextBlock Visibility="{Binding Logs.Count,Converter={StaticResource MsgVis}}" Text="Нет изменений" Grid.Column="1" Grid.Row="1"/>
 
-        <ScrollViewer Visibility="{Binding Logs.Count,Converter={StaticResource ListVis}}" Grid.Column="1" Grid.Row="1">
+        <ScrollViewer Visibility="{Binding Logs.Count,Converter={StaticResource ListVis}}" Grid.Column="1" Grid.Row="1" HorizontalScrollBarVisibility="Visible">
                 <ItemsControl ItemsSource="{Binding Logs}"/>
         </ScrollViewer>
     </Grid>
