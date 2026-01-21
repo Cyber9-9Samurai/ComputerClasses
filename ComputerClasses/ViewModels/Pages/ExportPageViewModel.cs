@@ -97,6 +97,7 @@ namespace ComputerClasses.ViewModels.Pages
             var file = _workFileService.GetCurrentWorkFile();
             //получаем данные для экспрота из сервиса , если пустой то новую коллекцию
             var data = _workFileService.ImportData.Items ?? new ObservableCollection<Domain.Row>();
+            string globPath = "";
             //проверка пустая ли информация о текущем файле
             if (file is null)
             {
@@ -130,6 +131,7 @@ namespace ComputerClasses.ViewModels.Pages
                             {
                                 //с помощью сервиса экспорта 
                                 //сохраняем данные в .xlsx файл
+                                globPath = path;
                                 using var stream = File.OpenWrite(path);
                                 _excelRowExporter.ExportToXlsx(data, stream);
                                 _navigator.Navigate<SuccessPopupViewModel>().SetDescription("Файл был экспортирован!");
@@ -171,10 +173,13 @@ namespace ComputerClasses.ViewModels.Pages
                             break;
                         }
                 }
-                //вычисляем хэш экспортированного файла
-                var hashFile = await _logService.HashFile(File.OpenRead(_workFileService.GetCurrentWorkFile()));
-                //сохраняем логи для этого файла по хэш-ключу
-                await _logService.SaveLog(hashFile , _changesMagazineViewModel.Logs.ToList());
+                if (!string.IsNullOrWhiteSpace(globPath))
+                {
+                    //вычисляем хэш экспортированного файла
+                    var hashFile = await _logService.HashFile(File.OpenRead(globPath));
+                    //сохраняем логи для этого файла по хэш-ключу
+                    await _logService.SaveLog(hashFile, _changesMagazineViewModel.Logs.ToList());
+                }
             }
             //если возникло исключение
             catch (Exception ex)
