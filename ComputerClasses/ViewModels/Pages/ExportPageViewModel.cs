@@ -116,6 +116,7 @@ namespace ComputerClasses.ViewModels.Pages
                         {
                             //с помощью сервиса экспорта сохраняем данные в этот же файл
                             _excelRowExporter.ExportToXlsx(data, File.OpenWrite(file));
+                            _navigator.Navigate<SuccessPopupViewModel>().SetDescription("Файл был экспортирован!");
                             break;
                         }
                     //если в новый .xlsx файл
@@ -131,6 +132,7 @@ namespace ComputerClasses.ViewModels.Pages
                                 //сохраняем данные в .xlsx файл
                                 using var stream = File.OpenWrite(path);
                                 _excelRowExporter.ExportToXlsx(data, stream);
+                                _navigator.Navigate<SuccessPopupViewModel>().SetDescription("Файл был экспортирован!");
                             }
                             break;
                         }
@@ -147,6 +149,7 @@ namespace ComputerClasses.ViewModels.Pages
                                 //сохраняем данные .csv файл
                                 using var stream = File.OpenWrite(path);
                                 _csvRowExporter.ExportToCsv(data, stream);
+                                _navigator.Navigate<SuccessPopupViewModel>().SetDescription("Файл был экспортирован!");
                             }
                             break;
                         }
@@ -163,13 +166,11 @@ namespace ComputerClasses.ViewModels.Pages
                                 //сохраняем данные в .pdf
                                 using var stream = File.OpenWrite(path);
                                 _pdfRowExporter.ExportToPdf(data, stream);
+                                _navigator.Navigate<SuccessPopupViewModel>().SetDescription("Файл был экспортирован!");
                             }
                             break;
                         }
                 }
-                //открываем модальное окно для сообщений об успешных
-                //операциях и передаем сообщение
-                _navigator.Navigate<SuccessPopupViewModel>().SetDescription("Файл был экспортирован!");
                 //вычисляем хэш экспортированного файла
                 var hashFile = await _logService.HashFile(File.OpenRead(_workFileService.GetCurrentWorkFile()));
                 //сохраняем логи для этого файла по хэш-ключу
