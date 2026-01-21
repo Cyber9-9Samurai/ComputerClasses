@@ -43,21 +43,38 @@
             </Grid.Clip>
             <TextBlock Text="Фильтры" Style="{StaticResource Content}" Grid.Row="0" />
             <StackPanel Grid.Row="1" Margin="20 0 0 0" HorizontalAlignment="Center">
-                <WrapPanel Margin="0 10 0 0">
-                    <TextBlock Text="По статусу:" FontSize="18" />
-                    <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding StatusesSelected}" Margin="180 0 0 0" Width="184" Height="27">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+
+                    <TextBlock Text="По статусу:" FontSize="18" Grid.Column="0" Grid.Row="0" Margin="0 0 0 10" />
+                    <ComboBox ItemsSource="{Binding Statuses}" SelectedItem="{Binding StatusesSelected}" Width="184" Height="27" Grid.Column="1" Grid.Row="0" Margin="0 0 0 10">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <WrapPanel>
                                     <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
                                     <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
-                                            Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                                            CommandParameter="{Binding .}">
+                                   Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                   CommandParameter="{Binding .}">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{StaticResource buttonVis}">
                                                 <Binding Path="." />
                                                 <Binding Path="DataContext.SelectedFacultie"
-                                 RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                        RelativeSource="{RelativeSource AncestorType=ComboBox}" />
                                             </MultiBinding>
                                         </Button.Visibility>
                                     </Button>
@@ -65,14 +82,87 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </WrapPanel>
-                <WrapPanel Margin="0 10 0 0">
-                    <TextBlock Text="По количеству компьютеров:" FontSize="18"/>
-                    <TextBox Text="{Binding ComputersQuantityText,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputInPopup}" Width="184" Height="27" Margin="27 0 0 0"/>
-                </WrapPanel>
-                <WrapPanel Margin="0 10 0 0">
-                    <TextBlock Text="По типу ос:" FontSize="18"/>
-                    <ComboBox ItemsSource="{Binding OperatingSystems}" SelectedItem="{Binding OpertaingSystemSelected}" Width="184" Height="27" Margin="178 0 0 0">
+
+
+                    <TextBlock Text="По количеству компьютеров:" FontSize="18" Grid.Column="0" Grid.Row="1" Margin="0 0 0 10"/>
+                    <TextBox Text="{Binding ComputersQuantityText,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputInPopup}" Width="184" Height="27" Grid.Column="1" Grid.Row="1" Margin="0 0 0 10" />
+
+
+                    <TextBlock Text="По типу ос:" FontSize="18" Grid.Row="2" Grid.Column="0" Margin="0 0 0 10"/>
+                    <ComboBox ItemsSource="{Binding OperatingSystems}" SelectedItem="{Binding OpertaingSystemSelected}" Width="184" Height="27" Grid.Column="1" Grid.Row="2" Margin="0 0 0 10">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
+                                    <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
+                                   Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                   CommandParameter="{Binding .}">
+                                        <Button.Visibility>
+                                            <MultiBinding Converter="{StaticResource buttonVis}">
+                                                <Binding Path="." />
+                                                <Binding Path="DataContext.SelectedFacultie"
+                                                RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                            </MultiBinding>
+                                        </Button.Visibility>
+                                    </Button>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+
+                    <TextBlock Text="По ответсвенному:" FontSize="18" Grid.Column="0" Grid.Row="3" Margin="0 0 0 10"/>
+                    <ComboBox ItemsSource="{Binding Resposibles}" SelectedItem="{Binding ResposibleSelected}" Width="184" Height="27" Grid.Column="1" Grid.Row="3" Margin="0 0 0 10">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
+                                    <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
+                                   Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                   CommandParameter="{Binding .}">
+                                        <Button.Visibility>
+                                            <MultiBinding Converter="{StaticResource buttonVis}">
+                                                <Binding Path="." />
+                                                <Binding Path="DataContext.SelectedFacultie"
+                                                RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                            </MultiBinding>
+                                        </Button.Visibility>
+                                    </Button>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    
+                    <TextBlock Text="По факультету:" FontSize="18" Grid.Column="0" Grid.Row="4" Margin="0 0 0 10"/>
+                    <ComboBox ItemsSource="{Binding Faculties}" SelectedItem="{Binding FacultySelected}" Width="184" Height="27" Grid.Column="1" Grid.Row="4" Margin="0 0 0 10">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
+                                    <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
+                                   Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                   CommandParameter="{Binding .}">
+                                        <Button.Visibility>
+                                            <MultiBinding Converter="{StaticResource buttonVis}">
+                                                <Binding Path="." />
+                                                <Binding Path="DataContext.SelectedFacultie"
+                                                RelativeSource="{RelativeSource AncestorType=ComboBox}" />
+                                            </MultiBinding>
+                                        </Button.Visibility>
+                                    </Button>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+
+                    <TextBlock Text="По количеству ОЗУ:" FontSize="18" Grid.Row="5" Grid.Column="0" Margin="0 0 0 10"/>
+                    <TextBox Text="{Binding RamsQuantityText,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputInPopup}" Width="184" Height="27" Grid.Column="1" Grid.Row="5" Margin="0 0 0 10" />
+
+
+                    <TextBlock Text="По типу ОЗУ:" FontSize="18" Grid.Column="0" Grid.Row="6" Margin="0 0 0 10"/>
+                    <ComboBox ItemsSource="{Binding RamTypes}" SelectedItem="{Binding RamTypeSelected}" Width="184" Height="27" Grid.Column="1" Grid.Row="6" Margin="0 0 0 10">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <WrapPanel>
@@ -92,10 +182,10 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </WrapPanel>
-                <WrapPanel Margin="0 10 0 0">
-                    <TextBlock Text="По ответсвенному:" FontSize="18"/>
-                    <ComboBox ItemsSource="{Binding Resposibles}" SelectedItem="{Binding ResposibleSelected}" Width="184" Height="27" Margin="115 0 0 0">
+
+
+                    <TextBlock Text="По корпусу:" FontSize="18" Grid.Column="0" Grid.Row="7" Margin="0 0 0 10"/>
+                    <ComboBox ItemsSource="{Binding Frames}" SelectedItem="{Binding FrameSelected}" Width="184" Height="27" Grid.Column="1" Grid.Row="7" Margin="0 0 0 10">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <WrapPanel>
@@ -115,81 +205,9 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </WrapPanel>
-                <WrapPanel Margin="0 10 0 0">
-                    <TextBlock Text="По факультету:" FontSize="18"/>
-                    <ComboBox ItemsSource="{Binding Faculties}" SelectedItem="{Binding FacultySelected}" Width="184" Height="27" Margin="149 0 0 0">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
-                                    <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
-                                            Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                                            CommandParameter="{Binding .}">
-                                        <Button.Visibility>
-                                            <MultiBinding Converter="{StaticResource buttonVis}">
-                                                <Binding Path="." />
-                                                <Binding Path="DataContext.SelectedFacultie"
-                                                         RelativeSource="{RelativeSource AncestorType=ComboBox}" />
-                                            </MultiBinding>
-                                        </Button.Visibility>
-                                    </Button>
-                                </WrapPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </WrapPanel>
-                <WrapPanel Margin="0 10 0 0">
-                    <TextBlock Text="По количеству ОЗУ:" FontSize="18"/>
-                    <TextBox Text="{Binding RamsQuantityText,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputInPopup}" Width="184" Height="27" Margin="109 0 0 0"/>
-                </WrapPanel>
-                <WrapPanel Margin="0 10 0 0">
-                    <TextBlock Text="По типу ОЗУ:" FontSize="18"/>
-                    <ComboBox ItemsSource="{Binding RamTypes}" SelectedItem="{Binding RamTypeSelected}" Width="184" Height="27" Margin="165 0 0 0">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
-                                    <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
-                    Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                    CommandParameter="{Binding .}">
-                                        <Button.Visibility>
-                                            <MultiBinding Converter="{StaticResource buttonVis}">
-                                                <Binding Path="." />
-                                                <Binding Path="DataContext.SelectedFacultie"
-         RelativeSource="{RelativeSource AncestorType=ComboBox}" />
-                                            </MultiBinding>
-                                        </Button.Visibility>
-                                    </Button>
-                                </WrapPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </WrapPanel>
-                <WrapPanel Margin="0 10 0 0">
-                    <TextBlock Text="По корпусу:" FontSize="18"/>
-                    <ComboBox ItemsSource="{Binding Frames}" SelectedItem="{Binding FrameSelected}" Width="184" Height="27" Margin="174 0 0 0">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" />
-                                    <Button Content="-" Width="20" Height="20" Margin="5 0 0 0"
-                    Command="{Binding DataContext.DeleteFacultiesTemplateCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                    CommandParameter="{Binding .}">
-                                        <Button.Visibility>
-                                            <MultiBinding Converter="{StaticResource buttonVis}">
-                                                <Binding Path="." />
-                                                <Binding Path="DataContext.SelectedFacultie"
-         RelativeSource="{RelativeSource AncestorType=ComboBox}" />
-                                            </MultiBinding>
-                                        </Button.Visibility>
-                                    </Button>
-                                </WrapPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </WrapPanel>
-                
+
+
+                </Grid>
             </StackPanel>
             <WrapPanel Grid.Row="2" Margin="0 20 0 20" HorizontalAlignment="Center">
                 <Button Content="Применить" Command="{Binding ApplyCommand}" Style="{StaticResource RoundedButtonStyle}" Height="31" Width="96" />

@@ -26,7 +26,7 @@
         <TextBlock Margin="0 20 0 0" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Экспорт" Style="{StaticResource Content}" FontSize="48"/>
         <StackPanel Grid.Column="0" Grid.Row="1">
             <TextBlock Text="Выберите способ экспорта:" FontSize="32" Margin="0 52 0 0" TextAlignment="Center"/>
-            <ComboBox ItemsSource="{Binding ExportVar}" SelectedItem="{Binding SelectedExportVar}" Width="767" Height="53" Margin="53">
+            <ComboBox ItemsSource="{Binding ExportVar}" SelectedItem="{Binding SelectedExportVar}" MaxWidth="767" Height="53" Margin="53">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>

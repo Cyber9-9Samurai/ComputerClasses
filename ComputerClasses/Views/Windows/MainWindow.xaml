@@ -14,6 +14,8 @@
         Title="ExelDataHandler"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
+        MinHeight="930"
+        MinWidth="1400"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         Icon="/Resources/Assets/Images/chart-histogram.ico">
     <!--Подключение ресурсов для окна-->
